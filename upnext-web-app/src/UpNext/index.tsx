@@ -2,6 +2,8 @@ import { Routes, Route, Navigate } from "react-router";
 import UpNextHeader from "./layout/UpNextHeader";
 import "../utils.css"
 import UpNextNavigation from "./layout/Navigation";
+import Movies from "./pages/Movies";
+import MovieDetails from "./pages/MovieDetails";
 
 export default function UpNext() {
   return (
@@ -15,8 +17,8 @@ export default function UpNext() {
           <Route path="/Account/SignUp" element={<h1>UpNext SignUp</h1>} />
           <Route path="/Account/SignIn" element={<h1>UpNext SignIn</h1>} />
           <Route path="/Home" element={<h1>UpNext Main Dashboard</h1>} />
-          <Route path="/Movies" element={<h1>Movies</h1>} />
-          <Route path="/Movies/:mid" element={<h1>Movie Details Page</h1>} />
+          <Route path="/Movies" element={<Movies />} />
+          <Route path="/Movies/:mid" element={<MovieDetails />} />
           <Route path="/TV" element={<h1>TV</h1>} />
           <Route path="/TV/:tid" element={<h1>TV Show Details Page</h1>} />
           <Route path="/Albums" element={<h1>Albums</h1>} />

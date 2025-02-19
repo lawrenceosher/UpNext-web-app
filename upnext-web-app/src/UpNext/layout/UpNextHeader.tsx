@@ -14,7 +14,7 @@ export default function UpNextHeader() {
     >
       <Link
         to="/UpNext/Home"
-        className="text-white fw-bold flex-grow-1 fs-1 my-auto text-decoration-none"
+        className="text-white fw-bold flex-grow-1 display-5 my-auto text-decoration-none"
       >
         UpNext
       </Link>

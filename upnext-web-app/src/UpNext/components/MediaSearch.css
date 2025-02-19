@@ -1,0 +1,10 @@
+.search-icon {
+  position: absolute;
+  left: 15px; /* Adjust to fit inside input */
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: black;
+  z-index: 10;
+  pointer-events: none; /* Prevents click events on the icon */
+}
