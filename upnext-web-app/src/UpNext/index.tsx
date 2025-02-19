@@ -11,7 +11,9 @@ export default function UpNext() {
       <div className="main-content-offset">
         <Routes>
           <Route path="/" element={<Navigate to="/UpNext/Home" />} />
-          <Route path="/Account/*" element={<h1>UpNext Account</h1>} />
+          <Route path="/Account/Profile" element={<h1>UpNext Account</h1>} />
+          <Route path="/Account/SignUp" element={<h1>UpNext SignUp</h1>} />
+          <Route path="/Account/SignIn" element={<h1>UpNext SignIn</h1>} />
           <Route path="/Home" element={<h1>UpNext Main Dashboard</h1>} />
           <Route path="/Movies" element={<h1>Movies</h1>} />
           <Route path="/Movies/:mid" element={<h1>Movie Details Page</h1>} />
