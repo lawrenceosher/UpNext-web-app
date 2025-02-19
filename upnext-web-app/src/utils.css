@@ -1,3 +1,8 @@
 .purple-brand-bg {
   background-color: #732bce;
 }
+
+.main-content-offset {
+  padding-top: 95px !important;
+  padding-left: 140px !important;
+}

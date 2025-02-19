@@ -1,14 +1,16 @@
 import { Routes, Route, Navigate } from "react-router";
 import UpNextHeader from "../layout/UpNextHeader";
+import "../utils.css"
+import UpNextNavigation from "../layout/Navigation";
 
 export default function UpNext() {
   return (
     <div>
       <UpNextHeader />
-      {/* Insert Navigation here */}
-      <div>
+      <UpNextNavigation />
+      <div className="main-content-offset">
         <Routes>
-          <Route path="/" element={<Navigate to="/UpNext/Account" />} />
+          <Route path="/" element={<Navigate to="/UpNext/Home" />} />
           <Route path="/Account/*" element={<h1>UpNext Account</h1>} />
           <Route path="/Home" element={<h1>UpNext Main Dashboard</h1>} />
           <Route path="/Movies" element={<h1>Movies</h1>} />
