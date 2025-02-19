@@ -1,8 +1,10 @@
 import { Routes, Route, Navigate } from "react-router";
+import UpNextHeader from "../layout/UpNextHeader";
 
 export default function UpNext() {
   return (
     <div>
+      <UpNextHeader />
       {/* Insert Navigation here */}
       <div>
         <Routes>
