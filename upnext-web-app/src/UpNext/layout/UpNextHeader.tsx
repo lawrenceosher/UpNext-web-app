@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router";
-import "../utils.css";
+import "../../utils.css";
 import { FaRegUser } from "react-icons/fa";
 import { IoSettingsOutline } from "react-icons/io5";
 

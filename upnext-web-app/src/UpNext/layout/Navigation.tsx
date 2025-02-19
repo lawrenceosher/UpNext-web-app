@@ -7,7 +7,7 @@ import { IoBookOutline } from "react-icons/io5";
 import { SlMicrophone } from "react-icons/sl";
 import { IoGameControllerOutline } from "react-icons/io5";
 
-import "../utils.css";
+import "../../utils.css";
 import "./Navigation.css";
 
 export default function UpNextNavigation() {

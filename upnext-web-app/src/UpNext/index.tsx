@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from "react-router";
-import UpNextHeader from "../layout/UpNextHeader";
+import UpNextHeader from "./layout/UpNextHeader";
 import "../utils.css"
-import UpNextNavigation from "../layout/Navigation";
+import UpNextNavigation from "./layout/Navigation";
 
 export default function UpNext() {
   return (
