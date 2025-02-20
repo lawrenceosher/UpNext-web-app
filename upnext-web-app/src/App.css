@@ -1,4 +1,5 @@
 body {
   background-color: #252424 !important;
   color: white !important;
+  overflow: hidden;
 }

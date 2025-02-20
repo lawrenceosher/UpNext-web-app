@@ -1,0 +1,11 @@
+#queue-item {
+  background: #732bce !important;
+  color: white;
+}
+#queue-item:nth-child(odd) {
+  background: transparent !important;
+}
+#queue {
+  overflow: scroll;
+  max-height: 58%;
+}
