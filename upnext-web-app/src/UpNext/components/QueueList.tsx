@@ -11,7 +11,7 @@ export default function QueueList() {
           label="Pacific Rim"
           className="flex-grow-1"
         />
-        <CiCircleRemove className="fs-2" />
+        <CiCircleRemove id="remove-button" className="fs-2" />
       </ListGroup.Item>
       <ListGroup.Item className="d-flex align-items-center" id="queue-item">
         <FormCheck
@@ -19,7 +19,7 @@ export default function QueueList() {
           label="Ferris Bueller's Day Off"
           className="flex-grow-1"
         />
-        <CiCircleRemove className="fs-2" />
+        <CiCircleRemove id="remove-button" className="fs-2" />
       </ListGroup.Item>
       <ListGroup.Item className="d-flex align-items-center" id="queue-item">
         <FormCheck
@@ -27,7 +27,27 @@ export default function QueueList() {
           label="Mad Max Fury Road"
           className="flex-grow-1"
         />
-        <CiCircleRemove className="fs-2" />
+        <CiCircleRemove id="remove-button" className="fs-2" />
+      </ListGroup.Item>
+      <ListGroup.Item className="d-flex align-items-center" id="queue-item">
+        <FormCheck
+          type="checkbox"
+          label="Big Lebowski"
+          className="flex-grow-1"
+        />
+        <CiCircleRemove id="remove-button" className="fs-2" />
+      </ListGroup.Item>
+      <ListGroup.Item className="d-flex align-items-center" id="queue-item">
+        <FormCheck type="checkbox" label="Rango" className="flex-grow-1" />
+        <CiCircleRemove id="remove-button" className="fs-2" />
+      </ListGroup.Item>
+      <ListGroup.Item className="d-flex align-items-center" id="queue-item">
+        <FormCheck
+          type="checkbox"
+          label="Mad Max Fury Road"
+          className="flex-grow-1"
+        />
+        <CiCircleRemove id="remove-button" className="fs-2" />
       </ListGroup.Item>
       <ListGroup.Item className="d-flex align-items-center" id="queue-item">
         <FormCheck
@@ -39,7 +59,7 @@ export default function QueueList() {
       </ListGroup.Item>
       <ListGroup.Item className="d-flex align-items-center" id="queue-item">
         <FormCheck type="checkbox" label="Rango" className="flex-grow-1" />
-        <CiCircleRemove className="fs-2" />
+        <CiCircleRemove id="remove-button" className="fs-2" />
       </ListGroup.Item>
       <ListGroup.Item className="d-flex align-items-center" id="queue-item">
         <FormCheck
@@ -47,7 +67,7 @@ export default function QueueList() {
           label="Mad Max Fury Road"
           className="flex-grow-1"
         />
-        <CiCircleRemove className="fs-2" />
+        <CiCircleRemove id="remove-button" className="fs-2" />
       </ListGroup.Item>
       <ListGroup.Item className="d-flex align-items-center" id="queue-item">
         <FormCheck
@@ -55,31 +75,11 @@ export default function QueueList() {
           label="Big Lebowski"
           className="flex-grow-1"
         />
-        <CiCircleRemove className="fs-2" />
+        <CiCircleRemove id="remove-button" className="fs-2" />
       </ListGroup.Item>
       <ListGroup.Item className="d-flex align-items-center" id="queue-item">
         <FormCheck type="checkbox" label="Rango" className="flex-grow-1" />
-        <CiCircleRemove className="fs-2" />
-      </ListGroup.Item>
-      <ListGroup.Item className="d-flex align-items-center" id="queue-item">
-        <FormCheck
-          type="checkbox"
-          label="Mad Max Fury Road"
-          className="flex-grow-1"
-        />
-        <CiCircleRemove className="fs-2" />
-      </ListGroup.Item>
-      <ListGroup.Item className="d-flex align-items-center" id="queue-item">
-        <FormCheck
-          type="checkbox"
-          label="Big Lebowski"
-          className="flex-grow-1"
-        />
-        <CiCircleRemove className="fs-2" />
-      </ListGroup.Item>
-      <ListGroup.Item className="d-flex align-items-center" id="queue-item">
-        <FormCheck type="checkbox" label="Rango" className="flex-grow-1" />
-        <CiCircleRemove className="fs-2" />
+        <CiCircleRemove id="remove-button" className="fs-2" />
       </ListGroup.Item>
     </ListGroup>
   );
