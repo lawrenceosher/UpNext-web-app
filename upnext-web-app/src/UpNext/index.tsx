@@ -36,6 +36,7 @@ export default function UpNext() {
             element={<h1>Video Game Details Page</h1>}
           />
           <Route path="/Users" element={<h1>Users</h1>} />
+          <Route path="/Settings" element={<h1>Settings</h1>} />
         </Routes>
       </div>
     </div>
