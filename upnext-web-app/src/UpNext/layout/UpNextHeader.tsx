@@ -23,21 +23,22 @@ export default function UpNextHeader() {
       <div className="d-flex my-auto">
         <Link to="/UpNext/Settings">
           <IoSettingsOutline
-            className={`fs-1 me-3 ${
+            className={`display-5 me-3 ${
               pathname.includes("Settings") ? "text-dark" : "text-white"
             }`}
           />
         </Link>
         <Link to="/UpNext/Users">
           <BsPeople
-            className={`fs-1 me-3 ${
+            className={`display-5 me-3 ${
               pathname.includes("Users") ? "text-dark" : "text-white"
             }`}
           />
         </Link>
         <Link to="/UpNext/Account/Profile">
           <FaRegUser
-            className={`fs-1 ${
+            id="profile-icon"
+            className={`display-6 mt-1 ${
               pathname.includes("Profile") ? "text-dark" : "text-white"
             }`}
           />{" "}
