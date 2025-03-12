@@ -1,13 +1,13 @@
 import { Button, Form } from "react-bootstrap";
-import "./SignUp.css";
+import "./LogIn.css";
 import { Link, useNavigate } from "react-router";
 import { useState } from "react";
 
-export default function SignUp() {
+export default function LogIn() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const signUp = () => {
+  const logIn = () => {
     navigate("/UpNext/Home");
   };
 
@@ -16,7 +16,7 @@ export default function SignUp() {
       <div>
         <h1 className="fw-bold display-5 mt-5 mb-3 text-center">UpNext</h1>
         <div
-          id="signup-form"
+          id="login-form"
           className="border border-5 d-flex flex-column py-4 px-5 fs-5"
         >
           <Form>
@@ -38,15 +38,6 @@ export default function SignUp() {
                 className="bg-transparent text-white"
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="verifyPassword">
-              <Form.Label>Verify Password</Form.Label>
-              <Form.Control
-                size="lg"
-                type={showPassword ? "text" : "password"}
-                placeholder="Verify Password"
-                className="bg-transparent text-white"
-              />
-            </Form.Group>
           </Form>
 
           <Form.Check
@@ -58,18 +49,18 @@ export default function SignUp() {
 
           <div className="d-flex justify-content-end mt-2">
             <div className="fs-6">
-              Already have an account? <br />
-              <Link to="/UpNext/LogIn" className="text-white">
-                Log In
+              Don't have an account? <br />
+              <Link to="/UpNext/SignUp" className="text-white">
+                Sign Up
               </Link>
             </div>
             <Button
               size="lg"
-              id="signup-button"
+              id="login-button"
               className="ms-3 border-0"
-              onClick={signUp}
+              onClick={logIn}
             >
-              Sign Up
+              Log In
             </Button>
           </div>
         </div>

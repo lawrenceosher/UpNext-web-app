@@ -5,7 +5,7 @@ import { MdHistory, MdOutlineDone, MdAdd } from "react-icons/md";
 import MediaSearch from "../../components/MediaSearch";
 import SummaryCard from "../../components/SummaryCard";
 
-import "../../utils.css";
+import "../../../utils.css";
 import "./Movies.css";
 import ListGroupSelect from "../../components/ListGroupSelect";
 import QueueList from "../../components/QueueList";
