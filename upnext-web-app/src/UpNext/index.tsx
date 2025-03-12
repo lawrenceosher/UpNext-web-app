@@ -14,8 +14,6 @@ export default function UpNext() {
         <Routes>
           <Route path="/" element={<Navigate to="/UpNext/Home" />} />
           <Route path="/Account/Profile" element={<h1>UpNext Account</h1>} />
-          <Route path="/Account/SignUp" element={<h1>UpNext SignUp</h1>} />
-          <Route path="/Account/SignIn" element={<h1>UpNext SignIn</h1>} />
           <Route path="/Home" element={<h1>UpNext Main Dashboard</h1>} />
           <Route path="/Movies" element={<Movies />} />
           <Route path="/Movies/:mid" element={<MovieDetails />} />
