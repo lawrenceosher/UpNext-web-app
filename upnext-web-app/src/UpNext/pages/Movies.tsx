@@ -19,7 +19,7 @@ export default function Movies() {
       <Row>
         <Col>
           <ListGroupSelect />
-          <QueueList queueListType="Movie" />
+          <QueueList />
           <div className="d-flex justify-content-around">
             <Button
               id="action-button"

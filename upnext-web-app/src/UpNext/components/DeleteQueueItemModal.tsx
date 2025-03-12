@@ -4,12 +4,10 @@ export default function DeleteQueueItemModal({
   show,
   handleClose,
   queueItemTitle,
-  queueItemType,
 }: {
   show: boolean;
   handleClose: () => void;
   queueItemTitle: string;
-  queueItemType: string;
 }) {
 
   return (
@@ -19,7 +17,7 @@ export default function DeleteQueueItemModal({
           <Modal.Title className="text-dark">Delete Queue Item</Modal.Title>
         </Modal.Header>
         <Modal.Body className="text-dark">
-          Are you sure you want to delete this {queueItemType}: {queueItemTitle}?
+          Are you sure you want to remove {queueItemTitle}?
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>

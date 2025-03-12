@@ -24,11 +24,7 @@ const dummyMovies = [
   { _id: 15, title: "Rango" },
 ];
 
-export default function QueueList({
-  queueListType,
-}: {
-  queueListType: string;
-}) {
+export default function QueueList() {
   const [showDeleteQueueItemModal, setShowDeleteQueueItemModal] =
     useState(false);
   const handleClose = () => setShowDeleteQueueItemModal(false);
@@ -41,7 +37,6 @@ export default function QueueList({
         show={showDeleteQueueItemModal}
         handleClose={handleClose}
         queueItemTitle={queueItemForModal}
-        queueItemType={queueListType}
       />
 
       <ListGroup className="mt-4 fs-4" id="queue">
