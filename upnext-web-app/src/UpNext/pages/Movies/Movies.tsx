@@ -2,13 +2,13 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import { IoTrendingUpSharp } from "react-icons/io5";
 import { MdHistory, MdOutlineDone, MdAdd } from "react-icons/md";
 
-import MediaSearch from "../components/MediaSearch";
-import SummaryCard from "../components/SummaryCard";
+import MediaSearch from "../../components/MediaSearch";
+import SummaryCard from "../../components/SummaryCard";
 
 import "../../utils.css";
 import "./Movies.css";
-import ListGroupSelect from "../components/ListGroupSelect";
-import QueueList from "../components/QueueList";
+import ListGroupSelect from "../../components/ListGroupSelect";
+import QueueList from "../../components/QueueList";
 import { useState } from "react";
 
 export default function Movies() {

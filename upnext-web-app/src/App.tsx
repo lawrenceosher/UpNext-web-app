@@ -1,7 +1,7 @@
 import { HashRouter, Navigate, Route, Routes } from "react-router";
 import UpNext from "./UpNext";
 import "./App.css";
-import SignUp from "./UpNext/pages/SignUp";
+import SignUp from "./UpNext/pages/SignUp/SignUp";
 
 function App() {
   return (
