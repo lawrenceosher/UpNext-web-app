@@ -47,6 +47,21 @@ export default function SignUp() {
                 className="bg-transparent text-white"
               />
             </Form.Group>
+            <Form.Group className="mb-3" controlId="role">
+              <Form.Label>Role</Form.Label>
+              <Form.Check
+                type="radio"
+                name="role"
+                label="Regular User"
+                className="bg-transparent text-white"
+              />
+              <Form.Check
+                type="radio"
+                name="role"
+                label="System Administrator"
+                className="bg-transparent text-white"
+              />
+            </Form.Group>
           </Form>
 
           <Form.Check
