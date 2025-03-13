@@ -5,3 +5,6 @@
 #profile-list-item:nth-child(odd) {
   background: transparent !important;
 }
+#current-queue-header {
+  background: #732bce !important;
+}

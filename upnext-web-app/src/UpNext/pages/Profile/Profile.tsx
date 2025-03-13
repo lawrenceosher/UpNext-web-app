@@ -65,44 +65,59 @@ export default function Profile() {
         <Col>
           <h4>Current Personal Queues</h4>
           <ListGroup className="mb-4 border">
-            <h3 className="fs-2 bg-transparent ps-2 pt-2">Movies</h3>
+            <h3
+              className="fs-2 ps-2 pt-2 pb-2 rounded-top m-0 border"
+              id="current-queue-header"
+            >
+              Movies
+            </h3>
             <ListGroup>
-              <ListGroupItem id="profile-list-item" className="rounded-0">
-                Cras justo odio
+              <ListGroupItem className="rounded-0 bg-transparent text-white">
+                1. Cras justo odio
               </ListGroupItem>
-              <ListGroupItem id="profile-list-item">
-                Dapibus ac facilisis in
+              <ListGroupItem className="bg-transparent text-white">
+                2. Dapibus ac facilisis in
               </ListGroupItem>
-              <ListGroupItem id="profile-list-item">
-                Vestibulum at eros
+              <ListGroupItem className="bg-transparent text-white">
+                3. Vestibulum at eros
               </ListGroupItem>
             </ListGroup>
           </ListGroup>
           <ListGroup className="mb-4 border">
-            <h3 className="fs-2 bg-transparent ps-2 pt-2">TV</h3>
+            <h3
+              className="fs-2 ps-2 pt-2 pb-2 rounded-top m-0 border"
+              id="current-queue-header"
+            >
+              TV
+            </h3>
             <ListGroup>
-              <ListGroupItem id="profile-list-item" className="rounded-0">
-                Cras justo odio
+              <ListGroupItem className="rounded-0 bg-transparent text-white">
+                1. Cras justo odio
               </ListGroupItem>
-              <ListGroupItem id="profile-list-item">
-                Dapibus ac facilisis in
+              <ListGroupItem className="bg-transparent text-white">
+                2. Dapibus ac facilisis in
               </ListGroupItem>
-              <ListGroupItem id="profile-list-item">
-                Vestibulum at eros
+              <ListGroupItem className="bg-transparent text-white">
+                3. Vestibulum at eros
               </ListGroupItem>
             </ListGroup>
           </ListGroup>
           <ListGroup className="mb-4 border">
-            <h3 className="fs-2 bg-transparent ps-2 pt-2">Albums</h3>
+            <h3
+              className="fs-2 ps-2 pt-2 pb-2 rounded-top m-0 border"
+              id="current-queue-header"
+            >
+              Albums
+            </h3>
             <ListGroup>
-              <ListGroupItem id="profile-list-item" className="rounded-0">
-                Cras justo odio
+              <ListGroupItem className="rounded-0 bg-transparent text-white">
+                1. Cras justo odio
               </ListGroupItem>
-              <ListGroupItem id="profile-list-item">
-                Dapibus ac facilisis in
+              <ListGroupItem className="bg-transparent text-white">
+                2. Dapibus ac facilisis in
               </ListGroupItem>
-              <ListGroupItem id="profile-list-item">
-                Vestibulum at eros
+              <ListGroupItem className="bg-transparent text-white">
+                3. Vestibulum at eros
               </ListGroupItem>
             </ListGroup>
           </ListGroup>
@@ -112,44 +127,59 @@ export default function Profile() {
             <br />
           </h4>
           <ListGroup className="mb-4 border">
-            <h3 className="fs-2 bg-transparent ps-2 pt-2">Books</h3>
+            <h3
+              className="fs-2 ps-2 pt-2 pb-2 rounded-top m-0 border"
+              id="current-queue-header"
+            >
+              Books
+            </h3>
             <ListGroup>
-              <ListGroupItem id="profile-list-item" className="rounded-0">
-                Cras justo odio
+              <ListGroupItem className="rounded-0 bg-transparent text-white">
+                1. Cras justo odio
               </ListGroupItem>
-              <ListGroupItem id="profile-list-item">
-                Dapibus ac facilisis in
+              <ListGroupItem className="bg-transparent text-white">
+                2. Dapibus ac facilisis in
               </ListGroupItem>
-              <ListGroupItem id="profile-list-item">
-                Vestibulum at eros
+              <ListGroupItem className="bg-transparent text-white">
+                3. Vestibulum at eros
               </ListGroupItem>
             </ListGroup>
           </ListGroup>
           <ListGroup className="mb-4 border">
-            <h3 className="fs-2 bg-transparent ps-2 pt-2">Podcasts</h3>
+            <h3
+              className="fs-2 ps-2 pt-2 pb-2 rounded-top m-0 border"
+              id="current-queue-header"
+            >
+              Podcasts
+            </h3>
             <ListGroup>
-              <ListGroupItem id="profile-list-item" className="rounded-0">
-                Cras justo odio
+              <ListGroupItem className="rounded-0 bg-transparent text-white">
+                1. Cras justo odio
               </ListGroupItem>
-              <ListGroupItem id="profile-list-item">
-                Dapibus ac facilisis in
+              <ListGroupItem className="bg-transparent text-white">
+                2. Dapibus ac facilisis in
               </ListGroupItem>
-              <ListGroupItem id="profile-list-item">
-                Vestibulum at eros
+              <ListGroupItem className="bg-transparent text-white">
+                3. Vestibulum at eros
               </ListGroupItem>
             </ListGroup>
           </ListGroup>
           <ListGroup className="mb-4 border">
-            <h3 className="fs-2 bg-transparent ps-2 pt-2">Video Games</h3>
+            <h3
+              className="fs-2 ps-2 pt-2 pb-2 rounded-top m-0 border"
+              id="current-queue-header"
+            >
+              Video Games
+            </h3>
             <ListGroup>
-              <ListGroupItem id="profile-list-item" className="rounded-0">
-                Cras justo odio
+              <ListGroupItem className="rounded-0 bg-transparent text-white">
+                1. Cras justo odio
               </ListGroupItem>
-              <ListGroupItem id="profile-list-item">
-                Dapibus ac facilisis in
+              <ListGroupItem className="bg-transparent text-white">
+                2. Dapibus ac facilisis in
               </ListGroupItem>
-              <ListGroupItem id="profile-list-item">
-                Vestibulum at eros
+              <ListGroupItem className="bg-transparent text-white">
+                3. Vestibulum at eros
               </ListGroupItem>
             </ListGroup>
           </ListGroup>
