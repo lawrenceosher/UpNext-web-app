@@ -8,3 +8,11 @@
 #current-queue-header {
   background: #732bce !important;
 }
+
+#group {
+  width: fit-content;
+}
+
+#group:hover {
+  text-decoration: underline;
+}

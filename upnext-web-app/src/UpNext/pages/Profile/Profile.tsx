@@ -34,7 +34,7 @@ export default function Profile() {
       <Row>
         <Col>
           <div className="d-flex align-items-center">
-            <h1 className="fw-bold display-2">Username</h1>
+            <h1 className="fw-bold display-2">losher33</h1>
             <FaPencil className="fs-3 ms-4" />
           </div>
 
@@ -61,7 +61,7 @@ export default function Profile() {
             <h2 className="display-6 fw-bold">Groups</h2>
             <ul className="p-0 list-unstyled">
               {groups.map((group) => (
-                <li key={group} className="fs-3 text-decoration-underline">
+                <li key={group} id="group" className="fs-3 w-fit">
                   <BsPeople className="me-2" />
                   {group}
                 </li>
@@ -72,120 +72,126 @@ export default function Profile() {
 
         <Col>
           <h4>Current Personal Queues</h4>
-          <ListGroup className="mb-4 border">
-            <QueueGroupToggle eventKey={0} >Movies</QueueGroupToggle>
-            <ListGroup>
-              <ListGroupItem className="rounded-0 bg-transparent text-white">
-                1. Cras justo odio
-              </ListGroupItem>
-              <ListGroupItem className="bg-transparent text-white">
-                2. Dapibus ac facilisis in
-              </ListGroupItem>
-              <ListGroupItem className="bg-transparent text-white">
-                3. Vestibulum at eros
-              </ListGroupItem>
-            </ListGroup>
-          </ListGroup>
 
           <Accordion>
-          <ListGroup className="mb-4 border">
-            <QueueGroupToggle eventKey="1">TV</QueueGroupToggle>
-            <Accordion.Collapse eventKey="1">
-              <ListGroup>
-                <ListGroupItem className="rounded-0 bg-transparent text-white">
-                  1. Cras justo odio
-                </ListGroupItem>
-                <ListGroupItem className="bg-transparent text-white">
-                  2. Dapibus ac facilisis in
-                </ListGroupItem>
-                <ListGroupItem className="bg-transparent text-white">
-                  3. Vestibulum at eros
-                </ListGroupItem>
-              </ListGroup>
-            </Accordion.Collapse>
-          </ListGroup>
-          </Accordion>
-          <ListGroup className="mb-4 border">
-            <h3
-              className="fs-2 ps-2 pt-2 pb-2 rounded-top m-0 border"
-              id="current-queue-header"
-            >
-              Albums
-            </h3>
-            <ListGroup>
-              <ListGroupItem className="rounded-0 bg-transparent text-white">
-                1. Cras justo odio
-              </ListGroupItem>
-              <ListGroupItem className="bg-transparent text-white">
-                2. Dapibus ac facilisis in
-              </ListGroupItem>
-              <ListGroupItem className="bg-transparent text-white">
-                3. Vestibulum at eros
-              </ListGroupItem>
+            <ListGroup className="mb-4 border">
+              <QueueGroupToggle eventKey="0">Movies</QueueGroupToggle>
+              <Accordion.Collapse eventKey="0">
+                <ListGroup>
+                  <ListGroupItem className="rounded-0 bg-transparent text-white">
+                    1. Cras justo odio
+                  </ListGroupItem>
+                  <ListGroupItem className="bg-transparent text-white">
+                    2. Dapibus ac facilisis in
+                  </ListGroupItem>
+                  <ListGroupItem className="bg-transparent text-white">
+                    3. Vestibulum at eros
+                  </ListGroupItem>
+                </ListGroup>
+              </Accordion.Collapse>
             </ListGroup>
-          </ListGroup>
+          </Accordion>
+
+          <Accordion>
+            <ListGroup className="mb-4 border">
+              <QueueGroupToggle eventKey="1">TV</QueueGroupToggle>
+              <Accordion.Collapse eventKey="1">
+                <ListGroup>
+                  <ListGroupItem className="rounded-0 bg-transparent text-white">
+                    1. Cras justo odio
+                  </ListGroupItem>
+                  <ListGroupItem className="bg-transparent text-white">
+                    2. Dapibus ac facilisis in
+                  </ListGroupItem>
+                  <ListGroupItem className="bg-transparent text-white">
+                    3. Vestibulum at eros
+                  </ListGroupItem>
+                </ListGroup>
+              </Accordion.Collapse>
+            </ListGroup>
+          </Accordion>
+
+          <Accordion>
+            <ListGroup className="mb-4 border">
+              <QueueGroupToggle eventKey="2">Albums</QueueGroupToggle>
+              <Accordion.Collapse eventKey="2">
+                <ListGroup>
+                  <ListGroupItem className="rounded-0 bg-transparent text-white">
+                    1. Cras justo odio
+                  </ListGroupItem>
+                  <ListGroupItem className="bg-transparent text-white">
+                    2. Dapibus ac facilisis in
+                  </ListGroupItem>
+                  <ListGroupItem className="bg-transparent text-white">
+                    3. Vestibulum at eros
+                  </ListGroupItem>
+                </ListGroup>
+              </Accordion.Collapse>
+            </ListGroup>
+          </Accordion>
         </Col>
+
         <Col>
           <h4>
             <br />
           </h4>
-          <ListGroup className="mb-4 border">
-            <h3
-              className="fs-2 ps-2 pt-2 pb-2 rounded-top m-0 border"
-              id="current-queue-header"
-            >
-              Books
-            </h3>
-            <ListGroup>
-              <ListGroupItem className="rounded-0 bg-transparent text-white">
-                1. Cras justo odio
-              </ListGroupItem>
-              <ListGroupItem className="bg-transparent text-white">
-                2. Dapibus ac facilisis in
-              </ListGroupItem>
-              <ListGroupItem className="bg-transparent text-white">
-                3. Vestibulum at eros
-              </ListGroupItem>
+
+          <Accordion>
+            <ListGroup className="mb-4 border">
+              <QueueGroupToggle eventKey="3">Books</QueueGroupToggle>
+              <Accordion.Collapse eventKey="3">
+                <ListGroup>
+                  <ListGroupItem className="rounded-0 bg-transparent text-white">
+                    1. Cras justo odio
+                  </ListGroupItem>
+                  <ListGroupItem className="bg-transparent text-white">
+                    2. Dapibus ac facilisis in
+                  </ListGroupItem>
+                  <ListGroupItem className="bg-transparent text-white">
+                    3. Vestibulum at eros
+                  </ListGroupItem>
+                </ListGroup>
+              </Accordion.Collapse>
             </ListGroup>
-          </ListGroup>
-          <ListGroup className="mb-4 border">
-            <h3
-              className="fs-2 ps-2 pt-2 pb-2 rounded-top m-0 border"
-              id="current-queue-header"
-            >
-              Podcasts
-            </h3>
-            <ListGroup>
-              <ListGroupItem className="rounded-0 bg-transparent text-white">
-                1. Cras justo odio
-              </ListGroupItem>
-              <ListGroupItem className="bg-transparent text-white">
-                2. Dapibus ac facilisis in
-              </ListGroupItem>
-              <ListGroupItem className="bg-transparent text-white">
-                3. Vestibulum at eros
-              </ListGroupItem>
+          </Accordion>
+
+          <Accordion>
+            <ListGroup className="mb-4 border">
+              <QueueGroupToggle eventKey="4">Podcasts</QueueGroupToggle>
+              <Accordion.Collapse eventKey="4">
+                <ListGroup>
+                  <ListGroupItem className="rounded-0 bg-transparent text-white">
+                    1. Cras justo odio
+                  </ListGroupItem>
+                  <ListGroupItem className="bg-transparent text-white">
+                    2. Dapibus ac facilisis in
+                  </ListGroupItem>
+                  <ListGroupItem className="bg-transparent text-white">
+                    3. Vestibulum at eros
+                  </ListGroupItem>
+                </ListGroup>
+              </Accordion.Collapse>
             </ListGroup>
-          </ListGroup>
-          <ListGroup className="mb-4 border">
-            <h3
-              className="fs-2 ps-2 pt-2 pb-2 rounded-top m-0 border"
-              id="current-queue-header"
-            >
-              Video Games
-            </h3>
-            <ListGroup>
-              <ListGroupItem className="rounded-0 bg-transparent text-white">
-                1. Cras justo odio
-              </ListGroupItem>
-              <ListGroupItem className="bg-transparent text-white">
-                2. Dapibus ac facilisis in
-              </ListGroupItem>
-              <ListGroupItem className="bg-transparent text-white">
-                3. Vestibulum at eros
-              </ListGroupItem>
+          </Accordion>
+
+          <Accordion>
+            <ListGroup className="mb-4 border">
+              <QueueGroupToggle eventKey="5">Games</QueueGroupToggle>
+              <Accordion.Collapse eventKey="5">
+                <ListGroup>
+                  <ListGroupItem className="rounded-0 bg-transparent text-white">
+                    1. Cras justo odio
+                  </ListGroupItem>
+                  <ListGroupItem className="bg-transparent text-white">
+                    2. Dapibus ac facilisis in
+                  </ListGroupItem>
+                  <ListGroupItem className="bg-transparent text-white">
+                    3. Vestibulum at eros
+                  </ListGroupItem>
+                </ListGroup>
+              </Accordion.Collapse>
             </ListGroup>
-          </ListGroup>
+          </Accordion>
         </Col>
       </Row>
     </Container>
