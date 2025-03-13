@@ -1,0 +1,7 @@
+#profile-list-item {
+  background: #732bce !important;
+  color: white;
+}
+#profile-list-item:nth-child(odd) {
+  background: transparent !important;
+}
