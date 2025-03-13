@@ -1,4 +1,11 @@
-import { Col, Container, ListGroup, ListGroupItem, Row } from "react-bootstrap";
+import {
+  Accordion,
+  Col,
+  Container,
+  ListGroup,
+  ListGroupItem,
+  Row,
+} from "react-bootstrap";
 import { FaPencil } from "react-icons/fa6";
 import { MdDateRange } from "react-icons/md";
 import { BiMovie } from "react-icons/bi";
@@ -9,6 +16,7 @@ import { SlMicrophone } from "react-icons/sl";
 import { IoGameControllerOutline } from "react-icons/io5";
 import "./Profile.css";
 import { BsPeople } from "react-icons/bs";
+import QueueGroupToggle from "./QueueGroupToggle";
 
 const groups = ["Group 1", "Group 2", "Group 3", "Group 4"];
 const history = [
@@ -65,12 +73,7 @@ export default function Profile() {
         <Col>
           <h4>Current Personal Queues</h4>
           <ListGroup className="mb-4 border">
-            <h3
-              className="fs-2 ps-2 pt-2 pb-2 rounded-top m-0 border"
-              id="current-queue-header"
-            >
-              Movies
-            </h3>
+            <QueueGroupToggle eventKey={0} >Movies</QueueGroupToggle>
             <ListGroup>
               <ListGroupItem className="rounded-0 bg-transparent text-white">
                 1. Cras justo odio
@@ -83,25 +86,25 @@ export default function Profile() {
               </ListGroupItem>
             </ListGroup>
           </ListGroup>
+
+          <Accordion>
           <ListGroup className="mb-4 border">
-            <h3
-              className="fs-2 ps-2 pt-2 pb-2 rounded-top m-0 border"
-              id="current-queue-header"
-            >
-              TV
-            </h3>
-            <ListGroup>
-              <ListGroupItem className="rounded-0 bg-transparent text-white">
-                1. Cras justo odio
-              </ListGroupItem>
-              <ListGroupItem className="bg-transparent text-white">
-                2. Dapibus ac facilisis in
-              </ListGroupItem>
-              <ListGroupItem className="bg-transparent text-white">
-                3. Vestibulum at eros
-              </ListGroupItem>
-            </ListGroup>
+            <QueueGroupToggle eventKey="1">TV</QueueGroupToggle>
+            <Accordion.Collapse eventKey="1">
+              <ListGroup>
+                <ListGroupItem className="rounded-0 bg-transparent text-white">
+                  1. Cras justo odio
+                </ListGroupItem>
+                <ListGroupItem className="bg-transparent text-white">
+                  2. Dapibus ac facilisis in
+                </ListGroupItem>
+                <ListGroupItem className="bg-transparent text-white">
+                  3. Vestibulum at eros
+                </ListGroupItem>
+              </ListGroup>
+            </Accordion.Collapse>
           </ListGroup>
+          </Accordion>
           <ListGroup className="mb-4 border">
             <h3
               className="fs-2 ps-2 pt-2 pb-2 rounded-top m-0 border"
