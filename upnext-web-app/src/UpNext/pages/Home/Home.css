@@ -1,0 +1,5 @@
+.carousel-item div {
+    margin: 0 auto;
+    display: block; /* Important to make margin: auto work */
+  }
+

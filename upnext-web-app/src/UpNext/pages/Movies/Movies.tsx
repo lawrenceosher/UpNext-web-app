@@ -11,6 +11,14 @@ import ListGroupSelect from "../../components/ListGroupSelect";
 import QueueList from "../../components/QueueList";
 import { useState } from "react";
 
+const dpWolverine = {
+  src: "dpwolverine.jpg",
+  title: "Deadpool and Wolverine",
+  subtitle: "Directed by Shawn Levy",
+  description:
+    "A listless Wade Wilson toils away in civilian life with his days as the morally flexible mercenary, Deadpool, behind him. But when his homeworld faces an existential threat, Wade must reluctantly suit-up again with an even more reluctant Wolverine.",
+};
+
 export default function Movies() {
   const [queueHistorySelected, setQueueHistorySelected] = useState(false);
 
@@ -52,7 +60,12 @@ export default function Movies() {
         </Col>
         <Col>
           <MediaSearch />
-          <SummaryCard />
+          <SummaryCard
+            src={dpWolverine.src}
+            title={dpWolverine.title}
+            subtitle={dpWolverine.subtitle}
+            description={dpWolverine.description}
+          />
           <Button
             size="lg"
             id="action-button"
