@@ -5,6 +5,7 @@ import UpNextNavigation from "./layout/Navigation";
 import Movies from "./pages/Movies/Movies";
 import MovieDetails from "./pages/Movies/MovieDetails";
 import Profile from "./pages/Profile/Profile";
+import Home from "./pages/Home/Home";
 
 export default function UpNext() {
   return (
@@ -15,7 +16,7 @@ export default function UpNext() {
         <Routes>
           <Route path="/" element={<Navigate to="/UpNext/Home" />} />
           <Route path="/Account/Profile" element={<Profile />} />
-          <Route path="/Home" element={<h1>UpNext Main Dashboard</h1>} />
+          <Route path="/Home" element={<Home />} />
           <Route path="/Movies" element={<Movies />} />
           <Route path="/Movies/:mid" element={<MovieDetails />} />
           <Route path="/TV" element={<h1>TV</h1>} />
