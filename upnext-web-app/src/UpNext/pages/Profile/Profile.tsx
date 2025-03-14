@@ -70,6 +70,7 @@ export default function Profile() {
           </div>
         </Col>
 
+        {/* Only show the current personal queues if you're viewing another user's profile*/}
         <Col>
           <h4>Current Personal Queues</h4>
 

@@ -1,5 +1,6 @@
 import {
   Accordion,
+  Carousel,
   Col,
   Container,
   ListGroup,
@@ -11,9 +12,38 @@ import QueueGroupToggle from "../Profile/QueueGroupToggle";
 export default function Home() {
   return (
     <Container fluid>
-        <Row>
-            <h1>Current Personal Queues</h1>
-        </Row>
+      {/* Show what's trending for both anonymous user and logged in users */}
+
+      <Carousel className="text-white">
+        <Carousel.Item>
+          <h1 className="mb-4">First slide</h1>
+          <Carousel.Caption>
+            <h3>First slide label</h3>
+            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+          </Carousel.Caption>
+        </Carousel.Item>
+        <Carousel.Item>
+          <h1>Second slide</h1>
+          <Carousel.Caption>
+            <h3>Second slide label</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          </Carousel.Caption>
+        </Carousel.Item>
+        <Carousel.Item>
+          <h1>Third slide</h1>
+          <Carousel.Caption>
+            <h3>Third slide label</h3>
+            <p>
+              Praesent commodo cursus magna, vel scelerisque nisl consectetur.
+            </p>
+          </Carousel.Caption>
+        </Carousel.Item>
+      </Carousel>
+
+      {/* Only show Current Personal Queues if logged in and not anonymous user*/}
+      <Row className="mt-5">
+        <h1>Current Personal Queues</h1>
+      </Row>
       <Row className="mt-3">
         <Col>
           <Accordion>
