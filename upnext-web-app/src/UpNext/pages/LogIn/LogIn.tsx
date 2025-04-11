@@ -50,7 +50,7 @@ export default function LogIn() {
           <div className="d-flex justify-content-end mt-2">
             <div className="fs-6">
               Don't have an account? <br />
-              <Link to="/UpNext/SignUp" className="text-white">
+              <Link to="/UpNext/Register" className="text-white">
                 Sign Up
               </Link>
             </div>
