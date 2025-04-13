@@ -47,6 +47,33 @@ export default function SignUp() {
                 className="bg-transparent text-white"
               />
             </Form.Group>
+            <Form.Group className="mb-3" controlId="firstName">
+              <Form.Label>First Name</Form.Label>
+              <Form.Control
+                size="lg"
+                type="text"
+                placeholder="Enter First Name"
+                className="bg-transparent text-white"
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="lastName">
+              <Form.Label>Last Name</Form.Label>
+              <Form.Control
+                size="lg"
+                type="text"
+                placeholder="Enter Last Name"
+                className="bg-transparent text-white"
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="email">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                size="lg"
+                type="email"
+                placeholder="Enter Email"
+                className="bg-transparent text-white"
+              />
+            </Form.Group>
             <Form.Group className="mb-3" controlId="role">
               <Form.Label>Role</Form.Label>
               <Form.Check
