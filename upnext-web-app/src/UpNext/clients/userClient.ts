@@ -24,7 +24,7 @@ export const signin = async (credentials: any) => {
 
 export const signout = async () => {
   try {
-    const response = await axiosWithCredentials.post(`${USERS_API}/logout`);
+    const response = await axiosWithCredentials.post(`${USERS_API}/signout`);
     return response.data;
   } catch (error) {
     console.error("Error during sign-out:", error);

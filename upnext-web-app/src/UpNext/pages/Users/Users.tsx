@@ -6,9 +6,11 @@ import { FaSearch, FaUserCircle } from "react-icons/fa";
 import { FaTrashCan } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import DeleteUserModal from "../../components/DeleteUserModal";
+import { useNavigate } from "react-router-dom";
 
 export default function Users() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const navigate = useNavigate();
 
   function formatReadableDate(isoDateString: string) {
     const myDate = new Date(isoDateString);
@@ -96,6 +98,9 @@ export default function Users() {
           <ListGroup.Item
             key={user._id}
             className="d-flex flex-row align-items-center bg-transparent text-white "
+            onClick={() => {
+              navigate(`/UpNext/Account/Profile/${user._id}`);
+            }}
           >
             <FaUserCircle className="me-3 fs-1 text-secondary" />
             <div className="fs-5">

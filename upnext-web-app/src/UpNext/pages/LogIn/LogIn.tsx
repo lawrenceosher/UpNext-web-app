@@ -92,7 +92,7 @@ export default function LogIn() {
                 Sign Up
               </Link>
               <br />
-              <Link to="/UpNext/Home" className="text-white">
+              <Link to="/UpNext/Home" className="text-white" onClick={() => dispatch(setCurrentUser(null))}>
                 Continue as Guest
               </Link>
             </div>

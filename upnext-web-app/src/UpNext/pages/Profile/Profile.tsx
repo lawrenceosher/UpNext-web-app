@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Accordion,
+  Button,
   Col,
   Container,
   ListGroup,
@@ -17,6 +19,11 @@ import { IoGameControllerOutline } from "react-icons/io5";
 import "./Profile.css";
 import { BsPeople } from "react-icons/bs";
 import QueueGroupToggle from "./QueueGroupToggle";
+import { useNavigate, useParams } from "react-router";
+import { useEffect, useState } from "react";
+import * as userClient from "../../clients/userClient.ts";
+import { useDispatch, useSelector } from "react-redux";
+import { setCurrentUser } from "../../redux/accountReducer.ts";
 
 const groups = ["Group 1", "Group 2", "Group 3", "Group 4"];
 const history = [
@@ -29,15 +36,54 @@ const history = [
 ];
 
 export default function Profile() {
+  const { userId } = useParams();
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const [userData, setUserData] = useState<any | null>(null);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        if (userId === undefined) {
+          try {
+            const profile = await userClient.getProfile();
+            setUserData(profile);
+          } catch (error) {
+            console.error("Error fetching profile:", error);
+          }
+        } else {
+          if (currentUser && userId === currentUser._id) {
+            navigate("/UpNext/Account/Profile");
+          } else {
+            const user = await userClient.getUserById(userId);
+            setUserData(user);
+          }
+          
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+    fetchUserData();
+  }, []);
+
+  const signout = async () => {
+    await userClient.signout();
+    dispatch(setCurrentUser(null));
+    navigate("/UpNext/LogIn");
+  };
+
+  if (!userData) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Container>
       <Row>
         <Col>
           <div className="d-flex align-items-center">
-            <h1 className="fw-bold display-2">losher33</h1>
+            <h1 className="fw-bold display-2">{userData.username}</h1>
             <FaPencil className="fs-3 ms-4" />
           </div>
 
@@ -71,6 +117,13 @@ export default function Profile() {
               ))}
             </ul>
           </div>
+
+          {/* Only show the sign out button if you're viewing your own profile */}
+          {userId === undefined && (
+            <Button variant="danger" onClick={signout}>
+              Sign Out
+            </Button>
+          )}
         </Col>
 
         {/* Only show the current personal queues if you're viewing another user's profile*/}
