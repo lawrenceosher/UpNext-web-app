@@ -91,6 +91,10 @@ export default function LogIn() {
               <Link to="/UpNext/Register" className="text-white">
                 Sign Up
               </Link>
+              <br />
+              <Link to="/UpNext/Home" className="text-white">
+                Continue as Guest
+              </Link>
             </div>
             <Button
               size="lg"
