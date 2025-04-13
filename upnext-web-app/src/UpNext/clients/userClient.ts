@@ -41,3 +41,18 @@ export const deleteUser = async (userId: string) => {
   const response = await axiosWithCredentials.delete(`${USERS_API}/${userId}`);
   return response.data;
 }
+
+export const getProfile = async () => {
+  const response = await axiosWithCredentials.post(`${USERS_API}/profile`);
+  return response.data;
+}
+
+export const getUserById = async (userId: string) => {
+  const response = await axiosWithCredentials.get(`${USERS_API}/${userId}`);
+  return response.data;
+}
+
+export const updateUser = async (userId: string, user: any) => {
+  const response = await axiosWithCredentials.put(`${USERS_API}/${userId}`, user);
+  return response.data;
+}
