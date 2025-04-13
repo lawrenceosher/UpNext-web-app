@@ -6,6 +6,7 @@ import Movies from "./pages/Movies/Movies";
 import MovieDetails from "./pages/Movies/MovieDetails";
 import Profile from "./pages/Profile/Profile";
 import Home from "./pages/Home/Home";
+import Users from "./pages/Users/Users";
 
 export default function UpNext() {
   return (
@@ -35,8 +36,7 @@ export default function UpNext() {
             path="/Games/:gid"
             element={<h1>Video Game Details Page</h1>}
           />
-          <Route path="/Users" element={<h1>Users</h1>} />
-          <Route path="/Settings" element={<h1>Settings</h1>} />
+          <Route path="/Users" element={<Users />} />
         </Routes>
       </div>
     </div>

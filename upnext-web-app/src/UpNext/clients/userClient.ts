@@ -21,3 +21,23 @@ export const signin = async (credentials: any) => {
     return null;
   }
 };
+
+export const signout = async () => {
+  try {
+    const response = await axiosWithCredentials.post(`${USERS_API}/logout`);
+    return response.data;
+  } catch (error) {
+    console.error("Error during sign-out:", error);
+    return null;
+  }
+};
+
+export const getAllUsers = async () => {
+  const response = await axiosWithCredentials.get(`${USERS_API}`);
+  return response.data;
+}
+
+export const deleteUser = async (userId: string) => {
+  const response = await axiosWithCredentials.delete(`${USERS_API}/${userId}`);
+  return response.data;
+}
