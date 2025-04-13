@@ -1,13 +1,21 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Form } from "react-bootstrap";
 import "./SignUp.css";
 import { Link, useNavigate } from "react-router";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setCurrentUser } from "../../redux/accountReducer";
+import * as userClient from "../../clients/userClient";
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
+  const [user, setUser] = useState<any>({});
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const signUp = () => {
+  const signUp = async () => {
+    const currentUser = await userClient.signup(user);
+    dispatch(setCurrentUser(currentUser));
     navigate("/UpNext/Home");
   };
 
@@ -26,6 +34,8 @@ export default function SignUp() {
                 size="lg"
                 type="text"
                 placeholder="Enter Username"
+                value={user.username}
+                onChange={(e) => setUser({ ...user, username: e.target.value })}
                 className="bg-transparent text-white"
               />
             </Form.Group>
@@ -35,6 +45,8 @@ export default function SignUp() {
                 size="lg"
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter Password"
+                value={user.password}
+                onChange={(e) => setUser({ ...user, password: e.target.value })}
                 className="bg-transparent text-white"
               />
             </Form.Group>
@@ -53,6 +65,8 @@ export default function SignUp() {
                 size="lg"
                 type="text"
                 placeholder="Enter First Name"
+                value={user.firstName}
+                onChange={(e) => setUser({ ...user, firstName: e.target.value })}
                 className="bg-transparent text-white"
               />
             </Form.Group>
@@ -62,6 +76,8 @@ export default function SignUp() {
                 size="lg"
                 type="text"
                 placeholder="Enter Last Name"
+                value={user.lastName}
+                onChange={(e) => setUser({ ...user, lastName: e.target.value })}
                 className="bg-transparent text-white"
               />
             </Form.Group>
@@ -71,6 +87,8 @@ export default function SignUp() {
                 size="lg"
                 type="email"
                 placeholder="Enter Email"
+                value={user.email}
+                onChange={(e) => setUser({ ...user, email: e.target.value })}
                 className="bg-transparent text-white"
               />
             </Form.Group>
@@ -80,12 +98,20 @@ export default function SignUp() {
                 type="radio"
                 name="role"
                 label="Regular User"
+                onChange={(e) =>
+                  setUser({ ...user, role: e.target.value })
+                }
+                value={"USER"}
                 className="bg-transparent text-white"
               />
               <Form.Check
                 type="radio"
                 name="role"
                 label="System Administrator"
+                value={"ADMIN"}
+                onChange={(e) =>
+                  setUser({ ...user, role: e.target.value })
+                }
                 className="bg-transparent text-white"
               />
             </Form.Group>

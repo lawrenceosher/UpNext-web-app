@@ -13,7 +13,6 @@ export interface UserCredentials {
  * - `username`: The unique username of the user.
  * - `password`: The user's password.
  * - `dateJoined`: The date when the user registered.
- * - `biography`: A short description or bio of the user (optional).
  */
 export interface User extends UserCredentials {
   _id: string;
