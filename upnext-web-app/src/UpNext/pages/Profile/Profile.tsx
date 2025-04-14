@@ -8,7 +8,6 @@ import {
   ListGroupItem,
   Row,
 } from "react-bootstrap";
-import { FaPencil } from "react-icons/fa6";
 import { MdDateRange } from "react-icons/md";
 import { BiMovie } from "react-icons/bi";
 import { FiTv } from "react-icons/fi";
@@ -38,7 +37,6 @@ export default function Profile() {
   const { userId } = useParams();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const [userData, setUserData] = useState<any | null>(null);
-  const [editing, setEditing] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -50,7 +48,7 @@ export default function Profile() {
       month: "long",
       year: "numeric",
     });
-  }
+  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -93,16 +91,11 @@ export default function Profile() {
         <Col>
           <div className="d-flex align-items-center">
             <h1 className="fw-bold display-2">{userData.username}</h1>
-            {isViewingOwnProfile && (
-              <FaPencil
-                className={`${editing ? "text-primary" : ""} fs-3 ms-4`}
-                onClick={() => setEditing(!editing)}
-              />
-            )}
           </div>
 
           <h4>
-            <MdDateRange className="mb-1" /> Joined {readableDate(userData.dateJoined)}
+            <MdDateRange className="mb-1" /> Joined{" "}
+            {readableDate(userData.dateJoined)}
           </h4>
 
           <div className="mt-4">
@@ -133,9 +126,9 @@ export default function Profile() {
           )}
         </Col>
 
-        {isViewingOwnProfile && editing && (
+        {isViewingOwnProfile && (
           <>
-            <Col className="">
+            <Col>
               <EditProfileForm existingUser={userData} />
             </Col>
           </>
