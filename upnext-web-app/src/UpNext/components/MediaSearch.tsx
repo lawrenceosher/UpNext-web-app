@@ -4,14 +4,21 @@ import { FaSearch } from "react-icons/fa";
 import "./MediaSearch.css";
 import { useEffect, useState } from "react";
 import * as queueClient from "../clients/queueClient";
+import { Movie } from "../types/movie";
 
-export default function MediaSearch({ mediaType }: { mediaType: string }) {
+export default function MediaSearch({
+  mediaType,
+  setSelectedMovie,
+}: {
+  mediaType: string;
+  setSelectedMovie: (movie: Movie) => void;
+}) {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
     const fetchSearchResults = async () => {
-      if (searchTerm === '') {
+      if (searchTerm === "") {
         setSearchResults([]);
         return;
       }
@@ -44,15 +51,29 @@ export default function MediaSearch({ mediaType }: { mediaType: string }) {
           }}
         />
       </InputGroup>
-      <div id="search-results" className="z-3 position-absolute w-75">
+      <div id="search-results" className="z-3 position-absolute">
         <ListGroup>
           {searchResults.map((item: any) => (
-            <ListGroup.Item key={item._id}>
+            <ListGroup.Item
+              key={item._id}
+              onClick={() => {
+                if (mediaType === "movie") {
+                  setSelectedMovie(item);
+                  setSearchTerm("");
+                }
+              }}
+            >
               {item.title}{" "}
-              {(mediaType === "movie" || mediaType === "album" || mediaType === "VideoGame") && `(${item.releaseDate.slice(0, 4)})`}
-              {(mediaType === "tv") && `(${item.firstAirDate.slice(0, 4)})`}
-              {(mediaType === "book" && item.datePublished !== '') && `(${item.publishedDate.slice(0, 4)})`}
-              {(mediaType === "podcast") && `(${item.latestEpisodeDate.slice(0, 4)})`}
+              {(mediaType === "movie" ||
+                mediaType === "album" ||
+                mediaType === "VideoGame") &&
+                `(${item.releaseDate.slice(0, 4)})`}
+              {mediaType === "tv" && `(${item.firstAirDate.slice(0, 4)})`}
+              {mediaType === "book" &&
+                item.datePublished !== "" &&
+                `(${item.publishedDate.slice(0, 4)})`}
+              {mediaType === "podcast" &&
+                `(${item.latestEpisodeDate.slice(0, 4)})`}
             </ListGroup.Item>
           ))}
         </ListGroup>

@@ -3,23 +3,17 @@ import { IoTrendingUpSharp } from "react-icons/io5";
 import { MdHistory, MdOutlineDone, MdAdd } from "react-icons/md";
 
 import MediaSearch from "../../components/MediaSearch";
-import SummaryCard from "../../components/SummaryCard";
+import MovieSummaryCard from "../../components/MovieSummaryCard";
 
 import "../../../utils.css";
 import "./Movies.css";
 import QueueList from "../../components/QueueList";
 import { useState } from "react";
-
-const dpWolverine = {
-  src: "dpwolverine.jpg",
-  title: "Deadpool and Wolverine",
-  subtitle: "Directed by Shawn Levy",
-  description:
-    "A listless Wade Wilson toils away in civilian life with his days as the morally flexible mercenary, Deadpool, behind him. But when his homeworld faces an existential threat, Wade must reluctantly suit-up again with an even more reluctant Wolverine.",
-};
+import { Movie } from "../../types/movie";
 
 export default function Movies() {
   const [queueHistorySelected, setQueueHistorySelected] = useState(false);
+  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
   return (
     <Container>
@@ -58,20 +52,21 @@ export default function Movies() {
           </div>
         </Col>
         <Col>
-          <MediaSearch mediaType="movie" />
-          <SummaryCard
-            src={dpWolverine.src}
-            title={dpWolverine.title}
-            subtitle={dpWolverine.subtitle}
-            description={dpWolverine.description}
-          />
-          <Button
-            size="lg"
-            id="action-button"
-            className="my-3 float-end purple-brand-bg border-0 w-25"
-          >
-            <MdAdd className="me-1 mb-1 fs-4" /> Add
-          </Button>
+          <MediaSearch mediaType="movie" setSelectedMovie={setSelectedMovie} />
+          {selectedMovie && (
+            <>
+              <MovieSummaryCard
+                movie={selectedMovie}
+              />
+              <Button
+                size="lg"
+                id="action-button"
+                className="my-3 float-end purple-brand-bg border-0 w-25"
+              >
+                <MdAdd className="me-1 mb-1 fs-4" /> Add
+              </Button>
+            </>
+          )}
         </Col>
       </Row>
     </Container>
