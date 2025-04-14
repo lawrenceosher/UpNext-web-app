@@ -23,6 +23,7 @@ import { useEffect, useState } from "react";
 import * as userClient from "../../clients/userClient.ts";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentUser } from "../../redux/accountReducer.ts";
+import EditProfileForm from "./EditProfileForm.tsx";
 
 const history = [
   { category: "Movies", icon: BiMovie, value: 30 },
@@ -37,10 +38,19 @@ export default function Profile() {
   const { userId } = useParams();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const [userData, setUserData] = useState<any | null>(null);
+  const [editing, setEditing] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const isViewingOwnProfile = userId === undefined && currentUser !== null;
+
+  const readableDate = (date: string) => {
+    const myDate = new Date(date);
+    return myDate.toLocaleString("default", {
+      month: "long",
+      year: "numeric",
+    });
+  }
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -65,7 +75,7 @@ export default function Profile() {
       }
     };
     fetchUserData();
-  }, []);
+  }, [currentUser, navigate, userId]);
 
   const signout = async () => {
     await userClient.signout();
@@ -83,11 +93,16 @@ export default function Profile() {
         <Col>
           <div className="d-flex align-items-center">
             <h1 className="fw-bold display-2">{userData.username}</h1>
-            {isViewingOwnProfile && <FaPencil className="fs-3 ms-4" />}
+            {isViewingOwnProfile && (
+              <FaPencil
+                className={`${editing ? "text-primary" : ""} fs-3 ms-4`}
+                onClick={() => setEditing(!editing)}
+              />
+            )}
           </div>
 
           <h4>
-            <MdDateRange className="mb-1" /> Joined March 2025
+            <MdDateRange className="mb-1" /> Joined {readableDate(userData.dateJoined)}
           </h4>
 
           <div className="mt-4">
@@ -107,11 +122,24 @@ export default function Profile() {
 
           {/* Only show the sign out button if you're viewing your own profile */}
           {isViewingOwnProfile && (
-            <Button variant="danger" onClick={signout}>
+            <Button
+              variant="danger"
+              onClick={signout}
+              size="lg"
+              className="mt-4"
+            >
               Sign Out
             </Button>
           )}
         </Col>
+
+        {isViewingOwnProfile && editing && (
+          <>
+            <Col className="">
+              <EditProfileForm existingUser={userData} />
+            </Col>
+          </>
+        )}
 
         {/* Only show the current personal queues if you're viewing another user's profile*/}
         {userId !== undefined && (
