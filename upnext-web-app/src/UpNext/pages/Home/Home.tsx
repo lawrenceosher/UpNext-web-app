@@ -10,9 +10,45 @@ import {
 import QueueGroupToggle from "../Profile/QueueGroupToggle";
 import "./Home.css";
 import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import * as queueClient from "../../clients/queueClient";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const [currentQueues, setCurrentQueues] = useState({
+    movies: [],
+    tv: [],
+    albums: [],
+    books: [],
+    podcasts: [],
+    games: [],
+  });
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchCurrentQueues = async () => {
+      if (currentUser) {
+        const username = currentUser.username;
+        try {
+          const response = await queueClient.retrieveTop3InCurrentQueueForUser(
+            username
+          );
+          setCurrentQueues({
+            movies: response.movie.current,
+            tv: response.tv.current,
+            albums: response.album.current,
+            books: response.book.current,
+            podcasts: response.podcast.current,
+            games: response.game.current,
+          });
+        } catch (error) {
+          console.error("Error fetching current queues:", error);
+        }
+      }
+    };
+    fetchCurrentQueues();
+  }, [currentUser]);
 
   return (
     <Container fluid>
@@ -33,15 +69,18 @@ export default function Home() {
                   <QueueGroupToggle eventKey="0">Movies</QueueGroupToggle>
                   <Accordion.Collapse eventKey="0">
                     <ListGroup>
-                      <ListGroupItem className="rounded-0 bg-transparent text-white">
-                        1. Cras justo odio
-                      </ListGroupItem>
-                      <ListGroupItem className="bg-transparent text-white">
-                        2. Dapibus ac facilisis in
-                      </ListGroupItem>
-                      <ListGroupItem className="bg-transparent text-white">
-                        3. Vestibulum at eros
-                      </ListGroupItem>
+                      {currentQueues.movies.map((movie: any, index: number) => (
+                        <ListGroupItem
+                          key={movie._id}
+                          className="rounded-0 bg-transparent text-white"
+                          onClick={() =>
+                            navigate(`/UpNext/Movies/${movie._id}`)
+                          }
+                        >
+                          {index + 1}. {movie.title} (
+                          {movie.releaseDate.slice(0, 4)})
+                        </ListGroupItem>
+                      ))}
                     </ListGroup>
                   </Accordion.Collapse>
                 </ListGroup>
@@ -53,15 +92,16 @@ export default function Home() {
                   <QueueGroupToggle eventKey="1">TV</QueueGroupToggle>
                   <Accordion.Collapse eventKey="1">
                     <ListGroup>
-                      <ListGroupItem className="rounded-0 bg-transparent text-white">
-                        1. Cras justo odio
-                      </ListGroupItem>
-                      <ListGroupItem className="bg-transparent text-white">
-                        2. Dapibus ac facilisis in
-                      </ListGroupItem>
-                      <ListGroupItem className="bg-transparent text-white">
-                        3. Vestibulum at eros
-                      </ListGroupItem>
+                      {currentQueues.tv.map((tv: any, index: number) => (
+                        <ListGroupItem
+                          key={tv._id}
+                          className="rounded-0 bg-transparent text-white"
+                          onClick={() => navigate(`/UpNext/TV/${tv._id}`)}
+                        >
+                          {index + 1}. {tv.title} ({tv.firstAirDate.slice(0, 4)}
+                          )
+                        </ListGroupItem>
+                      ))}
                     </ListGroup>
                   </Accordion.Collapse>
                 </ListGroup>
@@ -73,15 +113,18 @@ export default function Home() {
                   <QueueGroupToggle eventKey="2">Albums</QueueGroupToggle>
                   <Accordion.Collapse eventKey="2">
                     <ListGroup>
-                      <ListGroupItem className="rounded-0 bg-transparent text-white">
-                        1. Cras justo odio
-                      </ListGroupItem>
-                      <ListGroupItem className="bg-transparent text-white">
-                        2. Dapibus ac facilisis in
-                      </ListGroupItem>
-                      <ListGroupItem className="bg-transparent text-white">
-                        3. Vestibulum at eros
-                      </ListGroupItem>
+                      {currentQueues.albums.map((album: any, index: number) => (
+                        <ListGroupItem
+                          key={album._id}
+                          className="rounded-0 bg-transparent text-white"
+                          onClick={() =>
+                            navigate(`/UpNext/Albums/${album._id}`)
+                          }
+                        >
+                          {index + 1}. {album.title} (
+                          {album.releaseDate.slice(0, 4)})
+                        </ListGroupItem>
+                      ))}
                     </ListGroup>
                   </Accordion.Collapse>
                 </ListGroup>
@@ -95,15 +138,15 @@ export default function Home() {
                   <QueueGroupToggle eventKey="3">Books</QueueGroupToggle>
                   <Accordion.Collapse eventKey="3">
                     <ListGroup>
-                      <ListGroupItem className="rounded-0 bg-transparent text-white">
-                        1. Cras justo odio
-                      </ListGroupItem>
-                      <ListGroupItem className="bg-transparent text-white">
-                        2. Dapibus ac facilisis in
-                      </ListGroupItem>
-                      <ListGroupItem className="bg-transparent text-white">
-                        3. Vestibulum at eros
-                      </ListGroupItem>
+                      {currentQueues.books.map((book: any, index: number) => (
+                        <ListGroupItem
+                          key={book._id}
+                          className="rounded-0 bg-transparent text-white"
+                          onClick={() => navigate(`/UpNext/Books/${book._id}`)}
+                        >
+                          {index + 1}. {book.title}
+                        </ListGroupItem>
+                      ))}
                     </ListGroup>
                   </Accordion.Collapse>
                 </ListGroup>
@@ -115,15 +158,20 @@ export default function Home() {
                   <QueueGroupToggle eventKey="4">Podcasts</QueueGroupToggle>
                   <Accordion.Collapse eventKey="4">
                     <ListGroup>
-                      <ListGroupItem className="rounded-0 bg-transparent text-white">
-                        1. Cras justo odio
-                      </ListGroupItem>
-                      <ListGroupItem className="bg-transparent text-white">
-                        2. Dapibus ac facilisis in
-                      </ListGroupItem>
-                      <ListGroupItem className="bg-transparent text-white">
-                        3. Vestibulum at eros
-                      </ListGroupItem>
+                      {currentQueues.podcasts.map(
+                        (podcast: any, index: number) => (
+                          <ListGroupItem
+                            key={podcast._id}
+                            className="rounded-0 bg-transparent text-white"
+                            onClick={() =>
+                              navigate(`/UpNext/Podcasts/${podcast._id}`)
+                            }
+                          >
+                            {index + 1}. {podcast.title} (
+                            {podcast.latestEpisodeDate.slice(0, 4)})
+                          </ListGroupItem>
+                        )
+                      )}
                     </ListGroup>
                   </Accordion.Collapse>
                 </ListGroup>
@@ -135,15 +183,16 @@ export default function Home() {
                   <QueueGroupToggle eventKey="5">Games</QueueGroupToggle>
                   <Accordion.Collapse eventKey="5">
                     <ListGroup>
-                      <ListGroupItem className="rounded-0 bg-transparent text-white">
-                        1. Cras justo odio
-                      </ListGroupItem>
-                      <ListGroupItem className="bg-transparent text-white">
-                        2. Dapibus ac facilisis in
-                      </ListGroupItem>
-                      <ListGroupItem className="bg-transparent text-white">
-                        3. Vestibulum at eros
-                      </ListGroupItem>
+                      {currentQueues.games.map((game: any, index: number) => (
+                        <ListGroupItem
+                          key={game._id}
+                          className="rounded-0 bg-transparent text-white"
+                          onClick={() => navigate(`/UpNext/Games/${game._id}`)}
+                        >
+                          {index + 1}. {game.title} (
+                          {game.releaseDate.slice(0, 4)})
+                        </ListGroupItem>
+                      ))}
                     </ListGroup>
                   </Accordion.Collapse>
                 </ListGroup>
