@@ -175,6 +175,7 @@ export default function Profile() {
           )}
         </Col>
 
+        {/* Only show the edit profile form if you're viewing your own profile */}
         {isViewingOwnProfile && (
           <>
             <Col>
@@ -203,7 +204,8 @@ export default function Profile() {
                               navigate(`/UpNext/Movies/${movie._id}`)
                             }
                           >
-                            {index + 1}. {movie.title} ({movie.releaseDate.slice(0, 4)})
+                            {index + 1}. {movie.title} (
+                            {movie.releaseDate.slice(0, 4)})
                           </ListGroupItem>
                         )
                       )}
@@ -216,17 +218,16 @@ export default function Profile() {
                 <ListGroup className="mb-4 border">
                   <QueueGroupToggle eventKey="1">TV</QueueGroupToggle>
                   <Accordion.Collapse eventKey="1">
-                  <ListGroup>
+                    <ListGroup>
                       {userData.currentQueues.tv.map(
                         (tv: any, index: number) => (
                           <ListGroupItem
                             key={tv._id}
                             className="rounded-0 bg-transparent text-white"
-                            onClick={() =>
-                              navigate(`/UpNext/TV/${tv._id}`)
-                            }
+                            onClick={() => navigate(`/UpNext/TV/${tv._id}`)}
                           >
-                            {index + 1}. {tv.title} ({tv.firstAirDate.slice(0, 4)})
+                            {index + 1}. {tv.title} (
+                            {tv.firstAirDate.slice(0, 4)})
                           </ListGroupItem>
                         )
                       )}
@@ -239,7 +240,7 @@ export default function Profile() {
                 <ListGroup className="mb-4 border">
                   <QueueGroupToggle eventKey="2">Albums</QueueGroupToggle>
                   <Accordion.Collapse eventKey="2">
-                  <ListGroup>
+                    <ListGroup>
                       {userData.currentQueues.albums.map(
                         (album: any, index: number) => (
                           <ListGroupItem
@@ -249,7 +250,8 @@ export default function Profile() {
                               navigate(`/UpNext/Albums/${album._id}`)
                             }
                           >
-                            {index + 1}. {album.title} ({album.releaseDate.slice(0, 4)})
+                            {index + 1}. {album.title} (
+                            {album.releaseDate.slice(0, 4)})
                           </ListGroupItem>
                         )
                       )}
@@ -268,7 +270,7 @@ export default function Profile() {
                 <ListGroup className="mb-4 border">
                   <QueueGroupToggle eventKey="3">Books</QueueGroupToggle>
                   <Accordion.Collapse eventKey="3">
-                  <ListGroup>
+                    <ListGroup>
                       {userData.currentQueues.books.map(
                         (book: any, index: number) => (
                           <ListGroupItem
@@ -291,7 +293,7 @@ export default function Profile() {
                 <ListGroup className="mb-4 border">
                   <QueueGroupToggle eventKey="4">Podcasts</QueueGroupToggle>
                   <Accordion.Collapse eventKey="4">
-                  <ListGroup>
+                    <ListGroup>
                       {userData.currentQueues.podcasts.map(
                         (podcast: any, index: number) => (
                           <ListGroupItem
@@ -301,7 +303,8 @@ export default function Profile() {
                               navigate(`/UpNext/Podcasts/${podcast._id}`)
                             }
                           >
-                            {index + 1}. {podcast.title} ({podcast.latestEpisodeDate.slice(0, 4)})
+                            {index + 1}. {podcast.title} (
+                            {podcast.latestEpisodeDate.slice(0, 4)})
                           </ListGroupItem>
                         )
                       )}
@@ -314,7 +317,7 @@ export default function Profile() {
                 <ListGroup className="mb-4 border">
                   <QueueGroupToggle eventKey="5">Games</QueueGroupToggle>
                   <Accordion.Collapse eventKey="5">
-                  <ListGroup>
+                    <ListGroup>
                       {userData.currentQueues.games.map(
                         (game: any, index: number) => (
                           <ListGroupItem
@@ -324,7 +327,8 @@ export default function Profile() {
                               navigate(`/UpNext/Games/${game._id}`)
                             }
                           >
-                            {index + 1}. {game.title} ({game.releaseDate.slice(0, 4)})
+                            {index + 1}. {game.title} (
+                            {game.releaseDate.slice(0, 4)})
                           </ListGroupItem>
                         )
                       )}
