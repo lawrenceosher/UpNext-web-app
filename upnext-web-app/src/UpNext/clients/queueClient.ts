@@ -16,3 +16,10 @@ export const retrieveHistorySummaryForUser = async (username: string) => {
   );
   return response.data;
 };
+
+export const searchMedia = async (mediaType: string, query: string) => {
+  const response = await axiosWithCredentials.get(
+    `${QUEUE_API}/${mediaType}/search?query=${query}`
+  );
+  return response.data;
+}

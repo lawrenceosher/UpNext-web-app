@@ -280,7 +280,7 @@ export default function Profile() {
                               navigate(`/UpNext/Books/${book._id}`)
                             }
                           >
-                            {index + 1}. {book.title}
+                            {index + 1}. {book.title} {book.datePublished !== '' ? `(${book.datePublished.slice(0, 4)})` : ""}
                           </ListGroupItem>
                         )
                       )}

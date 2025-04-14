@@ -7,7 +7,6 @@ import SummaryCard from "../../components/SummaryCard";
 
 import "../../../utils.css";
 import "./Movies.css";
-import ListGroupSelect from "../../components/ListGroupSelect";
 import QueueList from "../../components/QueueList";
 import { useState } from "react";
 
@@ -26,7 +25,7 @@ export default function Movies() {
     <Container>
       <Row>
         <Col>
-          <ListGroupSelect />
+          <h2 className="mt-2">Personal Queue</h2>
           <QueueList />
           <div className="d-flex justify-content-around">
             <Button
@@ -59,7 +58,7 @@ export default function Movies() {
           </div>
         </Col>
         <Col>
-          <MediaSearch />
+          <MediaSearch mediaType="movie" />
           <SummaryCard
             src={dpWolverine.src}
             title={dpWolverine.title}
