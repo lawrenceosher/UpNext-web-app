@@ -20,18 +20,10 @@ import QueueGroupToggle from "./QueueGroupToggle";
 import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
 import * as userClient from "../../clients/userClient.ts";
+import * as queueClient from "../../clients/queueClient.ts";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentUser } from "../../redux/accountReducer.ts";
 import EditProfileForm from "./EditProfileForm.tsx";
-
-const history = [
-  { category: "Movies", icon: BiMovie, value: 30 },
-  { category: "TV", icon: FiTv, value: 25 },
-  { category: "Albums", icon: IoMusicalNotesOutline, value: 20 },
-  { category: "Books", icon: IoBookOutline, value: 15 },
-  { category: "Podcasts", icon: SlMicrophone, value: 10 },
-  { category: "Games", icon: IoGameControllerOutline, value: 5 },
-];
 
 export default function Profile() {
   const { userId } = useParams();
@@ -42,7 +34,7 @@ export default function Profile() {
 
   const isViewingOwnProfile = userId === undefined && currentUser !== null;
 
-  const readableDate = (date: string) => {
+  const readableDateJoined = (date: string) => {
     const myDate = new Date(date);
     return myDate.toLocaleString("default", {
       month: "long",
@@ -53,25 +45,82 @@ export default function Profile() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
+        let user;
         if (userId === undefined) {
-          try {
-            const profile = await userClient.getProfile();
-            setUserData(profile);
-          } catch (error) {
-            console.error("Error fetching profile:", error);
-          }
+          const profile = await userClient.getProfile();
+          user = profile;
         } else {
           if (currentUser && userId === currentUser._id) {
             navigate("/UpNext/Account/Profile");
+            return;
           } else {
-            const user = await userClient.getUserById(userId);
-            setUserData(user);
+            user = await userClient.getUserById(userId);
           }
         }
+        setUserData({
+          ...user,
+          historySummary: [],
+          currentQueues: {
+            movies: [],
+            tv: [],
+            albums: [],
+            books: [],
+            podcasts: [],
+            games: [],
+          },
+        });
+
+        // Fetch history summary after user data is set
+        const historySummary = await queueClient.retrieveHistorySummaryForUser(
+          user.username
+        );
+        setUserData((prevState: any) => ({
+          ...prevState,
+          historySummary: [
+            { category: "Movies", icon: BiMovie, value: historySummary.movie },
+            { category: "TV", icon: FiTv, value: historySummary.tv },
+            {
+              category: "Albums",
+              icon: IoMusicalNotesOutline,
+              value: historySummary.album,
+            },
+            {
+              category: "Books",
+              icon: IoBookOutline,
+              value: historySummary.book,
+            },
+            {
+              category: "Podcasts",
+              icon: SlMicrophone,
+              value: historySummary.podcast,
+            },
+            {
+              category: "Games",
+              icon: IoGameControllerOutline,
+              value: historySummary.game,
+            },
+          ],
+        }));
+
+        // Fetch current queues after user data is set
+        const currentQueues =
+          await queueClient.retrieveTop3InCurrentQueueForUser(user.username);
+        setUserData((prevState: any) => ({
+          ...prevState,
+          currentQueues: {
+            movies: currentQueues.movie.current,
+            tv: currentQueues.tv.current,
+            albums: currentQueues.album.current,
+            books: currentQueues.book.current,
+            podcasts: currentQueues.podcast.current,
+            games: currentQueues.game.current,
+          },
+        }));
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.error("Error fetching user data or history summary:", error);
       }
     };
+
     fetchUserData();
   }, [currentUser, navigate, userId]);
 
@@ -95,13 +144,13 @@ export default function Profile() {
 
           <h4>
             <MdDateRange className="mb-1" /> Joined{" "}
-            {readableDate(userData.dateJoined)}
+            {readableDateJoined(userData.dateJoined)}
           </h4>
 
           <div className="mt-4">
             <h2 className="display-6 fw-bold">History</h2>
             <ul className="p-0">
-              {history.map((category) => (
+              {userData.historySummary.map((category: any) => (
                 <li
                   key={category.category}
                   className="d-flex align-items-center fs-3"
@@ -135,7 +184,7 @@ export default function Profile() {
         )}
 
         {/* Only show the current personal queues if you're viewing another user's profile*/}
-        {userId !== undefined && (
+        {!isViewingOwnProfile && (
           <>
             <Col>
               <h4>Current Personal Queues</h4>
@@ -145,15 +194,19 @@ export default function Profile() {
                   <QueueGroupToggle eventKey="0">Movies</QueueGroupToggle>
                   <Accordion.Collapse eventKey="0">
                     <ListGroup>
-                      <ListGroupItem className="rounded-0 bg-transparent text-white">
-                        1. Cras justo odio
-                      </ListGroupItem>
-                      <ListGroupItem className="bg-transparent text-white">
-                        2. Dapibus ac facilisis in
-                      </ListGroupItem>
-                      <ListGroupItem className="bg-transparent text-white">
-                        3. Vestibulum at eros
-                      </ListGroupItem>
+                      {userData.currentQueues.movies.map(
+                        (movie: any, index: number) => (
+                          <ListGroupItem
+                            key={movie._id}
+                            className="rounded-0 bg-transparent text-white"
+                            onClick={() =>
+                              navigate(`/UpNext/Movies/${movie._id}`)
+                            }
+                          >
+                            {index + 1}. {movie.title} ({movie.releaseDate.slice(0, 4)})
+                          </ListGroupItem>
+                        )
+                      )}
                     </ListGroup>
                   </Accordion.Collapse>
                 </ListGroup>
@@ -163,16 +216,20 @@ export default function Profile() {
                 <ListGroup className="mb-4 border">
                   <QueueGroupToggle eventKey="1">TV</QueueGroupToggle>
                   <Accordion.Collapse eventKey="1">
-                    <ListGroup>
-                      <ListGroupItem className="rounded-0 bg-transparent text-white">
-                        1. Cras justo odio
-                      </ListGroupItem>
-                      <ListGroupItem className="bg-transparent text-white">
-                        2. Dapibus ac facilisis in
-                      </ListGroupItem>
-                      <ListGroupItem className="bg-transparent text-white">
-                        3. Vestibulum at eros
-                      </ListGroupItem>
+                  <ListGroup>
+                      {userData.currentQueues.tv.map(
+                        (tv: any, index: number) => (
+                          <ListGroupItem
+                            key={tv._id}
+                            className="rounded-0 bg-transparent text-white"
+                            onClick={() =>
+                              navigate(`/UpNext/TV/${tv._id}`)
+                            }
+                          >
+                            {index + 1}. {tv.title} ({tv.firstAirDate.slice(0, 4)})
+                          </ListGroupItem>
+                        )
+                      )}
                     </ListGroup>
                   </Accordion.Collapse>
                 </ListGroup>
@@ -182,16 +239,20 @@ export default function Profile() {
                 <ListGroup className="mb-4 border">
                   <QueueGroupToggle eventKey="2">Albums</QueueGroupToggle>
                   <Accordion.Collapse eventKey="2">
-                    <ListGroup>
-                      <ListGroupItem className="rounded-0 bg-transparent text-white">
-                        1. Cras justo odio
-                      </ListGroupItem>
-                      <ListGroupItem className="bg-transparent text-white">
-                        2. Dapibus ac facilisis in
-                      </ListGroupItem>
-                      <ListGroupItem className="bg-transparent text-white">
-                        3. Vestibulum at eros
-                      </ListGroupItem>
+                  <ListGroup>
+                      {userData.currentQueues.albums.map(
+                        (album: any, index: number) => (
+                          <ListGroupItem
+                            key={album._id}
+                            className="rounded-0 bg-transparent text-white"
+                            onClick={() =>
+                              navigate(`/UpNext/Albums/${album._id}`)
+                            }
+                          >
+                            {index + 1}. {album.title} ({album.releaseDate.slice(0, 4)})
+                          </ListGroupItem>
+                        )
+                      )}
                     </ListGroup>
                   </Accordion.Collapse>
                 </ListGroup>
@@ -207,16 +268,20 @@ export default function Profile() {
                 <ListGroup className="mb-4 border">
                   <QueueGroupToggle eventKey="3">Books</QueueGroupToggle>
                   <Accordion.Collapse eventKey="3">
-                    <ListGroup>
-                      <ListGroupItem className="rounded-0 bg-transparent text-white">
-                        1. Cras justo odio
-                      </ListGroupItem>
-                      <ListGroupItem className="bg-transparent text-white">
-                        2. Dapibus ac facilisis in
-                      </ListGroupItem>
-                      <ListGroupItem className="bg-transparent text-white">
-                        3. Vestibulum at eros
-                      </ListGroupItem>
+                  <ListGroup>
+                      {userData.currentQueues.books.map(
+                        (book: any, index: number) => (
+                          <ListGroupItem
+                            key={book._id}
+                            className="rounded-0 bg-transparent text-white"
+                            onClick={() =>
+                              navigate(`/UpNext/Books/${book._id}`)
+                            }
+                          >
+                            {index + 1}. {book.title}
+                          </ListGroupItem>
+                        )
+                      )}
                     </ListGroup>
                   </Accordion.Collapse>
                 </ListGroup>
@@ -226,16 +291,20 @@ export default function Profile() {
                 <ListGroup className="mb-4 border">
                   <QueueGroupToggle eventKey="4">Podcasts</QueueGroupToggle>
                   <Accordion.Collapse eventKey="4">
-                    <ListGroup>
-                      <ListGroupItem className="rounded-0 bg-transparent text-white">
-                        1. Cras justo odio
-                      </ListGroupItem>
-                      <ListGroupItem className="bg-transparent text-white">
-                        2. Dapibus ac facilisis in
-                      </ListGroupItem>
-                      <ListGroupItem className="bg-transparent text-white">
-                        3. Vestibulum at eros
-                      </ListGroupItem>
+                  <ListGroup>
+                      {userData.currentQueues.podcasts.map(
+                        (podcast: any, index: number) => (
+                          <ListGroupItem
+                            key={podcast._id}
+                            className="rounded-0 bg-transparent text-white"
+                            onClick={() =>
+                              navigate(`/UpNext/Podcasts/${podcast._id}`)
+                            }
+                          >
+                            {index + 1}. {podcast.title} ({podcast.latestEpisodeDate.slice(0, 4)})
+                          </ListGroupItem>
+                        )
+                      )}
                     </ListGroup>
                   </Accordion.Collapse>
                 </ListGroup>
@@ -245,16 +314,20 @@ export default function Profile() {
                 <ListGroup className="mb-4 border">
                   <QueueGroupToggle eventKey="5">Games</QueueGroupToggle>
                   <Accordion.Collapse eventKey="5">
-                    <ListGroup>
-                      <ListGroupItem className="rounded-0 bg-transparent text-white">
-                        1. Cras justo odio
-                      </ListGroupItem>
-                      <ListGroupItem className="bg-transparent text-white">
-                        2. Dapibus ac facilisis in
-                      </ListGroupItem>
-                      <ListGroupItem className="bg-transparent text-white">
-                        3. Vestibulum at eros
-                      </ListGroupItem>
+                  <ListGroup>
+                      {userData.currentQueues.games.map(
+                        (game: any, index: number) => (
+                          <ListGroupItem
+                            key={game._id}
+                            className="rounded-0 bg-transparent text-white"
+                            onClick={() =>
+                              navigate(`/UpNext/Games/${game._id}`)
+                            }
+                          >
+                            {index + 1}. {game.title} ({game.releaseDate.slice(0, 4)})
+                          </ListGroupItem>
+                        )
+                      )}
                     </ListGroup>
                   </Accordion.Collapse>
                 </ListGroup>

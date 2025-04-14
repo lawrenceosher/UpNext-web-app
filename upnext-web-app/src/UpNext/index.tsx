@@ -19,7 +19,14 @@ export default function UpNext() {
         <div className="main-content-offset">
           <Routes>
             <Route path="/" element={<Navigate to="/UpNext/Home" />} />
-            <Route path="/Account/Profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            <Route
+              path="/Account/Profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/Account/Profile/:userId" element={<Profile />} />
             <Route path="/Home" element={<Home />} />
             <Route path="/Movies" element={<Movies />} />
