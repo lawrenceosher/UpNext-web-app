@@ -83,6 +83,7 @@ export default function Movies() {
             historyQueue={movieQueue.history}
             showHistory={queueHistorySelected}
             setCompletedMediaIDs={setWatchedMovieIDs}
+            setSelectedMedia={setSelectedMovie}
           />
           {currentUser && (
             <div className="d-flex justify-content-around">

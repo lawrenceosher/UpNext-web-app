@@ -9,7 +9,7 @@ export default function MovieSummaryCard({ movie }: { movie: Movie }) {
       <Image src={movie.posterPath} className="p-3 w-50" />
       <div className="p-3">
       <Link
-        to="/UpNext/Movies/1"
+        to={`/UpNext/Movies/${movie._id}`}
         className="fw-bold fs-1 text-decoration-none text-white"
       >
         {movie.title}

@@ -12,12 +12,14 @@ export default function QueueList({
   historyQueue,
   showHistory,
   setCompletedMediaIDs,
+  setSelectedMedia,
 }: {
   mediaType: string;
   currentQueue: any;
   historyQueue: any;
   showHistory: boolean;
   setCompletedMediaIDs: (_ids: any) => void;
+  setSelectedMedia: (media: any) => void;
 }) {
   const [showDeleteQueueItemModal, setShowDeleteQueueItemModal] =
     useState(false);
@@ -51,6 +53,7 @@ export default function QueueList({
                 key={mediaItem._id}
                 className="d-flex align-items-center"
                 id="queue-item"
+                onClick={() => setSelectedMedia(mediaItem)}
               >
                 <FormCheck
                   type="checkbox"
@@ -94,6 +97,7 @@ export default function QueueList({
                 key={mediaItem._id}
                 className="d-flex align-items-center"
                 id="queue-item"
+                onClick={() => setSelectedMedia(mediaItem)}
               >
                 <span className="flex-grow-1">
                   {mediaItem.title}{" "}

@@ -6,8 +6,10 @@ export interface Movie {
   description: string;
   releaseDate: string;
   posterPath: string;
+  runtime: number;
   cast: string[];
   genres: string[];
+  sourceUrl: string;
 };
 
 // Response from UpNext API

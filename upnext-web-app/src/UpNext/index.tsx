@@ -30,7 +30,7 @@ export default function UpNext() {
             <Route path="/Account/Profile/:userId" element={<Profile />} />
             <Route path="/Home" element={<Home />} />
             <Route path="/Movies" element={<Movies />} />
-            <Route path="/Movies/:mid" element={<MovieDetails />} />
+            <Route path="/Movies/:movieId" element={<MovieDetails />} />
             <Route path="/TV" element={<h1>TV</h1>} />
             <Route path="/TV/:tid" element={<h1>TV Show Details Page</h1>} />
             <Route path="/Albums" element={<h1>Albums</h1>} />
