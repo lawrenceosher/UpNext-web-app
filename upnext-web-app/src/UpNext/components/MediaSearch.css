@@ -13,3 +13,7 @@
   overflow: scroll;
   height: 30%;
 }
+
+#search:focus {
+  z-index: 0;
+}

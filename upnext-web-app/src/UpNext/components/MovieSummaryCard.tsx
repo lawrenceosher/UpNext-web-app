@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Image from "react-bootstrap/Image";
 import "./SummaryCard.css";
 import { Link } from "react-router-dom";
@@ -16,7 +15,7 @@ export default function MovieSummaryCard({ movie }: { movie: Movie }) {
         {movie.title}
       </Link>
       <h4 className="mt-3">Directed by {movie.director}</h4>
-      <p className="p-3 overflow-y-hidden text-start">{movie.description}</p>
+      <p className="p-3 overflow-y-hidden">{movie.description}</p>
       </div>
     </div>
   );

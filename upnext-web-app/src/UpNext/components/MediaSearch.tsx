@@ -42,7 +42,7 @@ export default function MediaSearch({
       >
         <FaSearch className="search-icon" />
         <FormControl
-          id="wd-search-assignment"
+          id="search"
           placeholder="Search..."
           value={searchTerm}
           className="ps-5"
@@ -64,15 +64,15 @@ export default function MediaSearch({
               }}
             >
               {item.title}{" "}
-              {(mediaType === "movie" ||
-                mediaType === "album" ||
+              {(mediaType === "Movie" ||
+                mediaType === "Album" ||
                 mediaType === "VideoGame") &&
                 `(${item.releaseDate.slice(0, 4)})`}
-              {mediaType === "tv" && `(${item.firstAirDate.slice(0, 4)})`}
-              {mediaType === "book" &&
+              {mediaType === "TV" && `(${item.firstAirDate.slice(0, 4)})`}
+              {mediaType === "Book" &&
                 item.datePublished !== "" &&
                 `(${item.publishedDate.slice(0, 4)})`}
-              {mediaType === "podcast" &&
+              {mediaType === "Podcast" &&
                 `(${item.latestEpisodeDate.slice(0, 4)})`}
             </ListGroup.Item>
           ))}

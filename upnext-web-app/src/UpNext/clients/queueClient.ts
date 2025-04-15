@@ -22,4 +22,14 @@ export const searchMedia = async (mediaType: string, query: string) => {
     `${QUEUE_API}/${mediaType}/search?query=${query}`
   );
   return response.data;
-}
+};
+
+export const retrieveQueueByUserAndMediaType = async (
+  username: string,
+  mediaType: string
+) => {
+  const response = await axiosWithCredentials.get(
+    `${QUEUE_API}/${mediaType}/users/${username}`
+  );
+  return response.data;
+};
