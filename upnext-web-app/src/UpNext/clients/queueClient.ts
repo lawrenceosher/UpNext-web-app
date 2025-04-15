@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 const axiosWithCredentials = axios.create({ withCredentials: true });
 export const REMOTE_SERVER = import.meta.env.VITE_REMOTE_SERVER;
@@ -33,3 +34,14 @@ export const retrieveQueueByUserAndMediaType = async (
   );
   return response.data;
 };
+
+export const addMediaToQueue = async (mediaType: string, queueId: string, media: any) => {
+  const response = await axiosWithCredentials.put(`${QUEUE_API}/${mediaType}/${queueId}/addToCurrent`, {media: media});
+  return response.data;
+}
+
+export const movieMediaFromCurrentToHistory = async (mediaType: string, queueId: string, mediaIds: any) => {
+  console.log(mediaIds);
+  const response = await axiosWithCredentials.put(`${QUEUE_API}/${mediaType}/${queueId}/addToHistory`, {mediaIDs: [...mediaIds]});
+  return response.data;
+}

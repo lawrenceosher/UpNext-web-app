@@ -7,7 +7,7 @@
 }
 #queue {
   overflow: scroll;
-  height: 50%;
+  height: 60vh;
 }
 
 #remove-button:hover {

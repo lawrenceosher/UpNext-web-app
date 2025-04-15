@@ -57,7 +57,7 @@ export default function MediaSearch({
             <ListGroup.Item
               key={item._id}
               onClick={() => {
-                if (mediaType === "movie") {
+                if (mediaType === "Movie") {
                   setSelectedMovie(item);
                   setSearchTerm("");
                 }

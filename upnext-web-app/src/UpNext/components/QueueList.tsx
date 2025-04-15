@@ -1,18 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormCheck, ListGroup } from "react-bootstrap";
 import { CiCircleRemove } from "react-icons/ci";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import DeleteQueueItemModal from "./DeleteQueueItemModal";
 import "./QueueList.css";
 import { useSelector } from "react-redux";
-import * as queueClient from "../clients/queueClient";
 
 export default function QueueList({
   mediaType,
+  currentQueue,
+  historyQueue,
   showHistory,
+  setCompletedMediaIDs,
 }: {
   mediaType: string;
+  currentQueue: any;
+  historyQueue: any;
   showHistory: boolean;
+  setCompletedMediaIDs: (_ids: any) => void;
 }) {
   const [showDeleteQueueItemModal, setShowDeleteQueueItemModal] =
     useState(false);
@@ -20,25 +25,6 @@ export default function QueueList({
   const handleShow = () => setShowDeleteQueueItemModal(true);
   const [queueItemForModal, setQueueItemForModal] = useState("");
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const [currentQueueItems, setCurrentQueueItems] = useState([]);
-  const [historyQueueItems, setHistoryQueueItems] = useState([]);
-
-  useEffect(() => {
-    const fetchQueueItems = async () => {
-      if (!currentUser) return;
-      try {
-        const queue = await queueClient.retrieveQueueByUserAndMediaType(
-          currentUser.username,
-          mediaType
-        );
-        setCurrentQueueItems(queue.current);
-        setHistoryQueueItems(queue.history);
-      } catch (error) {
-        console.error("Error fetching queue items:", error);
-      }
-    };
-    fetchQueueItems();
-  }, [mediaType, currentUser]);
 
   if (!currentUser)
     return (
@@ -56,10 +42,10 @@ export default function QueueList({
       />
       {!showHistory ? (
         <ListGroup className="mt-4 fs-4" id="queue">
-          {currentQueueItems.length === 0 && (
+          {currentQueue && currentQueue.length === 0 && (
             <p>No items in queue. Search for media and add to the queue!</p>
           )}
-          {currentQueueItems.map((mediaItem: any) => {
+          {currentQueue && currentQueue.map((mediaItem: any) => {
             return (
               <ListGroup.Item
                 key={mediaItem._id}
@@ -70,6 +56,17 @@ export default function QueueList({
                   type="checkbox"
                   label={mediaItem.title}
                   className="flex-grow-1"
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setCompletedMediaIDs((prev: any) => {
+                        return [...prev, mediaItem._id];
+                      });
+                    } else {
+                      setCompletedMediaIDs((prev: any) => {
+                        return prev.filter((id: any) => id !== mediaItem._id);
+                      });
+                    }
+                  }}
                 />
                 <CiCircleRemove
                   id="remove-button"
@@ -85,13 +82,13 @@ export default function QueueList({
         </ListGroup>
       ) : (
         <ListGroup className="mt-4 fs-4" id="queue">
-          {historyQueueItems.length === 0 && (
+          {historyQueue && historyQueue.length === 0 && (
             <p>
               No previously consumed media. Check off media in your current
               queue!
             </p>
           )}
-          {historyQueueItems.map((mediaItem: any) => {
+          {historyQueue && historyQueue.map((mediaItem: any) => {
             return (
               <ListGroup.Item
                 key={mediaItem._id}
