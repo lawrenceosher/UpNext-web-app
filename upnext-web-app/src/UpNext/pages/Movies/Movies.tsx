@@ -40,8 +40,6 @@ export default function Movies() {
   const moveMoviesFromCurrentToHistory = async () => {
     if (!currentUser || watchedMovieIDs.length === 0 || !movieQueue) return;
 
-    console.log(watchedMovieIDs);
-
     try {
       const updatedQueue = await queueClient.movieMediaFromCurrentToHistory(
         "Movie",
@@ -79,11 +77,13 @@ export default function Movies() {
           {currentUser && <h1 className="mt-2">Personal Queue</h1>}
           <QueueList
             mediaType="Movie"
+            queue={movieQueue}
             currentQueue={movieQueue.current}
             historyQueue={movieQueue.history}
             showHistory={queueHistorySelected}
             setCompletedMediaIDs={setWatchedMovieIDs}
             setSelectedMedia={setSelectedMovie}
+            setMediaQueue={setMovieQueue}
           />
           {currentUser && (
             <div className="d-flex justify-content-around">

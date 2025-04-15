@@ -1,13 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Modal } from "react-bootstrap";
 
 export default function DeleteQueueItemModal({
   show,
   handleClose,
-  queueItemTitle,
+  queueItem,
+  removeMediaFromQueue,
 }: {
   show: boolean;
   handleClose: () => void;
-  queueItemTitle: string;
+  queueItem: any;
+  removeMediaFromQueue: (mediaId: string) => void;
 }) {
 
   return (
@@ -17,7 +20,7 @@ export default function DeleteQueueItemModal({
           <Modal.Title className="text-dark">Delete Queue Item</Modal.Title>
         </Modal.Header>
         <Modal.Body className="text-dark">
-          Are you sure you want to remove {queueItemTitle}?
+          Are you sure you want to remove {queueItem.title}?
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
@@ -26,6 +29,7 @@ export default function DeleteQueueItemModal({
           <Button
             variant="danger"
             onClick={() => {
+              removeMediaFromQueue(queueItem._id);
               handleClose();
             }}
           >
