@@ -109,7 +109,7 @@ export default function MovieDetails() {
         width={400}
         className="border border-4 border-white mb-4"
       />
-      <div className="ps-4">
+      <div className="ps-4 flex-grow-1">
         <h1 className="fw-bold d-flex align-items-center display-4">
           <BiMovie className="me-2" /> {movie.title}
         </h1>

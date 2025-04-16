@@ -105,7 +105,7 @@ export default function GameDetails() {
         width={500}
         className="border border-4 border-white mb-4"
       />
-      <div className="ps-4">
+      <div className="ps-4 flex-grow-1">
         <h1 className="fw-bold d-flex align-items-center display-4">
           <IoGameControllerOutline className="me-2" /> {game.title}
         </h1>

@@ -101,7 +101,7 @@ export default function TVDetails() {
         width={400}
         className="border border-4 border-white mb-4"
       />
-      <div className="ps-4">
+      <div className="ps-4 flex-grow-1">
         <h1 className="fw-bold d-flex align-items-center display-4">
           <FiTv className="me-2" /> {tvShow.title}
         </h1>
