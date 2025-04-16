@@ -15,7 +15,7 @@ export default function GameSummaryCard({ game }: { game: VideoGame }) {
       >
         {game.title}
       </Link>
-      <h4 className="mt-3">Made by {game.companies.join(", ")}</h4>
+      <h4 className="mt-3">Created by {game.companies.join(", ")}</h4>
       <p className="p-3 overflow-y-hidden">{game.summary}</p>
       </div>
     </div>
