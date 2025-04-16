@@ -9,6 +9,7 @@ import Home from "./pages/Home/Home";
 import Users from "./pages/Users/Users";
 import Session from "./auth/Session";
 import ProtectedRoute from "./auth/ProtectedRoute";
+import TV from "./pages/TV/TV";
 
 export default function UpNext() {
   return (
@@ -31,7 +32,7 @@ export default function UpNext() {
             <Route path="/Home" element={<Home />} />
             <Route path="/Movies" element={<Movies />} />
             <Route path="/Movies/:movieId" element={<MovieDetails />} />
-            <Route path="/TV" element={<h1>TV</h1>} />
+            <Route path="/TV" element={<TV />} />
             <Route path="/TV/:tid" element={<h1>TV Show Details Page</h1>} />
             <Route path="/Albums" element={<h1>Albums</h1>} />
             <Route path="/Albums/:aid" element={<h1>Album Details Page</h1>} />

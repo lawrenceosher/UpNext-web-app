@@ -6,7 +6,7 @@ import { Movie } from "../types/movie";
 export default function MovieSummaryCard({ movie }: { movie: Movie }) {
   return (
     <div className="bg-transparent mt-4 card-border d-flex flex-row text-center mh-75">
-      <Image src={movie.posterPath} id="movie-poster-card" className="p-3 align-self-center" />
+      <Image src={movie.posterPath} id="poster-card" className="p-3 align-self-center" />
       <div className="p-3">
       <Link
         to={`/UpNext/Movies/${movie._id}`}

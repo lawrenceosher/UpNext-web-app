@@ -4,14 +4,13 @@ import { FaSearch } from "react-icons/fa";
 import "./MediaSearch.css";
 import { useEffect, useState } from "react";
 import * as queueClient from "../clients/queueClient";
-import { Movie } from "../types/movie";
 
 export default function MediaSearch({
   mediaType,
-  setSelectedMovie,
+  setSelectedMedia,
 }: {
   mediaType: string;
-  setSelectedMovie: (movie: Movie) => void;
+  setSelectedMedia: (media: any) => void;
 }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -57,10 +56,8 @@ export default function MediaSearch({
             <ListGroup.Item
               key={item._id}
               onClick={() => {
-                if (mediaType === "Movie") {
-                  setSelectedMovie(item);
-                  setSearchTerm("");
-                }
+                setSelectedMedia(item);
+                setSearchTerm("");
               }}
             >
               {item.title}{" "}

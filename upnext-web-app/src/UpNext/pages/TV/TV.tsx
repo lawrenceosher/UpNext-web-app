@@ -4,51 +4,51 @@ import { IoTrendingUpSharp } from "react-icons/io5";
 import { MdHistory, MdOutlineDone, MdAdd } from "react-icons/md";
 
 import MediaSearch from "../../components/MediaSearch";
-import MovieSummaryCard from "../../components/MovieSummaryCard";
 
 import "../../../utils.css";
-import "./Movies.css";
+import "../Movies/Movies.css";
 import QueueList from "../../components/QueueList";
 import { useEffect, useState } from "react";
-import { Movie } from "../../types/movie";
 import { useSelector } from "react-redux";
 import * as queueClient from "../../clients/queueClient";
 import { Queue } from "../../types/queue";
+import { TVShow } from "../../types/tvShow";
+import TVSummaryCard from "../../components/TVSummaryCard";
 
-export default function Movies() {
+export default function TV() {
   const [queueHistorySelected, setQueueHistorySelected] = useState(false);
-  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
+  const [selectedTV, setSelectedTV] = useState<TVShow | null>(null);
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const [movieQueue, setMovieQueue] = useState<Queue | null>();
-  const [watchedMovieIDs, setWatchedMovieIDs] = useState<any>([]);
+  const [tvQueue, setTVQueue] = useState<Queue | null>();
+  const [watchedTVIDs, setWatchedTVIDs] = useState<any>([]);
 
-  const addMovieToCurrentQueue = async () => {
-    if (selectedMovie === null || !currentUser || !movieQueue) return;
+  const addTVToCurrentQueue = async () => {
+    if (selectedTV === null || !currentUser || !tvQueue) return;
 
     try {
       const updatedQueue = await queueClient.addMediaToQueue(
-        "Movie",
-        movieQueue._id,
-        selectedMovie
+        "TV",
+        tvQueue._id,
+        selectedTV
       );
-      setMovieQueue(updatedQueue);
+      setTVQueue(updatedQueue);
     } catch (error) {
-      console.error("Error adding movie to queue:", error);
+      console.error("Error adding tv show to queue:", error);
     }
   };
 
-  const moveMoviesFromCurrentToHistory = async () => {
-    if (!currentUser || watchedMovieIDs.length === 0 || !movieQueue) return;
+  const moveTVFromCurrentToHistory = async () => {
+    if (!currentUser || watchedTVIDs.length === 0 || !tvQueue) return;
 
     try {
       const updatedQueue = await queueClient.moveMediaFromCurrentToHistory(
-        "Movie",
-        movieQueue._id,
-        watchedMovieIDs
+        "TV",
+        tvQueue._id,
+        watchedTVIDs
       );
-      setMovieQueue(updatedQueue);
+      setTVQueue(updatedQueue);
     } catch (error) {
-      console.error("Error moving movies to history:", error);
+      console.error("Error moving tv shows to history:", error);
     }
   };
 
@@ -58,9 +58,9 @@ export default function Movies() {
       try {
         const queue = await queueClient.retrieveQueueByUserAndMediaType(
           currentUser.username,
-          "Movie"
+          "TV"
         );
-        setMovieQueue(queue);
+        setTVQueue(queue);
       } catch (error) {
         console.error("Error fetching queue items:", error);
       }
@@ -68,7 +68,7 @@ export default function Movies() {
     fetchQueueItems();
   }, [currentUser]);
 
-  if (!movieQueue && currentUser) return <p>Loading...</p>;
+  if (!tvQueue && currentUser) return <p>Loading...</p>;
 
   return (
     <Container>
@@ -76,14 +76,14 @@ export default function Movies() {
         <Col>
           {currentUser && <h1 className="mt-2">Personal Queue</h1>}
           <QueueList
-            mediaType="Movie"
-            queue={movieQueue}
-            currentQueue={movieQueue && movieQueue.current}
-            historyQueue={movieQueue && movieQueue.history}
+            mediaType="TV"
+            queue={tvQueue}
+            currentQueue={tvQueue && tvQueue.current}
+            historyQueue={tvQueue && tvQueue.history}
             showHistory={queueHistorySelected}
-            setCompletedMediaIDs={setWatchedMovieIDs}
-            setSelectedMedia={setSelectedMovie}
-            setMediaQueue={setMovieQueue}
+            setCompletedMediaIDs={setWatchedTVIDs}
+            setSelectedMedia={setSelectedTV}
+            setMediaQueue={setTVQueue}
           />
           {currentUser && (
             <div className="d-flex justify-content-around">
@@ -116,12 +116,12 @@ export default function Movies() {
                 size="lg"
                 className="mt-3 purple-brand-bg border-0 w-25"
                 disabled={
-                  (movieQueue && movieQueue.current.length === 0) ||
-                  watchedMovieIDs.length === 0
+                  (tvQueue && tvQueue.current.length === 0) ||
+                  watchedTVIDs.length === 0
                 }
                 onClick={() => {
-                  moveMoviesFromCurrentToHistory();
-                  setWatchedMovieIDs([]);
+                  moveTVFromCurrentToHistory();
+                  setWatchedTVIDs([]);
                 }}
               >
                 <MdOutlineDone className="me-1 mb-1 fs-4" /> Submit
@@ -130,10 +130,10 @@ export default function Movies() {
           )}
         </Col>
         <Col>
-          <MediaSearch mediaType="Movie" setSelectedMedia={setSelectedMovie} />
-          {selectedMovie && (
+          <MediaSearch mediaType="TV" setSelectedMedia={setSelectedTV} />
+          {selectedTV && (
             <>
-              <MovieSummaryCard movie={selectedMovie} />
+              <TVSummaryCard tv={selectedTV} />
             </>
           )}
           <Button
@@ -141,20 +141,20 @@ export default function Movies() {
             id="action-button"
             className="my-3 float-end purple-brand-bg border-0 w-25"
             disabled={
-              !selectedMovie ||
+              !selectedTV ||
               !currentUser ||
-              movieQueue?.current
+              tvQueue?.current
                 ?.map((item: any) => item._id)
-                .includes(selectedMovie._id) ||
+                .includes(selectedTV._id) ||
               false ||
-              movieQueue?.history
+              tvQueue?.history
                 ?.map((item: any) => item._id)
-                .includes(selectedMovie._id) ||
+                .includes(selectedTV._id) ||
               false
             }
             onClick={() => {
-              addMovieToCurrentQueue();
-              setSelectedMovie(null);
+              addTVToCurrentQueue();
+              setSelectedTV(null);
             }}
           >
             <MdAdd className="me-1 mb-1 fs-4" /> Add
