@@ -14,10 +14,18 @@ import { useEffect, useState } from "react";
 import * as queueClient from "../../clients/queueClient";
 import * as movieClient from "../../clients/movieClient";
 import * as tvClient from "../../clients/tvClient";
+import * as albumClient from "../../clients/albumClient";
+import * as bookClient from "../../clients/bookClient";
+import * as podcastClient from "../../clients/podcastClient";
+import * as gameClient from "../../clients/gameClient";
 import { useNavigate } from "react-router-dom";
 import { Movie } from "../../types/movie";
 import Image from "react-bootstrap/Image";
 import { TVShow } from "../../types/tvShow";
+import { Album } from "../../types/album";
+import { Book } from "../../types/book";
+import { Podcast } from "../../types/podcast";
+import { VideoGame } from "../../types/game";
 
 export default function Home() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
@@ -31,6 +39,10 @@ export default function Home() {
   });
   const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
   const [popularTV, setPopularTV] = useState<TVShow[]>([]);
+  const [popularAlbums, setPopularAlbums] = useState<Album[]>([]);
+  const [popularBooks, setPopularBooks] = useState<Book[]>([]);
+  const [popularPodcasts, setPopularPodcasts] = useState<Podcast[]>([]);
+  const [popularGames, setPopularGames] = useState<VideoGame[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -73,9 +85,46 @@ export default function Home() {
       }
     };
 
+    const fetchPopularAlbums = async () => {
+      try {
+        const response = await albumClient.retrievePopularAlbums();
+        setPopularAlbums(response);
+      } catch (error) {
+        console.error("Error fetching popular albums:", error);
+      }
+    };
+    const fetchPopularBooks = async () => {
+      try {
+        const response = await bookClient.retrievePopularBooks();
+        setPopularBooks(response);
+      } catch (error) {
+        console.error("Error fetching popular books:", error);
+      }
+    };
+    const fetchPopularPodcasts = async () => {
+      try {
+        const response = await podcastClient.retrievePopularPodcasts();
+        setPopularPodcasts(response);
+      } catch (error) {
+        console.error("Error fetching popular podcasts:", error);
+      }
+    };
+    const fetchPopularGames = async () => {
+      try {
+        const response = await gameClient.retrievePopularGames();
+        setPopularGames(response);
+      } catch (error) {
+        console.error("Error fetching popular games:", error);
+      }
+    };
+
     fetchCurrentQueues();
     fetchPopularMovies();
     fetchPopularTVShows();
+    fetchPopularAlbums();
+    fetchPopularBooks();
+    fetchPopularPodcasts();
+    fetchPopularGames();
   }, [currentUser]);
 
   return (
@@ -85,7 +134,7 @@ export default function Home() {
       <h1>Trending</h1>
       {popularMovies && popularMovies.length > 0 && (
         <Row className="mt-3">
-          {popularMovies.map((movie: Movie) => (
+          {popularMovies.slice(0, 2).map((movie: Movie) => (
             <Col key={movie._id} className="mb-4">
               <ListGroupItem className="rounded-0 bg-transparent text-white">
                 <Image
@@ -96,17 +145,61 @@ export default function Home() {
               </ListGroupItem>
             </Col>
           ))}
-        </Row>
-      )}
 
-      {popularTV && popularTV.length > 0 && (
-        <Row className="mt-3">
-          {popularTV.map((tv: TVShow) => (
+          {popularTV.slice(0, 2).map((tv: TVShow) => (
             <Col key={tv._id} className="mb-4">
               <ListGroupItem className="rounded-0 bg-transparent text-white">
                 <Image
                   onClick={() => navigate(`/UpNext/TV/${tv._id}`)}
                   src={tv.posterPath}
+                  className="movie-poster border border-4 border-white"
+                />
+              </ListGroupItem>
+            </Col>
+          ))}
+
+          {popularAlbums.slice(0, 2).map((album: Album) => (
+            <Col key={album._id} className="mb-4">
+              <ListGroupItem className="rounded-0 bg-transparent text-white">
+                <Image
+                  onClick={() => navigate(`/UpNext/Albums/${album._id}`)}
+                  src={album.coverArt}
+                  className="movie-poster border border-4 border-white"
+                />
+              </ListGroupItem>
+            </Col>
+          ))}
+
+          {popularBooks.slice(0, 2).map((book: Book) => (
+            <Col key={book._id} className="mb-4">
+              <ListGroupItem className="rounded-0 bg-transparent text-white">
+                <Image
+                  onClick={() => navigate(`/UpNext/Books/${book._id}`)}
+                  src={book.coverArt}
+                  className="movie-poster border border-4 border-white"
+                />
+              </ListGroupItem>
+            </Col>
+          ))}
+
+          {popularPodcasts.slice(0, 2).map((podcast: Podcast) => (
+            <Col key={podcast._id} className="mb-4">
+              <ListGroupItem className="rounded-0 bg-transparent text-white">
+                <Image
+                  onClick={() => navigate(`/UpNext/Podcasts/${podcast._id}`)}
+                  src={podcast.coverArt}
+                  className="movie-poster border border-4 border-white"
+                />
+              </ListGroupItem>
+            </Col>
+          ))}
+
+          {popularGames.slice(0, 2).map((game: VideoGame) => (
+            <Col key={game._id} className="mb-4">
+              <ListGroupItem className="rounded-0 bg-transparent text-white">
+                <Image
+                  onClick={() => navigate(`/UpNext/Games/${game._id}`)}
+                  src={game.coverArt}
                   className="movie-poster border border-4 border-white"
                 />
               </ListGroupItem>
