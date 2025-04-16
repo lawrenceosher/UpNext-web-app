@@ -134,19 +134,23 @@ export default function MovieDetails() {
           <MdOutlineDescription className="me-2 fs-3" /> Description
         </h5>
         <p className="mt-3 text-start pe-3">{movie.description}</p>
-        <h5 className="mt-5 fw-bold d-flex align-items-center">
-          <IoIosPeople className="me-2 fs-2" /> Other Users Who Watched
-        </h5>
-        <ul className="list-unstyled">
-          {otherUsers &&
-            otherUsers.map((u: any) => (
-              <li key={u._id}>
-                <Link to={`/UpNext/Account/Profile/${u._id}`}>
-                  {u.username}
-                </Link>
-              </li>
-            ))}
-        </ul>
+        {currentUser && (
+          <>
+            <h5 className="mt-5 fw-bold d-flex align-items-center">
+              <IoIosPeople className="me-2 fs-2" /> Other Users Who Watched
+            </h5>
+            <ul className="list-unstyled">
+              {otherUsers &&
+                otherUsers.map((u: any) => (
+                  <li key={u._id}>
+                    <Link to={`/UpNext/Account/Profile/${u._id}`}>
+                      {u.username}
+                    </Link>
+                  </li>
+                ))}
+            </ul>
+          </>
+        )}
 
         <div>
           <Form className="d-flex align-items-center flex-fill justify-content-end me-4">
