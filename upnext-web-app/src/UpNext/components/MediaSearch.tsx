@@ -68,7 +68,7 @@ export default function MediaSearch({
               {mediaType === "TV" && `(${item.firstAirDate.slice(0, 4)})`}
               {mediaType === "Book" &&
                 item.datePublished !== "" &&
-                `(${item.publishedDate.slice(0, 4)})`}
+                `(${item.datePublished.slice(0, 4)})`}
               {mediaType === "Podcast" &&
                 `(${item.latestEpisodeDate.slice(0, 4)})`}
             </ListGroup.Item>
