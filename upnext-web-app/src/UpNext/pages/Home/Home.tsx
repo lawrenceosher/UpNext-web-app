@@ -12,7 +12,10 @@ import "./Home.css";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import * as queueClient from "../../clients/queueClient";
+import * as movieClient from "../../clients/movieClient";
 import { useNavigate } from "react-router-dom";
+import { Movie } from "../../types/movie";
+import Image from "react-bootstrap/Image";
 
 export default function Home() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
@@ -24,6 +27,7 @@ export default function Home() {
     podcasts: [],
     games: [],
   });
+  const [allMovies, setAllMovies] = useState<Movie[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,7 +51,17 @@ export default function Home() {
         }
       }
     };
+
+    const fetchAllMovies = async () => {
+      try {
+        const response = await movieClient.retrieveAllMovies();
+        setAllMovies(response);
+      } catch (error) {
+        console.error("Error fetching all movies:", error);
+      }
+    };
     fetchCurrentQueues();
+    fetchAllMovies();
   }, [currentUser]);
 
   return (
@@ -55,6 +69,21 @@ export default function Home() {
       {/* Show what's trending for both anonymous user and logged in users */}
 
       <h1>Trending</h1>
+      {allMovies && allMovies.length > 0 && (
+        <Row className="mt-3">
+          {allMovies.map((movie: Movie) => (
+            <Col key={movie._id} className="mb-4">
+              <ListGroupItem className="rounded-0 bg-transparent text-white">
+                <Image
+                  onClick={() => navigate(`/UpNext/Movies/${movie._id}`)}
+                  src={movie.posterPath}
+                  className="movie-poster border border-4 border-white"
+                />
+              </ListGroupItem>
+            </Col>
+          ))}
+        </Row>
+      )}
 
       {/* Only show Current Personal Queues if logged in and not anonymous user*/}
       {currentUser && (
