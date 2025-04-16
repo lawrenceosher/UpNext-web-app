@@ -11,6 +11,7 @@ import Session from "./auth/Session";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import TV from "./pages/TV/TV";
 import TVDetails from "./pages/TV/TVDetails";
+import Albums from "./pages/Albums/Albums";
 
 export default function UpNext() {
   return (
@@ -35,18 +36,18 @@ export default function UpNext() {
             <Route path="/Movies/:movieId" element={<MovieDetails />} />
             <Route path="/TV" element={<TV />} />
             <Route path="/TV/:tvId" element={<TVDetails />} />
-            <Route path="/Albums" element={<h1>Albums</h1>} />
-            <Route path="/Albums/:aid" element={<h1>Album Details Page</h1>} />
+            <Route path="/Albums" element={<Albums />} />
+            <Route path="/Albums/:albumId" element={<h1>Album Details Page</h1>} />
             <Route path="/Books" element={<h1>Books</h1>} />
-            <Route path="/Books/:bid" element={<h1>Book Details Page</h1>} />
+            <Route path="/Books/:bookId" element={<h1>Book Details Page</h1>} />
             <Route path="/Podcasts" element={<h1>Podcasts</h1>} />
             <Route
-              path="/Podcasts/:pid"
+              path="/Podcasts/:podcastId"
               element={<h1>Podcast Details Page</h1>}
             />
             <Route path="/Games" element={<h1>Video Games</h1>} />
             <Route
-              path="/Games/:gid"
+              path="/Games/:gameId"
               element={<h1>Video Game Details Page</h1>}
             />
             <Route path="/Users" element={<Users />} />

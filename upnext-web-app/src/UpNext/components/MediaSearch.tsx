@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useState } from "react";
 import { FormControl, InputGroup, ListGroup } from "react-bootstrap";
 import { FaSearch } from "react-icons/fa";
 import "./MediaSearch.css";
-import { useEffect, useState } from "react";
 import * as queueClient from "../clients/queueClient";
 
 export default function MediaSearch({
@@ -14,16 +14,29 @@ export default function MediaSearch({
 }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
 
+  // Debouncer: Update `debouncedSearchTerm` after a delay
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 500); // Delay of 500ms
+
+    return () => {
+      clearTimeout(handler); // Clear timeout if searchTerm changes
+    };
+  }, [searchTerm]);
+
+  // Fetch search results when `debouncedSearchTerm` changes
   useEffect(() => {
     const fetchSearchResults = async () => {
-      if (searchTerm === "") {
+      if (debouncedSearchTerm === "") {
         setSearchResults([]);
         return;
       }
 
       try {
-        const response = await queueClient.searchMedia(mediaType, searchTerm);
+        const response = await queueClient.searchMedia(mediaType, debouncedSearchTerm);
         setSearchResults(response);
       } catch (error) {
         console.error("Error fetching search results:", error);
@@ -31,7 +44,7 @@ export default function MediaSearch({
     };
 
     fetchSearchResults();
-  }, [mediaType, searchTerm]);
+  }, [mediaType, debouncedSearchTerm]);
 
   return (
     <>
