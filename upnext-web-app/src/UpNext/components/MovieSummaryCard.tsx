@@ -3,11 +3,12 @@ import "./SummaryCard.css";
 import { Link } from "react-router-dom";
 import { Movie } from "../types/movie";
 
+
 export default function MovieSummaryCard({ movie }: { movie: Movie }) {
   return (
     <div className="bg-transparent mt-4 card-border d-flex flex-row text-center mh-75">
       <Image src={movie.posterPath} id="poster-card" className="p-3 align-self-center" />
-      <div className="p-3">
+      <div className="p-3 flex-grow-1">
       <Link
         to={`/UpNext/Movies/${movie._id}`}
         className="fw-bold fs-1 text-decoration-none text-white"

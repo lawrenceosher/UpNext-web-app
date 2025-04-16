@@ -158,7 +158,7 @@ export default function QueueList({
                       `(${mediaItem.firstAirDate.slice(0, 4)})`}
                     {mediaType === "Book" &&
                       mediaItem.datePublished !== "" &&
-                      `(${mediaItem.publishedDate.slice(0, 4)})`}
+                      `(${mediaItem.datePublished.slice(0, 4)})`}
                     {mediaType === "Podcast" &&
                       `(${mediaItem.latestEpisodeDate.slice(0, 4)})`}
                   </span>
