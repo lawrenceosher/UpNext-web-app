@@ -68,7 +68,7 @@ export default function Movies() {
     fetchQueueItems();
   }, [currentUser]);
 
-  if (!movieQueue) return <p>Loading...</p>;
+  if (!movieQueue && currentUser) return <p>Loading...</p>;
 
   return (
     <Container>
@@ -78,8 +78,8 @@ export default function Movies() {
           <QueueList
             mediaType="Movie"
             queue={movieQueue}
-            currentQueue={movieQueue.current}
-            historyQueue={movieQueue.history}
+            currentQueue={movieQueue && movieQueue.current}
+            historyQueue={movieQueue && movieQueue.history}
             showHistory={queueHistorySelected}
             setCompletedMediaIDs={setWatchedMovieIDs}
             setSelectedMedia={setSelectedMovie}
@@ -143,12 +143,12 @@ export default function Movies() {
             disabled={
               !selectedMovie ||
               !currentUser ||
-              movieQueue.current
-                .map((item: any) => item._id)
-                .includes(selectedMovie._id) ||
-              movieQueue.history
-                .map((item: any) => item._id)
-                .includes(selectedMovie._id)
+              (movieQueue?.current
+                ?.map((item: any) => item._id)
+                .includes(selectedMovie._id) || false) ||
+              (movieQueue?.history
+                ?.map((item: any) => item._id)
+                .includes(selectedMovie._id) || false)
             }
             onClick={() => {
               addMovieToCurrentQueue();
