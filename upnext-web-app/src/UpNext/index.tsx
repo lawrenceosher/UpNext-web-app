@@ -15,6 +15,7 @@ import Albums from "./pages/Albums/Albums";
 import AlbumDetails from "./pages/Albums/AlbumDetails";
 import Books from "./pages/Books/Books";
 import BookDetails from "./pages/Books/BookDetails";
+import Podcasts from "./pages/Podcasts/Podcasts";
 
 export default function UpNext() {
   return (
@@ -43,7 +44,7 @@ export default function UpNext() {
             <Route path="/Albums/:albumId" element={<AlbumDetails />} />
             <Route path="/Books" element={<Books />} />
             <Route path="/Books/:bookId" element={<BookDetails />} />
-            <Route path="/Podcasts" element={<h1>Podcasts</h1>} />
+            <Route path="/Podcasts" element={<Podcasts />} />
             <Route
               path="/Podcasts/:podcastId"
               element={<h1>Podcast Details Page</h1>}
