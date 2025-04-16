@@ -62,3 +62,10 @@ export const deleteMediaFromHistoryQueue = async (mediaType: string, queueId: st
   const response = await axiosWithCredentials.delete(`${QUEUE_API}/${mediaType}/${queueId}/history/${mediaId}`);
   return response.data;
 }
+
+export const findOtherUsersWithSameMedia = async (mediaType: string, mediaId: string) => { 
+  const response = await axiosWithCredentials.get(
+    `${QUEUE_API}/${mediaType}/${mediaId}/users`
+  );
+  return response.data;
+}
