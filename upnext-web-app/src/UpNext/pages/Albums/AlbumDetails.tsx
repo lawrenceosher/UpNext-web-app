@@ -1,26 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Image from "react-bootstrap/Image";
-import { BiMovie } from "react-icons/bi";
-import { TbChairDirector } from "react-icons/tb";
 import { CiCalendar } from "react-icons/ci";
-import { MdAccessTime, MdAdd, MdOutlineDescription } from "react-icons/md";
-import { FaMasksTheater } from "react-icons/fa6";
+import { MdAccessTime, MdAdd, MdOutlineDescription, MdOutlineHeadphones } from "react-icons/md";
 import { IoIosPeople } from "react-icons/io";
 import { Button, Form } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import * as queueClient from "../../clients/queueClient";
-import { Movie } from "../../types/movie";
 import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Album } from "../../types/album";
+import { IoMusicalNotesOutline } from "react-icons/io5";
+import { BiLabel } from "react-icons/bi";
 
-export default function MovieDetails() {
-  const { movieId } = useParams();
+export default function AlbumDetails() {
+  const { albumId } = useParams();
 
   const { currentUser } = useSelector((state: any) => state.accountReducer);
 
-  const [movie, setMovie] = useState<Movie | null>(null);
+  const [album, setAlbum] = useState<Album | null>(null);
   const [otherUsers, setOtherUsers] = useState<any>(null);
-  const [movieQueue, setMovieQueue] = useState<any>(null);
+  const [albumQueue, setAlbumQueue] = useState<any>(null);
 
   const readableDate = (dateString: string) => {
     return `${dateString.slice(5, 7)}/${dateString.slice(
@@ -29,59 +28,53 @@ export default function MovieDetails() {
     )}/${dateString.slice(0, 4)}`;
   };
 
-  const convertRuntime = (minutes: number) => {
-    const hours = Math.floor(minutes / 60);
-    const remainingMinutes = minutes % 60;
-    return `${hours}h ${remainingMinutes}m`;
-  };
-
-  const addMovieToCurrentQueue = async () => {
-    if (!currentUser || !movieQueue) return;
+  const addAlbumToCurrentQueue = async () => {
+    if (!currentUser || !albumQueue) return;
 
     try {
       const updatedQueue = await queueClient.addMediaToQueue(
-        "Movie",
-        movieQueue._id,
-        movie
+        "Album",
+        albumQueue._id,
+        album
       );
-      setMovieQueue(updatedQueue);
+      setAlbumQueue(updatedQueue);
     } catch (error) {
-      console.error("Error adding movie to queue:", error);
+      console.error("Error adding album to queue:", error);
     }
   };
 
   useEffect(() => {
-    const fetchMovieDetails = async () => {
+    const fetchAlbumDetails = async () => {
       try {
-        if (!movieId) return;
-        const movieResult = await queueClient.retrieveMediaDetails(
-          "Movie",
-          movieId
+        if (!albumId) return;
+        const albumResult = await queueClient.retrieveMediaDetails(
+          "Album",
+          albumId
         );
-        setMovie(movieResult);
+        setAlbum(albumResult);
       } catch (error) {
-        console.error("Error fetching movie:", error);
+        console.error("Error fetching album:", error);
       }
 
       if (!currentUser) return;
       try {
         const queue = await queueClient.retrieveQueueByUserAndMediaType(
           currentUser.username,
-          "Movie"
+          "Album"
         );
-        setMovieQueue(queue);
+        setAlbumQueue(queue);
       } catch (error) {
         console.error("Error fetching queue items:", error);
       }
     };
 
     const fetchOtherUsers = async () => {
-      if (!movieId) return;
+      if (!albumId) return;
 
       try {
         const otherUsers = await queueClient.findOtherUsersWithSameMedia(
-          "Movie",
-          movieId
+          "Album",
+          albumId
         );
         if (!currentUser) {
           setOtherUsers(otherUsers);
@@ -96,47 +89,50 @@ export default function MovieDetails() {
       }
     };
 
-    fetchMovieDetails();
+    fetchAlbumDetails();
     fetchOtherUsers();
-  }, [currentUser, movieId]);
+  }, [currentUser, albumId]);
 
-  if (!movie) return <div>Loading...</div>;
+  if (!album) return <div>Loading...</div>;
 
   return (
     <div className="d-flex">
       <Image
-        src={movie.posterPath}
-        width={400}
+        src={album.coverArt}
+        height={550}
         className="border border-4 border-white mb-4"
       />
-      <div className="ps-4">
+      <div className="ps-4 flex-grow-1">
         <h1 className="fw-bold d-flex align-items-center display-4">
-          <BiMovie className="me-2" /> {movie.title}
+          <IoMusicalNotesOutline className="me-2" /> {album.title}
         </h1>
         <h4 className="mt-3 d-flex align-items-center">
-          <TbChairDirector className="me-2 fs-3" /> Directed by {movie.director}
+          <MdOutlineHeadphones className="me-2 fs-3" /> Created by {album.artist}
         </h4>
         <h4 className="mt-3 d-flex align-items-center">
-          <CiCalendar className="me-2 fs-3" /> {readableDate(movie.releaseDate)}
+          <CiCalendar className="me-2 fs-3" /> {readableDate(album.releaseDate)}
         </h4>
         <h4 className="mt-3 d-flex align-items-center">
-          <MdAccessTime className="me-2 fs-3" /> {convertRuntime(movie.runtime)}
-        </h4>
-        <h4 className="mt-3 d-flex align-items-center">
-          <FaMasksTheater className="me-2 fs-3" />{" "}
-          {movie && movie.genres.join(", ")}
+          <MdAccessTime className="me-2 fs-3" /> {album.tracks.length} Tracks
         </h4>
         <h5 className="mt-3 d-flex align-items-center">
-          <IoIosPeople className="me-2 fs-2" /> {movie && movie.cast.join(", ")}
+          <BiLabel className="me-2 fs-2" /> {album.label}
         </h5>
-        <h5 className="mt-5 fw-bold d-flex align-items-center">
-          <MdOutlineDescription className="me-2 fs-3" /> Description
+        <h5 className="mt-3 fw-bold d-flex align-items-center">
+          <MdOutlineDescription className="me-2 fs-3" /> Tracks
         </h5>
-        <p className="mt-3 text-start pe-3">{movie.description}</p>
+        <ol className="mt-3 text-start pe-3">
+          {album.tracks.map((track, index) => (
+            <li key={index} className="text-white">
+              {track}
+            </li>
+          ))}
+        </ol>
+
         {currentUser && (
           <>
-            <h5 className="mt-5 fw-bold d-flex align-items-center">
-              <IoIosPeople className="me-2 fs-2" /> Other Users Who Watched
+            <h5 className="mt-3 fw-bold d-flex align-items-center">
+              <IoIosPeople className="me-2 fs-2" /> Other Users Who Listened
             </h5>
             <ul className="list-unstyled">
               {otherUsers &&
@@ -159,17 +155,17 @@ export default function MovieDetails() {
               className="my-3 float-end purple-brand-bg border-0 w-25"
               disabled={
                 !currentUser ||
-                (movieQueue &&
-                  movieQueue.current
+                (albumQueue &&
+                  albumQueue.current
                     .map((item: any) => item._id)
-                    .includes(movieId)) ||
-                (movieQueue &&
-                  movieQueue.history
+                    .includes(albumId)) ||
+                (albumQueue &&
+                  albumQueue.history
                     .map((item: any) => item._id)
-                    .includes(movieId))
+                    .includes(albumId))
               }
               onClick={() => {
-                addMovieToCurrentQueue();
+                addAlbumToCurrentQueue();
               }}
             >
               <MdAdd className="me-1 mb-1 fs-4" /> Add

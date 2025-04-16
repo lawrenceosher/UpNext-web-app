@@ -7,7 +7,7 @@ export default function AlbumSummaryCard({ album }: { album: Album }) {
   return (
     <div className="bg-transparent mt-4 card-border d-flex flex-row text-center mh-75">
       <Image src={album.coverArt} id="poster-card" className="p-3 align-self-center" />
-      <div className="p-3">
+      <div className="p-3 flex-grow-1">
       <Link
         to={`/UpNext/Albums/${album._id}`}
         className="fw-bold fs-1 text-decoration-none text-white"
