@@ -132,81 +132,92 @@ export default function Home() {
       {/* Show what's trending for both anonymous user and logged in users */}
 
       <h1>Trending</h1>
-      {popularMovies && popularMovies.length > 0 && (
-        <Row className="mt-3">
-          {popularMovies.slice(0, 2).map((movie: Movie) => (
-            <Col key={movie._id} className="mb-4">
-              <ListGroupItem className="rounded-0 bg-transparent text-white">
-                <Image
-                  onClick={() => navigate(`/UpNext/Movies/${movie._id}`)}
-                  src={movie.posterPath}
-                  className="movie-poster border border-4 border-white"
-                />
-              </ListGroupItem>
-            </Col>
-          ))}
+      {popularMovies &&
+        popularMovies.length > 0 &&
+        popularTV &&
+        popularTV.length > 0 &&
+        popularAlbums &&
+        popularAlbums.length > 0 &&
+        popularBooks &&
+        popularBooks.length > 0 &&
+        popularPodcasts &&
+        popularPodcasts.length > 0 &&
+        popularGames &&
+        popularGames.length > 0 && (
+          <Row className="mt-3">
+            {popularMovies.slice(0, 2).map((movie: Movie) => (
+              <Col key={movie._id} className="mb-4">
+                <ListGroupItem className="rounded-0 bg-transparent text-white">
+                  <Image
+                    onClick={() => navigate(`/UpNext/Movies/${movie._id}`)}
+                    src={movie.posterPath}
+                    className="movie-poster border border-4 border-white"
+                  />
+                </ListGroupItem>
+              </Col>
+            ))}
 
-          {popularTV.slice(0, 2).map((tv: TVShow) => (
-            <Col key={tv._id} className="mb-4">
-              <ListGroupItem className="rounded-0 bg-transparent text-white">
-                <Image
-                  onClick={() => navigate(`/UpNext/TV/${tv._id}`)}
-                  src={tv.posterPath}
-                  className="movie-poster border border-4 border-white"
-                />
-              </ListGroupItem>
-            </Col>
-          ))}
+            {popularTV.slice(0, 2).map((tv: TVShow) => (
+              <Col key={tv._id} className="mb-4">
+                <ListGroupItem className="rounded-0 bg-transparent text-white">
+                  <Image
+                    onClick={() => navigate(`/UpNext/TV/${tv._id}`)}
+                    src={tv.posterPath}
+                    className="movie-poster border border-4 border-white"
+                  />
+                </ListGroupItem>
+              </Col>
+            ))}
 
-          {popularAlbums.slice(0, 2).map((album: Album) => (
-            <Col key={album._id} className="mb-4">
-              <ListGroupItem className="rounded-0 bg-transparent text-white">
-                <Image
-                  onClick={() => navigate(`/UpNext/Albums/${album._id}`)}
-                  src={album.coverArt}
-                  className="movie-poster border border-4 border-white"
-                />
-              </ListGroupItem>
-            </Col>
-          ))}
+            {popularAlbums.slice(0, 2).map((album: Album) => (
+              <Col key={album._id} className="mb-4">
+                <ListGroupItem className="rounded-0 bg-transparent text-white">
+                  <Image
+                    onClick={() => navigate(`/UpNext/Albums/${album._id}`)}
+                    src={album.coverArt}
+                    className="movie-poster border border-4 border-white"
+                  />
+                </ListGroupItem>
+              </Col>
+            ))}
 
-          {popularBooks.slice(0, 2).map((book: Book) => (
-            <Col key={book._id} className="mb-4">
-              <ListGroupItem className="rounded-0 bg-transparent text-white">
-                <Image
-                  onClick={() => navigate(`/UpNext/Books/${book._id}`)}
-                  src={book.coverArt}
-                  className="movie-poster border border-4 border-white"
-                />
-              </ListGroupItem>
-            </Col>
-          ))}
+            {popularBooks.slice(0, 2).map((book: Book) => (
+              <Col key={book._id} className="mb-4">
+                <ListGroupItem className="rounded-0 bg-transparent text-white">
+                  <Image
+                    onClick={() => navigate(`/UpNext/Books/${book._id}`)}
+                    src={book.coverArt}
+                    className="movie-poster border border-4 border-white"
+                  />
+                </ListGroupItem>
+              </Col>
+            ))}
 
-          {popularPodcasts.slice(0, 2).map((podcast: Podcast) => (
-            <Col key={podcast._id} className="mb-4">
-              <ListGroupItem className="rounded-0 bg-transparent text-white">
-                <Image
-                  onClick={() => navigate(`/UpNext/Podcasts/${podcast._id}`)}
-                  src={podcast.coverArt}
-                  className="movie-poster border border-4 border-white"
-                />
-              </ListGroupItem>
-            </Col>
-          ))}
+            {popularPodcasts.slice(0, 2).map((podcast: Podcast) => (
+              <Col key={podcast._id} className="mb-4">
+                <ListGroupItem className="rounded-0 bg-transparent text-white">
+                  <Image
+                    onClick={() => navigate(`/UpNext/Podcasts/${podcast._id}`)}
+                    src={podcast.coverArt}
+                    className="movie-poster border border-4 border-white"
+                  />
+                </ListGroupItem>
+              </Col>
+            ))}
 
-          {popularGames.slice(0, 2).map((game: VideoGame) => (
-            <Col key={game._id} className="mb-4">
-              <ListGroupItem className="rounded-0 bg-transparent text-white">
-                <Image
-                  onClick={() => navigate(`/UpNext/Games/${game._id}`)}
-                  src={game.coverArt}
-                  className="movie-poster border border-4 border-white"
-                />
-              </ListGroupItem>
-            </Col>
-          ))}
-        </Row>
-      )}
+            {popularGames.slice(0, 2).map((game: VideoGame) => (
+              <Col key={game._id} className="mb-4">
+                <ListGroupItem className="rounded-0 bg-transparent text-white">
+                  <Image
+                    onClick={() => navigate(`/UpNext/Games/${game._id}`)}
+                    src={game.coverArt}
+                    className="movie-poster border border-4 border-white"
+                  />
+                </ListGroupItem>
+              </Col>
+            ))}
+          </Row>
+        )}
 
       {/* Only show Current Personal Queues if logged in and not anonymous user*/}
       {currentUser && (
