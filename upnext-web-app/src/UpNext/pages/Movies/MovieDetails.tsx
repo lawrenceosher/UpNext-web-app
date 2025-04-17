@@ -6,7 +6,7 @@ import { CiCalendar } from "react-icons/ci";
 import { MdAccessTime, MdAdd, MdOutlineDescription } from "react-icons/md";
 import { FaMasksTheater } from "react-icons/fa6";
 import { IoIosPeople } from "react-icons/io";
-import { Button, Form } from "react-bootstrap";
+import { Alert, Button, Form } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import * as queueClient from "../../clients/queueClient";
 import { Movie } from "../../types/movie";
@@ -21,6 +21,8 @@ export default function MovieDetails() {
   const [movie, setMovie] = useState<Movie | null>(null);
   const [otherUsers, setOtherUsers] = useState<any>(null);
   const [movieQueue, setMovieQueue] = useState<any>(null);
+
+  const [showAlert, setShowAlert] = useState(false);
 
   const readableDate = (dateString: string) => {
     return `${dateString.slice(5, 7)}/${dateString.slice(
@@ -103,80 +105,98 @@ export default function MovieDetails() {
   if (!movie) return <div>Loading...</div>;
 
   return (
-    <div className="d-flex">
-      <Image
-        src={movie.posterPath}
-        width={400}
-        className="border border-4 border-white mb-4"
-      />
-      <div className="ps-4 flex-grow-1">
-        <h1 className="fw-bold d-flex align-items-center display-4">
-          <BiMovie className="me-2" /> {movie.title}
-        </h1>
-        <h4 className="mt-3 d-flex align-items-center">
-          <TbChairDirector className="me-2 fs-3" /> Directed by {movie.director}
-        </h4>
-        <h4 className="mt-3 d-flex align-items-center">
-          <CiCalendar className="me-2 fs-3" /> {readableDate(movie.releaseDate)}
-        </h4>
-        <h4 className="mt-3 d-flex align-items-center">
-          <MdAccessTime className="me-2 fs-3" /> {convertRuntime(movie.runtime)}
-        </h4>
-        <h4 className="mt-3 d-flex align-items-center">
-          <FaMasksTheater className="me-2 fs-3" />{" "}
-          {movie && movie.genres.join(", ")}
-        </h4>
-        <h5 className="mt-3 d-flex align-items-center">
-          <IoIosPeople className="me-2 fs-2" /> {movie && movie.cast.join(", ")}
-        </h5>
-        <h5 className="mt-5 fw-bold d-flex align-items-center">
-          <MdOutlineDescription className="me-2 fs-3" /> Description
-        </h5>
-        <p className="mt-3 text-start pe-3">{movie.description}</p>
-        {currentUser && (
-          <>
-            <h5 className="mt-5 fw-bold d-flex align-items-center">
-              <IoIosPeople className="me-2 fs-2" /> Other Users Who Watched
-            </h5>
-            <ul className="list-unstyled">
-              {otherUsers &&
-                otherUsers.map((u: any) => (
-                  <li key={u._id}>
-                    <Link to={`/UpNext/Account/Profile/${u._id}`}>
-                      {u.username}
-                    </Link>
-                  </li>
-                ))}
-            </ul>
-          </>
-        )}
+    <>
+      {showAlert && (
+        <Alert
+          variant="success"
+          onClose={() => setShowAlert(false)}
+          dismissible
+        >
+          <Alert.Heading>Add Movie</Alert.Heading>
+          <p>Successfully added {movie.title} to your current queue!</p>
+        </Alert>
+      )}
 
-        <div>
-          <Form className="d-flex align-items-center flex-fill justify-content-end me-4">
-            <Button
-              size="lg"
-              id="action-button"
-              className="my-3 float-end purple-brand-bg border-0 w-25"
-              disabled={
-                !currentUser ||
-                (movieQueue &&
-                  movieQueue.current
-                    .map((item: any) => item._id)
-                    .includes(movieId)) ||
-                (movieQueue &&
-                  movieQueue.history
-                    .map((item: any) => item._id)
-                    .includes(movieId))
-              }
-              onClick={() => {
-                addMovieToCurrentQueue();
-              }}
-            >
-              <MdAdd className="me-1 mb-1 fs-4" /> Add
-            </Button>
-          </Form>
+      <div className="d-flex">
+        <Image
+          src={movie.posterPath}
+          width={400}
+          className="border border-4 border-white mb-4"
+        />
+        <div className="ps-4 flex-grow-1">
+          <h1 className="fw-bold d-flex align-items-center display-4">
+            <BiMovie className="me-2" /> {movie.title}
+          </h1>
+          <h4 className="mt-3 d-flex align-items-center">
+            <TbChairDirector className="me-2 fs-3" /> Directed by{" "}
+            {movie.director}
+          </h4>
+          <h4 className="mt-3 d-flex align-items-center">
+            <CiCalendar className="me-2 fs-3" />{" "}
+            {readableDate(movie.releaseDate)}
+          </h4>
+          <h4 className="mt-3 d-flex align-items-center">
+            <MdAccessTime className="me-2 fs-3" />{" "}
+            {convertRuntime(movie.runtime)}
+          </h4>
+          <h4 className="mt-3 d-flex align-items-center">
+            <FaMasksTheater className="me-2 fs-3" />{" "}
+            {movie && movie.genres.join(", ")}
+          </h4>
+          <h5 className="mt-3 d-flex align-items-center">
+            <IoIosPeople className="me-2 fs-2" />{" "}
+            {movie && movie.cast.join(", ")}
+          </h5>
+          <h5 className="mt-5 fw-bold d-flex align-items-center">
+            <MdOutlineDescription className="me-2 fs-3" /> Description
+          </h5>
+          <p className="mt-3 text-start pe-3">{movie.description}</p>
+          {currentUser && (
+            <>
+              <h5 className="mt-5 fw-bold d-flex align-items-center">
+                <IoIosPeople className="me-2 fs-2" /> Other Users Who Watched
+              </h5>
+              <ul className="list-unstyled">
+                {otherUsers &&
+                  otherUsers.map((u: any) => (
+                    <li key={u._id}>
+                      <Link to={`/UpNext/Account/Profile/${u._id}`}>
+                        {u.username}
+                      </Link>
+                    </li>
+                  ))}
+              </ul>
+            </>
+          )}
+
+          <div>
+            <Form className="d-flex align-items-center flex-fill justify-content-end me-4">
+              <Button
+                size="lg"
+                id="action-button"
+                className="my-3 float-end purple-brand-bg border-0 w-25"
+                disabled={
+                  !currentUser ||
+                  (movieQueue &&
+                    movieQueue.current
+                      .map((item: any) => item._id)
+                      .includes(movieId)) ||
+                  (movieQueue &&
+                    movieQueue.history
+                      .map((item: any) => item._id)
+                      .includes(movieId))
+                }
+                onClick={() => {
+                  addMovieToCurrentQueue();
+                  setShowAlert(true);
+                }}
+              >
+                <MdAdd className="me-1 mb-1 fs-4" /> Add
+              </Button>
+            </Form>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
