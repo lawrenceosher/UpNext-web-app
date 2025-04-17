@@ -12,8 +12,12 @@ export default function MediaSearch({
   mediaType: string;
   setSelectedMedia: (media: any) => void;
 }) {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(
+    localStorage.getItem("searchTerm") || "" // Load search term from localStorage
+  );
+  const [searchResults, setSearchResults] = useState<any[]>(
+    JSON.parse(localStorage.getItem("searchResults") || "[]") // Load search results from localStorage
+  );
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
 
   // Debouncer: Update `debouncedSearchTerm` after a delay
@@ -32,6 +36,7 @@ export default function MediaSearch({
     const fetchSearchResults = async () => {
       if (debouncedSearchTerm === "") {
         setSearchResults([]);
+        localStorage.removeItem("searchResults"); // Clear search results in localStorage
         return;
       }
 
@@ -41,6 +46,7 @@ export default function MediaSearch({
           debouncedSearchTerm
         );
         setSearchResults(response);
+        localStorage.setItem("searchResults", JSON.stringify(response)); // Save search results to localStorage
       } catch (error) {
         console.error("Error fetching search results:", error);
       }
@@ -48,6 +54,11 @@ export default function MediaSearch({
 
     fetchSearchResults();
   }, [mediaType, debouncedSearchTerm]);
+
+  // Save the search term to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("searchTerm", searchTerm);
+  }, [searchTerm]);
 
   return (
     <div className="position-relative">
@@ -75,6 +86,8 @@ export default function MediaSearch({
                 onClick={() => {
                   setSelectedMedia(item);
                   setSearchTerm("");
+                  localStorage.removeItem("searchTerm"); // Clear search term when an item is selected
+                  localStorage.removeItem("searchResults"); // Clear search results when an item is selected
                 }}
               >
                 {item.title}{" "}
