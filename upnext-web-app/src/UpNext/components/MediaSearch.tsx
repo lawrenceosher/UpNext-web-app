@@ -36,7 +36,10 @@ export default function MediaSearch({
       }
 
       try {
-        const response = await queueClient.searchMedia(mediaType, debouncedSearchTerm);
+        const response = await queueClient.searchMedia(
+          mediaType,
+          debouncedSearchTerm
+        );
         setSearchResults(response);
       } catch (error) {
         console.error("Error fetching search results:", error);
@@ -47,7 +50,7 @@ export default function MediaSearch({
   }, [mediaType, debouncedSearchTerm]);
 
   return (
-    <>
+    <div className="position-relative">
       <InputGroup
         className="align-items-center rounded position-relative"
         size="lg"
@@ -63,31 +66,33 @@ export default function MediaSearch({
           }}
         />
       </InputGroup>
-      <div id="search-results" className="z-3 position-absolute">
-        <ListGroup>
-          {searchResults.map((item: any) => (
-            <ListGroup.Item
-              key={item._id}
-              onClick={() => {
-                setSelectedMedia(item);
-                setSearchTerm("");
-              }}
-            >
-              {item.title}{" "}
-              {(mediaType === "Movie" ||
-                mediaType === "Album" ||
-                mediaType === "VideoGame") &&
-                `(${item.releaseDate.slice(0, 4)})`}
-              {mediaType === "TV" && `(${item.firstAirDate.slice(0, 4)})`}
-              {mediaType === "Book" &&
-                item.datePublished !== "" &&
-                `(${item.datePublished.slice(0, 4)})`}
-              {mediaType === "Podcast" &&
-                `(${item.latestEpisodeDate.slice(0, 4)})`}
-            </ListGroup.Item>
-          ))}
-        </ListGroup>
-      </div>
-    </>
+      {searchResults && (
+        <div id="search-results">
+          <ListGroup>
+            {searchResults.map((item: any) => (
+              <ListGroup.Item
+                key={item._id}
+                onClick={() => {
+                  setSelectedMedia(item);
+                  setSearchTerm("");
+                }}
+              >
+                {item.title}{" "}
+                {(mediaType === "Movie" ||
+                  mediaType === "Album" ||
+                  mediaType === "VideoGame") &&
+                  `(${item.releaseDate.slice(0, 4)})`}
+                {mediaType === "TV" && `(${item.firstAirDate.slice(0, 4)})`}
+                {mediaType === "Book" &&
+                  item.datePublished !== "" &&
+                  `(${item.datePublished.slice(0, 4)})`}
+                {mediaType === "Podcast" &&
+                  `(${item.latestEpisodeDate.slice(0, 4)})`}
+              </ListGroup.Item>
+            ))}
+          </ListGroup>
+        </div>
+      )}
+    </div>
   );
 }
