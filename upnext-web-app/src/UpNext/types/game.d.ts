@@ -3,7 +3,7 @@ export interface VideoGame {
   _id: string;
   title: string;
   summary: string;
-  releaseDate: Date;
+  releaseDate: string;
   coverArt: string;
   genres: string[];
   companies: string[];

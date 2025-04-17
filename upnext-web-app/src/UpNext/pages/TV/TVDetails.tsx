@@ -1,26 +1,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Image from "react-bootstrap/Image";
-import { BiMovie } from "react-icons/bi";
 import { TbChairDirector } from "react-icons/tb";
 import { CiCalendar } from "react-icons/ci";
-import { MdAccessTime, MdAdd, MdOutlineDescription } from "react-icons/md";
+import { MdAdd, MdOutlineDescription } from "react-icons/md";
+import { LuListVideo, LuTvMinimalPlay } from "react-icons/lu";
 import { FaMasksTheater } from "react-icons/fa6";
 import { IoIosPeople } from "react-icons/io";
 import { Alert, Button, Form } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import * as queueClient from "../../clients/queueClient";
-import { Movie } from "../../types/movie";
 import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { TVShow } from "../../types/tvShow";
+import { FiTv } from "react-icons/fi";
 
-export default function MovieDetails() {
-  const { movieId } = useParams();
+export default function TVDetails() {
+  const { tvId } = useParams();
 
   const { currentUser } = useSelector((state: any) => state.accountReducer);
 
-  const [movie, setMovie] = useState<Movie | null>(null);
+  const [tvShow, setTvShow] = useState<TVShow | null>(null);
   const [otherUsers, setOtherUsers] = useState<any>(null);
-  const [movieQueue, setMovieQueue] = useState<any>(null);
+  const [tvQueue, setTVQueue] = useState<any>(null);
 
   const [showAlert, setShowAlert] = useState(false);
 
@@ -31,59 +32,50 @@ export default function MovieDetails() {
     )}/${dateString.slice(0, 4)}`;
   };
 
-  const convertRuntime = (minutes: number) => {
-    const hours = Math.floor(minutes / 60);
-    const remainingMinutes = minutes % 60;
-    return `${hours}h ${remainingMinutes}m`;
-  };
-
-  const addMovieToCurrentQueue = async () => {
-    if (!currentUser || !movieQueue) return;
+  const addTVShowToCurrentQueue = async () => {
+    if (!currentUser || !tvQueue) return;
 
     try {
       const updatedQueue = await queueClient.addMediaToQueue(
-        "Movie",
-        movieQueue._id,
-        movie
+        "TV",
+        tvQueue._id,
+        tvShow
       );
-      setMovieQueue(updatedQueue);
+      setTVQueue(updatedQueue);
     } catch (error) {
-      console.error("Error adding movie to queue:", error);
+      console.error("Error adding tv show to queue:", error);
     }
   };
 
   useEffect(() => {
-    const fetchMovieDetails = async () => {
+    const fetchTVShowDetails = async () => {
       try {
-        if (!movieId) return;
-        const movieResult = await queueClient.retrieveMediaDetails(
-          "Movie",
-          movieId
-        );
-        setMovie(movieResult);
+        if (!tvId) return;
+        const tvResult = await queueClient.retrieveMediaDetails("TV", tvId);
+        setTvShow(tvResult);
       } catch (error) {
-        console.error("Error fetching movie:", error);
+        console.error("Error fetching tv show:", error);
       }
 
       if (!currentUser) return;
       try {
         const queue = await queueClient.retrieveQueueByUserAndMediaType(
           currentUser.username,
-          "Movie"
+          "TV"
         );
-        setMovieQueue(queue);
+        setTVQueue(queue);
       } catch (error) {
         console.error("Error fetching queue items:", error);
       }
     };
 
     const fetchOtherUsers = async () => {
-      if (!movieId) return;
+      if (!tvId) return;
 
       try {
         const otherUsers = await queueClient.findOtherUsersWithSameMedia(
-          "Movie",
-          movieId
+          "TV",
+          tvId
         );
         if (!currentUser) {
           setOtherUsers(otherUsers);
@@ -98,11 +90,11 @@ export default function MovieDetails() {
       }
     };
 
-    fetchMovieDetails();
+    fetchTVShowDetails();
     fetchOtherUsers();
-  }, [currentUser, movieId]);
+  }, [currentUser, tvId]);
 
-  if (!movie) return <div>Loading...</div>;
+  if (!tvShow) return <div>Loading...</div>;
 
   return (
     <>
@@ -112,45 +104,52 @@ export default function MovieDetails() {
           onClose={() => setShowAlert(false)}
           dismissible
         >
-          <Alert.Heading>Add Movie</Alert.Heading>
-          <p>Successfully added {movie.title} to your current queue!</p>
+          <Alert.Heading>Add TV Show</Alert.Heading>
+          <p>Successfully added {tvShow.title} to your current queue!</p>
         </Alert>
       )}
-
       <div className="d-flex">
         <Image
-          src={movie.posterPath}
+          src={tvShow.posterPath}
           width={400}
           className="border border-4 border-white mb-4"
         />
         <div className="ps-4 flex-grow-1">
           <h1 className="fw-bold d-flex align-items-center display-4">
-            <BiMovie className="me-2" /> {movie.title}
+            <FiTv className="me-2" /> {tvShow.title}
           </h1>
           <h4 className="mt-3 d-flex align-items-center">
-            <TbChairDirector className="me-2 fs-3" /> Directed by{" "}
-            {movie.director}
+            <TbChairDirector className="me-2 fs-3" /> Created by{" "}
+            {tvShow.creator}
           </h4>
           <h4 className="mt-3 d-flex align-items-center">
-            <CiCalendar className="me-2 fs-3" />{" "}
-            {readableDate(movie.releaseDate)}
+            <CiCalendar className="me-2 fs-3" />
+            {readableDate(tvShow.firstAirDate)}{" "}
+            {tvShow.lastAirDate &&
+              tvShow.lastAirDate.length > 0 &&
+              `-
+            ${readableDate(tvShow.lastAirDate)}`}
+          </h4>
+
+          <h4 className="mt-3 d-flex align-items-center">
+            <LuTvMinimalPlay className="me-2 fs-3" /> {tvShow.totalEpisodes}{" "}
+            Episodes
           </h4>
           <h4 className="mt-3 d-flex align-items-center">
-            <MdAccessTime className="me-2 fs-3" />{" "}
-            {convertRuntime(movie.runtime)}
+            <LuListVideo className="me-2 fs-3" /> {tvShow.totalSeasons} Seasons
           </h4>
           <h4 className="mt-3 d-flex align-items-center">
             <FaMasksTheater className="me-2 fs-3" />{" "}
-            {movie && movie.genres.join(", ")}
+            {tvShow && tvShow.genres.join(", ")}
           </h4>
           <h5 className="mt-3 d-flex align-items-center">
             <IoIosPeople className="me-2 fs-2" />{" "}
-            {movie && movie.cast.join(", ")}
+            {tvShow && tvShow.cast.join(", ")}
           </h5>
           <h5 className="mt-5 fw-bold d-flex align-items-center">
             <MdOutlineDescription className="me-2 fs-3" /> Description
           </h5>
-          <p className="mt-3 text-start pe-3">{movie.description}</p>
+          <p className="mt-3 text-start pe-3">{tvShow.description}</p>
           {currentUser && (
             <>
               <h5 className="mt-5 fw-bold d-flex align-items-center">
@@ -177,17 +176,15 @@ export default function MovieDetails() {
                 className="my-3 float-end purple-brand-bg border-0 w-25"
                 disabled={
                   !currentUser ||
-                  (movieQueue &&
-                    movieQueue.current
+                  (tvQueue &&
+                    tvQueue.current
                       .map((item: any) => item._id)
-                      .includes(movieId)) ||
-                  (movieQueue &&
-                    movieQueue.history
-                      .map((item: any) => item._id)
-                      .includes(movieId))
+                      .includes(tvId)) ||
+                  (tvQueue &&
+                    tvQueue.history.map((item: any) => item._id).includes(tvId))
                 }
                 onClick={() => {
-                  addMovieToCurrentQueue();
+                  addTVShowToCurrentQueue();
                   setShowAlert(true);
                 }}
               >

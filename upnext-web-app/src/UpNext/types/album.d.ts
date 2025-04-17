@@ -1,10 +1,9 @@
 // Normalized Album type with data aggregated from the Spotify API
 export interface Album {
   _id: string;
-  name: string;
+  title: string;
   artist: string;
   label: string;
-  totalTracks: number;
   coverArt: string;
   releaseDate: string;
   tracks: string[];

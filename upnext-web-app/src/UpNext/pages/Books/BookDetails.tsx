@@ -1,26 +1,31 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Image from "react-bootstrap/Image";
-import { BiMovie } from "react-icons/bi";
-import { TbChairDirector } from "react-icons/tb";
 import { CiCalendar } from "react-icons/ci";
-import { MdAccessTime, MdAdd, MdOutlineDescription } from "react-icons/md";
-import { FaMasksTheater } from "react-icons/fa6";
+import { MdAdd, MdOutlineDescription } from "react-icons/md";
 import { IoIosPeople } from "react-icons/io";
 import { Alert, Button, Form } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import * as queueClient from "../../clients/queueClient";
-import { Movie } from "../../types/movie";
 import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { IoBookOutline } from "react-icons/io5";
+import { BiLabel } from "react-icons/bi";
+import { Book } from "../../types/book";
+import { TiPencil } from "react-icons/ti";
+import { LuBookText } from "react-icons/lu";
 
-export default function MovieDetails() {
-  const { movieId } = useParams();
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]*>/g, "").trim();
+}
+
+export default function BookDetails() {
+  const { bookId } = useParams();
 
   const { currentUser } = useSelector((state: any) => state.accountReducer);
 
-  const [movie, setMovie] = useState<Movie | null>(null);
+  const [book, setBook] = useState<Book | null>(null);
   const [otherUsers, setOtherUsers] = useState<any>(null);
-  const [movieQueue, setMovieQueue] = useState<any>(null);
+  const [bookQueue, setBookQueue] = useState<any>(null);
 
   const [showAlert, setShowAlert] = useState(false);
 
@@ -31,59 +36,53 @@ export default function MovieDetails() {
     )}/${dateString.slice(0, 4)}`;
   };
 
-  const convertRuntime = (minutes: number) => {
-    const hours = Math.floor(minutes / 60);
-    const remainingMinutes = minutes % 60;
-    return `${hours}h ${remainingMinutes}m`;
-  };
-
-  const addMovieToCurrentQueue = async () => {
-    if (!currentUser || !movieQueue) return;
+  const addBookToCurrentQueue = async () => {
+    if (!currentUser || !bookQueue) return;
 
     try {
       const updatedQueue = await queueClient.addMediaToQueue(
-        "Movie",
-        movieQueue._id,
-        movie
+        "Book",
+        bookQueue._id,
+        book
       );
-      setMovieQueue(updatedQueue);
+      setBookQueue(updatedQueue);
     } catch (error) {
-      console.error("Error adding movie to queue:", error);
+      console.error("Error adding book to queue:", error);
     }
   };
 
   useEffect(() => {
-    const fetchMovieDetails = async () => {
+    const fetchBookDetails = async () => {
       try {
-        if (!movieId) return;
-        const movieResult = await queueClient.retrieveMediaDetails(
-          "Movie",
-          movieId
+        if (!bookId) return;
+        const bookResult = await queueClient.retrieveMediaDetails(
+          "Book",
+          bookId
         );
-        setMovie(movieResult);
+        setBook(bookResult);
       } catch (error) {
-        console.error("Error fetching movie:", error);
+        console.error("Error fetching book:", error);
       }
 
       if (!currentUser) return;
       try {
         const queue = await queueClient.retrieveQueueByUserAndMediaType(
           currentUser.username,
-          "Movie"
+          "Book"
         );
-        setMovieQueue(queue);
+        setBookQueue(queue);
       } catch (error) {
         console.error("Error fetching queue items:", error);
       }
     };
 
     const fetchOtherUsers = async () => {
-      if (!movieId) return;
+      if (!bookId) return;
 
       try {
         const otherUsers = await queueClient.findOtherUsersWithSameMedia(
-          "Movie",
-          movieId
+          "Book",
+          bookId
         );
         if (!currentUser) {
           setOtherUsers(otherUsers);
@@ -98,11 +97,11 @@ export default function MovieDetails() {
       }
     };
 
-    fetchMovieDetails();
+    fetchBookDetails();
     fetchOtherUsers();
-  }, [currentUser, movieId]);
+  }, [currentUser, bookId]);
 
-  if (!movie) return <div>Loading...</div>;
+  if (!book) return <div>Loading...</div>;
 
   return (
     <>
@@ -112,49 +111,43 @@ export default function MovieDetails() {
           onClose={() => setShowAlert(false)}
           dismissible
         >
-          <Alert.Heading>Add Movie</Alert.Heading>
-          <p>Successfully added {movie.title} to your current queue!</p>
+          <Alert.Heading>Add Book</Alert.Heading>
+          <p>Successfully added {book.title} to your current queue!</p>
         </Alert>
       )}
-
       <div className="d-flex">
         <Image
-          src={movie.posterPath}
-          width={400}
+          src={book.coverArt}
+          height={550}
           className="border border-4 border-white mb-4"
         />
         <div className="ps-4 flex-grow-1">
           <h1 className="fw-bold d-flex align-items-center display-4">
-            <BiMovie className="me-2" /> {movie.title}
+            <IoBookOutline className="me-4" /> {book.title}
           </h1>
           <h4 className="mt-3 d-flex align-items-center">
-            <TbChairDirector className="me-2 fs-3" /> Directed by{" "}
-            {movie.director}
+            <TiPencil className="me-2 fs-3" /> Written by{" "}
+            {book.authors.join(", ")}
           </h4>
           <h4 className="mt-3 d-flex align-items-center">
             <CiCalendar className="me-2 fs-3" />{" "}
-            {readableDate(movie.releaseDate)}
+            {readableDate(book.datePublished)}
           </h4>
           <h4 className="mt-3 d-flex align-items-center">
-            <MdAccessTime className="me-2 fs-3" />{" "}
-            {convertRuntime(movie.runtime)}
-          </h4>
-          <h4 className="mt-3 d-flex align-items-center">
-            <FaMasksTheater className="me-2 fs-3" />{" "}
-            {movie && movie.genres.join(", ")}
+            <LuBookText className="me-2 fs-3" /> {book.pages} Pages
           </h4>
           <h5 className="mt-3 d-flex align-items-center">
-            <IoIosPeople className="me-2 fs-2" />{" "}
-            {movie && movie.cast.join(", ")}
+            <BiLabel className="me-2 fs-2" /> {book.publisher}
           </h5>
-          <h5 className="mt-5 fw-bold d-flex align-items-center">
+          <h5 className="mt-3 fw-bold d-flex align-items-center">
             <MdOutlineDescription className="me-2 fs-3" /> Description
           </h5>
-          <p className="mt-3 text-start pe-3">{movie.description}</p>
+          <p className="mt-3 text-start pe-3">{stripHtml(book.synopsis)}</p>
+
           {currentUser && (
             <>
-              <h5 className="mt-5 fw-bold d-flex align-items-center">
-                <IoIosPeople className="me-2 fs-2" /> Other Users Who Watched
+              <h5 className="mt-3 fw-bold d-flex align-items-center">
+                <IoIosPeople className="me-2 fs-2" /> Other Users Who Read
               </h5>
               <ul className="list-unstyled">
                 {otherUsers &&
@@ -177,17 +170,17 @@ export default function MovieDetails() {
                 className="my-3 float-end purple-brand-bg border-0 w-25"
                 disabled={
                   !currentUser ||
-                  (movieQueue &&
-                    movieQueue.current
+                  (bookQueue &&
+                    bookQueue.current
                       .map((item: any) => item._id)
-                      .includes(movieId)) ||
-                  (movieQueue &&
-                    movieQueue.history
+                      .includes(bookId)) ||
+                  (bookQueue &&
+                    bookQueue.history
                       .map((item: any) => item._id)
-                      .includes(movieId))
+                      .includes(bookId))
                 }
                 onClick={() => {
-                  addMovieToCurrentQueue();
+                  addBookToCurrentQueue();
                   setShowAlert(true);
                 }}
               >

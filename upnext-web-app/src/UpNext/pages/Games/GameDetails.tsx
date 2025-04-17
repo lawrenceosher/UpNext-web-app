@@ -1,26 +1,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Image from "react-bootstrap/Image";
-import { BiMovie } from "react-icons/bi";
-import { TbChairDirector } from "react-icons/tb";
 import { CiCalendar } from "react-icons/ci";
-import { MdAccessTime, MdAdd, MdOutlineDescription } from "react-icons/md";
+import { MdAdd, MdOutlineDescription } from "react-icons/md";
 import { FaMasksTheater } from "react-icons/fa6";
 import { IoIosPeople } from "react-icons/io";
 import { Alert, Button, Form } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import * as queueClient from "../../clients/queueClient";
-import { Movie } from "../../types/movie";
 import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { VideoGame } from "../../types/game";
+import { IoGameControllerOutline } from "react-icons/io5";
+import { BiLabel } from "react-icons/bi";
+import { GiPlatform } from "react-icons/gi";
 
-export default function MovieDetails() {
-  const { movieId } = useParams();
+export default function GameDetails() {
+  const { gameId } = useParams();
 
   const { currentUser } = useSelector((state: any) => state.accountReducer);
 
-  const [movie, setMovie] = useState<Movie | null>(null);
+  const [game, setGame] = useState<VideoGame | null>(null);
   const [otherUsers, setOtherUsers] = useState<any>(null);
-  const [movieQueue, setMovieQueue] = useState<any>(null);
+  const [gameQueue, setGameQueue] = useState<any>(null);
 
   const [showAlert, setShowAlert] = useState(false);
 
@@ -31,59 +32,53 @@ export default function MovieDetails() {
     )}/${dateString.slice(0, 4)}`;
   };
 
-  const convertRuntime = (minutes: number) => {
-    const hours = Math.floor(minutes / 60);
-    const remainingMinutes = minutes % 60;
-    return `${hours}h ${remainingMinutes}m`;
-  };
-
-  const addMovieToCurrentQueue = async () => {
-    if (!currentUser || !movieQueue) return;
+  const addGameToCurrentQueue = async () => {
+    if (!currentUser || !gameQueue) return;
 
     try {
       const updatedQueue = await queueClient.addMediaToQueue(
-        "Movie",
-        movieQueue._id,
-        movie
+        "VideoGame",
+        gameQueue._id,
+        game
       );
-      setMovieQueue(updatedQueue);
+      setGameQueue(updatedQueue);
     } catch (error) {
-      console.error("Error adding movie to queue:", error);
+      console.error("Error adding video game to queue:", error);
     }
   };
 
   useEffect(() => {
-    const fetchMovieDetails = async () => {
+    const fetchGameDetails = async () => {
       try {
-        if (!movieId) return;
-        const movieResult = await queueClient.retrieveMediaDetails(
-          "Movie",
-          movieId
+        if (!gameId) return;
+        const gameResult = await queueClient.retrieveMediaDetails(
+          "VideoGame",
+          gameId
         );
-        setMovie(movieResult);
+        setGame(gameResult);
       } catch (error) {
-        console.error("Error fetching movie:", error);
+        console.error("Error fetching video game:", error);
       }
 
       if (!currentUser) return;
       try {
         const queue = await queueClient.retrieveQueueByUserAndMediaType(
           currentUser.username,
-          "Movie"
+          "VideoGame"
         );
-        setMovieQueue(queue);
+        setGameQueue(queue);
       } catch (error) {
         console.error("Error fetching queue items:", error);
       }
     };
 
     const fetchOtherUsers = async () => {
-      if (!movieId) return;
+      if (!gameId) return;
 
       try {
         const otherUsers = await queueClient.findOtherUsersWithSameMedia(
-          "Movie",
-          movieId
+          "VideoGame",
+          gameId
         );
         if (!currentUser) {
           setOtherUsers(otherUsers);
@@ -98,11 +93,11 @@ export default function MovieDetails() {
       }
     };
 
-    fetchMovieDetails();
+    fetchGameDetails();
     fetchOtherUsers();
-  }, [currentUser, movieId]);
+  }, [currentUser, gameId]);
 
-  if (!movie) return <div>Loading...</div>;
+  if (!game) return <div>Loading...</div>;
 
   return (
     <>
@@ -112,49 +107,44 @@ export default function MovieDetails() {
           onClose={() => setShowAlert(false)}
           dismissible
         >
-          <Alert.Heading>Add Movie</Alert.Heading>
-          <p>Successfully added {movie.title} to your current queue!</p>
+          <Alert.Heading>Add Video Game</Alert.Heading>
+          <p>Successfully added {game.title} to your current queue!</p>
         </Alert>
       )}
-
       <div className="d-flex">
         <Image
-          src={movie.posterPath}
-          width={400}
+          src={game.coverArt}
+          height={500}
+          width={500}
           className="border border-4 border-white mb-4"
         />
         <div className="ps-4 flex-grow-1">
           <h1 className="fw-bold d-flex align-items-center display-4">
-            <BiMovie className="me-2" /> {movie.title}
+            <IoGameControllerOutline className="me-2" /> {game.title}
           </h1>
           <h4 className="mt-3 d-flex align-items-center">
-            <TbChairDirector className="me-2 fs-3" /> Directed by{" "}
-            {movie.director}
+            <BiLabel className="me-2 fs-3" /> Created by{" "}
+            {game.companies.join(", ")}
           </h4>
           <h4 className="mt-3 d-flex align-items-center">
             <CiCalendar className="me-2 fs-3" />{" "}
-            {readableDate(movie.releaseDate)}
-          </h4>
-          <h4 className="mt-3 d-flex align-items-center">
-            <MdAccessTime className="me-2 fs-3" />{" "}
-            {convertRuntime(movie.runtime)}
+            {readableDate(game.releaseDate)}
           </h4>
           <h4 className="mt-3 d-flex align-items-center">
             <FaMasksTheater className="me-2 fs-3" />{" "}
-            {movie && movie.genres.join(", ")}
+            {game && game.genres.join(", ")}
           </h4>
           <h5 className="mt-3 d-flex align-items-center">
-            <IoIosPeople className="me-2 fs-2" />{" "}
-            {movie && movie.cast.join(", ")}
+            <GiPlatform className="me-2 fs-2" /> {game.platforms.join(", ")}
           </h5>
           <h5 className="mt-5 fw-bold d-flex align-items-center">
-            <MdOutlineDescription className="me-2 fs-3" /> Description
+            <MdOutlineDescription className="me-2 fs-3" /> Summary
           </h5>
-          <p className="mt-3 text-start pe-3">{movie.description}</p>
+          <p className="mt-3 text-start pe-3">{game.summary}</p>
           {currentUser && (
             <>
               <h5 className="mt-5 fw-bold d-flex align-items-center">
-                <IoIosPeople className="me-2 fs-2" /> Other Users Who Watched
+                <IoIosPeople className="me-2 fs-2" /> Other Users Who Played
               </h5>
               <ul className="list-unstyled">
                 {otherUsers &&
@@ -177,18 +167,17 @@ export default function MovieDetails() {
                 className="my-3 float-end purple-brand-bg border-0 w-25"
                 disabled={
                   !currentUser ||
-                  (movieQueue &&
-                    movieQueue.current
+                  (gameQueue &&
+                    gameQueue.current
                       .map((item: any) => item._id)
-                      .includes(movieId)) ||
-                  (movieQueue &&
-                    movieQueue.history
+                      .includes(gameId)) ||
+                  (gameQueue &&
+                    gameQueue.history
                       .map((item: any) => item._id)
-                      .includes(movieId))
+                      .includes(gameId))
                 }
                 onClick={() => {
-                  addMovieToCurrentQueue();
-                  setShowAlert(true);
+                  addGameToCurrentQueue();
                 }}
               >
                 <MdAdd className="me-1 mb-1 fs-4" /> Add

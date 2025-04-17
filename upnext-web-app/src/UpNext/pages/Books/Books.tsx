@@ -4,51 +4,51 @@ import { IoTrendingUpSharp } from "react-icons/io5";
 import { MdHistory, MdOutlineDone, MdAdd } from "react-icons/md";
 
 import MediaSearch from "../../components/MediaSearch";
-import MovieSummaryCard from "../../components/MovieSummaryCard";
 
 import "../../../utils.css";
-import "./Movies.css";
+import "../Movies/Movies.css";
 import QueueList from "../../components/QueueList";
 import { useEffect, useState } from "react";
-import { Movie } from "../../types/movie";
 import { useSelector } from "react-redux";
 import * as queueClient from "../../clients/queueClient";
 import { Queue } from "../../types/queue";
+import { Book } from "../../types/book";
+import BookSummaryCard from "../../components/BookSummaryCard";
 
-export default function Movies() {
+export default function Books() {
   const [queueHistorySelected, setQueueHistorySelected] = useState(false);
-  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
+  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const [movieQueue, setMovieQueue] = useState<Queue | null>();
-  const [watchedMovieIDs, setWatchedMovieIDs] = useState<any>([]);
+  const [bookQueue, setBookQueue] = useState<Queue | null>();
+  const [readBookIDs, setReadBookIDs] = useState<any>([]);
 
-  const addMovieToCurrentQueue = async () => {
-    if (selectedMovie === null || !currentUser || !movieQueue) return;
+  const addBookToCurrentQueue = async () => {
+    if (selectedBook === null || !currentUser || !bookQueue) return;
 
     try {
       const updatedQueue = await queueClient.addMediaToQueue(
-        "Movie",
-        movieQueue._id,
-        selectedMovie
+        "Book",
+        bookQueue._id,
+        selectedBook
       );
-      setMovieQueue(updatedQueue);
+      setBookQueue(updatedQueue);
     } catch (error) {
-      console.error("Error adding movie to queue:", error);
+      console.error("Error adding book to queue:", error);
     }
   };
 
-  const moveMoviesFromCurrentToHistory = async () => {
-    if (!currentUser || watchedMovieIDs.length === 0 || !movieQueue) return;
+  const moveBookFromCurrentToHistory = async () => {
+    if (!currentUser || readBookIDs.length === 0 || !bookQueue) return;
 
     try {
       const updatedQueue = await queueClient.moveMediaFromCurrentToHistory(
-        "Movie",
-        movieQueue._id,
-        watchedMovieIDs
+        "Book",
+        bookQueue._id,
+        readBookIDs
       );
-      setMovieQueue(updatedQueue);
+      setBookQueue(updatedQueue);
     } catch (error) {
-      console.error("Error moving movies to history:", error);
+      console.error("Error moving books to history:", error);
     }
   };
 
@@ -58,9 +58,9 @@ export default function Movies() {
       try {
         const queue = await queueClient.retrieveQueueByUserAndMediaType(
           currentUser.username,
-          "Movie"
+          "Book"
         );
-        setMovieQueue(queue);
+        setBookQueue(queue);
       } catch (error) {
         console.error("Error fetching queue items:", error);
       }
@@ -68,7 +68,7 @@ export default function Movies() {
     fetchQueueItems();
   }, [currentUser]);
 
-  if (!movieQueue && currentUser) return <p>Loading...</p>;
+  if (!bookQueue && currentUser) return <p>Loading...</p>;
 
   return (
     <Container>
@@ -76,14 +76,14 @@ export default function Movies() {
         <Col>
           {currentUser && <h1 className="mt-2">Personal Queue</h1>}
           <QueueList
-            mediaType="Movie"
-            queue={movieQueue}
-            currentQueue={movieQueue && movieQueue.current}
-            historyQueue={movieQueue && movieQueue.history}
+            mediaType="Book"
+            queue={bookQueue}
+            currentQueue={bookQueue && bookQueue.current}
+            historyQueue={bookQueue && bookQueue.history}
             showHistory={queueHistorySelected}
-            setCompletedMediaIDs={setWatchedMovieIDs}
-            setSelectedMedia={setSelectedMovie}
-            setMediaQueue={setMovieQueue}
+            setCompletedMediaIDs={setReadBookIDs}
+            setSelectedMedia={setSelectedBook}
+            setMediaQueue={setBookQueue}
           />
           {currentUser && (
             <div className="d-flex justify-content-around">
@@ -116,12 +116,12 @@ export default function Movies() {
                 size="lg"
                 className="mt-3 purple-brand-bg border-0 w-25"
                 disabled={
-                  (movieQueue && movieQueue.current.length === 0) ||
-                  watchedMovieIDs.length === 0
+                  (bookQueue && bookQueue.current.length === 0) ||
+                  readBookIDs.length === 0
                 }
                 onClick={() => {
-                  moveMoviesFromCurrentToHistory();
-                  setWatchedMovieIDs([]);
+                  moveBookFromCurrentToHistory();
+                  setReadBookIDs([]);
                 }}
               >
                 <MdOutlineDone className="me-1 mb-1 fs-4" /> Submit
@@ -130,10 +130,10 @@ export default function Movies() {
           )}
         </Col>
         <Col>
-          <MediaSearch mediaType="Movie" setSelectedMedia={setSelectedMovie} />
-          {selectedMovie && (
+          <MediaSearch mediaType="Book" setSelectedMedia={setSelectedBook} />
+          {selectedBook && (
             <>
-              <MovieSummaryCard movie={selectedMovie} />
+              <BookSummaryCard book={selectedBook} />
             </>
           )}
           <Button
@@ -141,20 +141,20 @@ export default function Movies() {
             id="action-button"
             className="my-3 float-end purple-brand-bg border-0 w-25"
             disabled={
-              !selectedMovie ||
+              !selectedBook ||
               !currentUser ||
-              movieQueue?.current
+              bookQueue?.current
                 ?.map((item: any) => item._id)
-                .includes(selectedMovie._id) ||
+                .includes(selectedBook._id) ||
               false ||
-              movieQueue?.history
+              bookQueue?.history
                 ?.map((item: any) => item._id)
-                .includes(selectedMovie._id) ||
+                .includes(selectedBook._id) ||
               false
             }
             onClick={() => {
-              addMovieToCurrentQueue();
-              setSelectedMovie(null);
+              addBookToCurrentQueue();
+              setSelectedBook(null);
             }}
           >
             <MdAdd className="me-1 mb-1 fs-4" /> Add

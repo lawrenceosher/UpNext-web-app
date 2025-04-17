@@ -1,26 +1,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Image from "react-bootstrap/Image";
-import { BiMovie } from "react-icons/bi";
-import { TbChairDirector } from "react-icons/tb";
 import { CiCalendar } from "react-icons/ci";
-import { MdAccessTime, MdAdd, MdOutlineDescription } from "react-icons/md";
-import { FaMasksTheater } from "react-icons/fa6";
+import { MdAdd, MdOutlineDescription } from "react-icons/md";
 import { IoIosPeople } from "react-icons/io";
 import { Alert, Button, Form } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import * as queueClient from "../../clients/queueClient";
-import { Movie } from "../../types/movie";
 import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Podcast } from "../../types/podcast";
+import { SlMicrophone } from "react-icons/sl";
+import { BiLabel } from "react-icons/bi";
+import { FaRegListAlt } from "react-icons/fa";
 
-export default function MovieDetails() {
-  const { movieId } = useParams();
+export default function PodcastDetails() {
+  const { podcastId } = useParams();
 
   const { currentUser } = useSelector((state: any) => state.accountReducer);
 
-  const [movie, setMovie] = useState<Movie | null>(null);
+  const [podcast, setPodcast] = useState<Podcast | null>(null);
   const [otherUsers, setOtherUsers] = useState<any>(null);
-  const [movieQueue, setMovieQueue] = useState<any>(null);
+  const [podcastQueue, setPodcastQueue] = useState<any>(null);
 
   const [showAlert, setShowAlert] = useState(false);
 
@@ -31,59 +31,53 @@ export default function MovieDetails() {
     )}/${dateString.slice(0, 4)}`;
   };
 
-  const convertRuntime = (minutes: number) => {
-    const hours = Math.floor(minutes / 60);
-    const remainingMinutes = minutes % 60;
-    return `${hours}h ${remainingMinutes}m`;
-  };
-
-  const addMovieToCurrentQueue = async () => {
-    if (!currentUser || !movieQueue) return;
+  const addPodcastToCurrentQueue = async () => {
+    if (!currentUser || !podcastQueue) return;
 
     try {
       const updatedQueue = await queueClient.addMediaToQueue(
-        "Movie",
-        movieQueue._id,
-        movie
+        "Podcast",
+        podcastQueue._id,
+        podcast
       );
-      setMovieQueue(updatedQueue);
+      setPodcastQueue(updatedQueue);
     } catch (error) {
-      console.error("Error adding movie to queue:", error);
+      console.error("Error adding podcast to queue:", error);
     }
   };
 
   useEffect(() => {
-    const fetchMovieDetails = async () => {
+    const fetchPodcastDetails = async () => {
       try {
-        if (!movieId) return;
-        const movieResult = await queueClient.retrieveMediaDetails(
-          "Movie",
-          movieId
+        if (!podcastId) return;
+        const podcastResult = await queueClient.retrieveMediaDetails(
+          "Podcast",
+          podcastId
         );
-        setMovie(movieResult);
+        setPodcast(podcastResult);
       } catch (error) {
-        console.error("Error fetching movie:", error);
+        console.error("Error fetching podcast:", error);
       }
 
       if (!currentUser) return;
       try {
         const queue = await queueClient.retrieveQueueByUserAndMediaType(
           currentUser.username,
-          "Movie"
+          "Podcast"
         );
-        setMovieQueue(queue);
+        setPodcastQueue(queue);
       } catch (error) {
         console.error("Error fetching queue items:", error);
       }
     };
 
     const fetchOtherUsers = async () => {
-      if (!movieId) return;
+      if (!podcastId) return;
 
       try {
         const otherUsers = await queueClient.findOtherUsersWithSameMedia(
-          "Movie",
-          movieId
+          "Podcast",
+          podcastId
         );
         if (!currentUser) {
           setOtherUsers(otherUsers);
@@ -98,11 +92,11 @@ export default function MovieDetails() {
       }
     };
 
-    fetchMovieDetails();
+    fetchPodcastDetails();
     fetchOtherUsers();
-  }, [currentUser, movieId]);
+  }, [currentUser, podcastId]);
 
-  if (!movie) return <div>Loading...</div>;
+  if (!podcast) return <div>Loading...</div>;
 
   return (
     <>
@@ -112,49 +106,46 @@ export default function MovieDetails() {
           onClose={() => setShowAlert(false)}
           dismissible
         >
-          <Alert.Heading>Add Movie</Alert.Heading>
-          <p>Successfully added {movie.title} to your current queue!</p>
+          <Alert.Heading>Add Podcast</Alert.Heading>
+          <p>Successfully added {podcast.title} to your current queue!</p>
         </Alert>
       )}
-
       <div className="d-flex">
         <Image
-          src={movie.posterPath}
-          width={400}
+          src={podcast.coverArt}
+          height={550}
           className="border border-4 border-white mb-4"
         />
         <div className="ps-4 flex-grow-1">
-          <h1 className="fw-bold d-flex align-items-center display-4">
-            <BiMovie className="me-2" /> {movie.title}
+          <h1 className="fw-bold d-flex align-items-center display-5">
+            <SlMicrophone className="me-2" /> {podcast.title}
           </h1>
           <h4 className="mt-3 d-flex align-items-center">
-            <TbChairDirector className="me-2 fs-3" /> Directed by{" "}
-            {movie.director}
+            <BiLabel className="me-2 fs-3" /> Published by {podcast.publisher}
           </h4>
           <h4 className="mt-3 d-flex align-items-center">
             <CiCalendar className="me-2 fs-3" />{" "}
-            {readableDate(movie.releaseDate)}
+            {readableDate(podcast.latestEpisodeDate)}
           </h4>
-          <h4 className="mt-3 d-flex align-items-center">
-            <MdAccessTime className="me-2 fs-3" />{" "}
-            {convertRuntime(movie.runtime)}
-          </h4>
-          <h4 className="mt-3 d-flex align-items-center">
-            <FaMasksTheater className="me-2 fs-3" />{" "}
-            {movie && movie.genres.join(", ")}
-          </h4>
-          <h5 className="mt-3 d-flex align-items-center">
-            <IoIosPeople className="me-2 fs-2" />{" "}
-            {movie && movie.cast.join(", ")}
-          </h5>
-          <h5 className="mt-5 fw-bold d-flex align-items-center">
+          <h5 className="mt-3 fw-bold d-flex align-items-center">
             <MdOutlineDescription className="me-2 fs-3" /> Description
           </h5>
-          <p className="mt-3 text-start pe-3">{movie.description}</p>
+          <p className="mt-3 text-start pe-3">{podcast.description}</p>
+          <h5 className="mt-3 fw-bold d-flex align-items-center">
+            <FaRegListAlt className="me-2 fs-3" /> Most Recent Episodes
+          </h5>
+          <ol className="mt-3 text-start pe-3">
+            {podcast.episodes.map((episode, index) => (
+              <li key={index} className="text-white mb-3">
+                {episode}
+              </li>
+            ))}
+          </ol>
+
           {currentUser && (
             <>
-              <h5 className="mt-5 fw-bold d-flex align-items-center">
-                <IoIosPeople className="me-2 fs-2" /> Other Users Who Watched
+              <h5 className="mt-3 fw-bold d-flex align-items-center">
+                <IoIosPeople className="me-2 fs-2" /> Other Users Who Listened
               </h5>
               <ul className="list-unstyled">
                 {otherUsers &&
@@ -177,17 +168,17 @@ export default function MovieDetails() {
                 className="my-3 float-end purple-brand-bg border-0 w-25"
                 disabled={
                   !currentUser ||
-                  (movieQueue &&
-                    movieQueue.current
+                  (podcastQueue &&
+                    podcastQueue.current
                       .map((item: any) => item._id)
-                      .includes(movieId)) ||
-                  (movieQueue &&
-                    movieQueue.history
+                      .includes(podcastId)) ||
+                  (podcastQueue &&
+                    podcastQueue.history
                       .map((item: any) => item._id)
-                      .includes(movieId))
+                      .includes(podcastId))
                 }
                 onClick={() => {
-                  addMovieToCurrentQueue();
+                  addPodcastToCurrentQueue();
                   setShowAlert(true);
                 }}
               >

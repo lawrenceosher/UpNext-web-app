@@ -6,39 +6,61 @@ import Movies from "./pages/Movies/Movies";
 import MovieDetails from "./pages/Movies/MovieDetails";
 import Profile from "./pages/Profile/Profile";
 import Home from "./pages/Home/Home";
+import Users from "./pages/Users/Users";
+import Session from "./auth/Session";
+import ProtectedRoute from "./auth/ProtectedRoute";
+import TV from "./pages/TV/TV";
+import TVDetails from "./pages/TV/TVDetails";
+import Albums from "./pages/Albums/Albums";
+import AlbumDetails from "./pages/Albums/AlbumDetails";
+import Books from "./pages/Books/Books";
+import BookDetails from "./pages/Books/BookDetails";
+import Podcasts from "./pages/Podcasts/Podcasts";
+import PodcastDetails from "./pages/Podcasts/PodcastDetails";
+import Games from "./pages/Games/Games";
+import GameDetails from "./pages/Games/GameDetails";
 
 export default function UpNext() {
   return (
-    <div>
-      <UpNextHeader />
-      <UpNextNavigation />
-      <div className="main-content-offset">
-        <Routes>
-          <Route path="/" element={<Navigate to="/UpNext/Home" />} />
-          <Route path="/Account/Profile" element={<Profile />} />
-          <Route path="/Home" element={<Home />} />
-          <Route path="/Movies" element={<Movies />} />
-          <Route path="/Movies/:mid" element={<MovieDetails />} />
-          <Route path="/TV" element={<h1>TV</h1>} />
-          <Route path="/TV/:tid" element={<h1>TV Show Details Page</h1>} />
-          <Route path="/Albums" element={<h1>Albums</h1>} />
-          <Route path="/Albums/:aid" element={<h1>Album Details Page</h1>} />
-          <Route path="/Books" element={<h1>Books</h1>} />
-          <Route path="/Books/:bid" element={<h1>Book Details Page</h1>} />
-          <Route path="/Podcasts" element={<h1>Podcasts</h1>} />
-          <Route
-            path="/Podcasts/:pid"
-            element={<h1>Podcast Details Page</h1>}
-          />
-          <Route path="/Games" element={<h1>Video Games</h1>} />
-          <Route
-            path="/Games/:gid"
-            element={<h1>Video Game Details Page</h1>}
-          />
-          <Route path="/Users" element={<h1>Users</h1>} />
-          <Route path="/Settings" element={<h1>Settings</h1>} />
-        </Routes>
+    <Session>
+      <div>
+        <UpNextHeader />
+        <UpNextNavigation />
+        <div className="main-content-offset">
+          <Routes>
+            <Route path="/" element={<Navigate to="/UpNext/Home" />} />
+            <Route
+              path="/Account/Profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/Account/Profile/:userId" element={<Profile />} />
+            <Route path="/Home" element={<Home />} />
+            <Route path="/Movies" element={<Movies />} />
+            <Route path="/Movies/:movieId" element={<MovieDetails />} />
+            <Route path="/TV" element={<TV />} />
+            <Route path="/TV/:tvId" element={<TVDetails />} />
+            <Route path="/Albums" element={<Albums />} />
+            <Route path="/Albums/:albumId" element={<AlbumDetails />} />
+            <Route path="/Books" element={<Books />} />
+            <Route path="/Books/:bookId" element={<BookDetails />} />
+            <Route path="/Podcasts" element={<Podcasts />} />
+            <Route
+              path="/Podcasts/:podcastId"
+              element={<PodcastDetails />}
+            />
+            <Route path="/Games" element={<Games />} />
+            <Route
+              path="/Games/:gameId"
+              element={<GameDetails />}
+            />
+            <Route path="/Users" element={<Users />} />
+          </Routes>
+        </div>
       </div>
-    </div>
+    </Session>
   );
 }

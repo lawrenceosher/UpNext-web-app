@@ -1,5 +1,16 @@
 .carousel-item div {
-    margin: 0 auto;
-    display: block; /* Important to make margin: auto work */
-  }
+  margin: 0 auto;
+  display: block;
+}
 
+.movie-poster {
+  width: 175px;
+  height: 250px;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.movie-poster:hover {
+  transform: scale(1.05);
+}

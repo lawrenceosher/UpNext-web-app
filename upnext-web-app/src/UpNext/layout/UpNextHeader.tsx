@@ -1,7 +1,6 @@
 import { Link, useLocation } from "react-router";
 import "../../utils.css";
 import { FaRegUser } from "react-icons/fa";
-import { IoSettingsOutline } from "react-icons/io5";
 import { BsPeople } from "react-icons/bs";
 
 export default function UpNextHeader() {
@@ -21,13 +20,6 @@ export default function UpNextHeader() {
       </Link>
 
       <div className="d-flex my-auto">
-        <Link to="/UpNext/Settings">
-          <IoSettingsOutline
-            className={`display-5 me-3 ${
-              pathname.includes("Settings") ? "text-dark" : "text-white"
-            }`}
-          />
-        </Link>
         <Link to="/UpNext/Users">
           <BsPeople
             className={`display-5 me-3 ${
@@ -39,7 +31,7 @@ export default function UpNextHeader() {
           <FaRegUser
             id="profile-icon"
             className={`display-6 mt-1 ${
-              pathname.includes("Profile") ? "text-dark" : "text-white"
+              pathname === "/UpNext/Account/Profile" ? "text-dark" : "text-white"
             }`}
           />{" "}
         </Link>

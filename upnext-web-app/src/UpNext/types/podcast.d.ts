@@ -3,10 +3,10 @@ export interface Podcast {
   _id: string;
   title: string;
   description: string;
-  totalEpisodes: number;
   coverArt: string;
   publisher: string;
   episodes: string[];
+  latestEpisodeDate: string;
 }
 
 // Response from UpNext API

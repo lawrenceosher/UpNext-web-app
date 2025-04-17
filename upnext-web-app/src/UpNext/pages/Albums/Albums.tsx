@@ -4,51 +4,51 @@ import { IoTrendingUpSharp } from "react-icons/io5";
 import { MdHistory, MdOutlineDone, MdAdd } from "react-icons/md";
 
 import MediaSearch from "../../components/MediaSearch";
-import MovieSummaryCard from "../../components/MovieSummaryCard";
 
 import "../../../utils.css";
-import "./Movies.css";
+import "../Movies/Movies.css";
 import QueueList from "../../components/QueueList";
 import { useEffect, useState } from "react";
-import { Movie } from "../../types/movie";
 import { useSelector } from "react-redux";
 import * as queueClient from "../../clients/queueClient";
 import { Queue } from "../../types/queue";
+import { Album } from "../../types/album";
+import AlbumSummaryCard from "../../components/AlbumSummaryCard";
 
-export default function Movies() {
+export default function Albums() {
   const [queueHistorySelected, setQueueHistorySelected] = useState(false);
-  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
+  const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const [movieQueue, setMovieQueue] = useState<Queue | null>();
-  const [watchedMovieIDs, setWatchedMovieIDs] = useState<any>([]);
+  const [albumQueue, setAlbumQueue] = useState<Queue | null>();
+  const [listenedAlbumIDs, setListenedAlbumIDs] = useState<any>([]);
 
-  const addMovieToCurrentQueue = async () => {
-    if (selectedMovie === null || !currentUser || !movieQueue) return;
+  const addAlbumToCurrentQueue = async () => {
+    if (selectedAlbum === null || !currentUser || !albumQueue) return;
 
     try {
       const updatedQueue = await queueClient.addMediaToQueue(
-        "Movie",
-        movieQueue._id,
-        selectedMovie
+        "Album",
+        albumQueue._id,
+        selectedAlbum
       );
-      setMovieQueue(updatedQueue);
+      setAlbumQueue(updatedQueue);
     } catch (error) {
-      console.error("Error adding movie to queue:", error);
+      console.error("Error adding album to queue:", error);
     }
   };
 
-  const moveMoviesFromCurrentToHistory = async () => {
-    if (!currentUser || watchedMovieIDs.length === 0 || !movieQueue) return;
+  const moveAlbumFromCurrentToHistory = async () => {
+    if (!currentUser || listenedAlbumIDs.length === 0 || !albumQueue) return;
 
     try {
       const updatedQueue = await queueClient.moveMediaFromCurrentToHistory(
-        "Movie",
-        movieQueue._id,
-        watchedMovieIDs
+        "Album",
+        albumQueue._id,
+        listenedAlbumIDs
       );
-      setMovieQueue(updatedQueue);
+      setAlbumQueue(updatedQueue);
     } catch (error) {
-      console.error("Error moving movies to history:", error);
+      console.error("Error moving albums to history:", error);
     }
   };
 
@@ -58,9 +58,9 @@ export default function Movies() {
       try {
         const queue = await queueClient.retrieveQueueByUserAndMediaType(
           currentUser.username,
-          "Movie"
+          "Album"
         );
-        setMovieQueue(queue);
+        setAlbumQueue(queue);
       } catch (error) {
         console.error("Error fetching queue items:", error);
       }
@@ -68,7 +68,7 @@ export default function Movies() {
     fetchQueueItems();
   }, [currentUser]);
 
-  if (!movieQueue && currentUser) return <p>Loading...</p>;
+  if (!albumQueue && currentUser) return <p>Loading...</p>;
 
   return (
     <Container>
@@ -76,14 +76,14 @@ export default function Movies() {
         <Col>
           {currentUser && <h1 className="mt-2">Personal Queue</h1>}
           <QueueList
-            mediaType="Movie"
-            queue={movieQueue}
-            currentQueue={movieQueue && movieQueue.current}
-            historyQueue={movieQueue && movieQueue.history}
+            mediaType="Album"
+            queue={albumQueue}
+            currentQueue={albumQueue && albumQueue.current}
+            historyQueue={albumQueue && albumQueue.history}
             showHistory={queueHistorySelected}
-            setCompletedMediaIDs={setWatchedMovieIDs}
-            setSelectedMedia={setSelectedMovie}
-            setMediaQueue={setMovieQueue}
+            setCompletedMediaIDs={setListenedAlbumIDs}
+            setSelectedMedia={setSelectedAlbum}
+            setMediaQueue={setAlbumQueue}
           />
           {currentUser && (
             <div className="d-flex justify-content-around">
@@ -116,12 +116,12 @@ export default function Movies() {
                 size="lg"
                 className="mt-3 purple-brand-bg border-0 w-25"
                 disabled={
-                  (movieQueue && movieQueue.current.length === 0) ||
-                  watchedMovieIDs.length === 0
+                  (albumQueue && albumQueue.current.length === 0) ||
+                  listenedAlbumIDs.length === 0
                 }
                 onClick={() => {
-                  moveMoviesFromCurrentToHistory();
-                  setWatchedMovieIDs([]);
+                  moveAlbumFromCurrentToHistory();
+                  setListenedAlbumIDs([]);
                 }}
               >
                 <MdOutlineDone className="me-1 mb-1 fs-4" /> Submit
@@ -130,10 +130,10 @@ export default function Movies() {
           )}
         </Col>
         <Col>
-          <MediaSearch mediaType="Movie" setSelectedMedia={setSelectedMovie} />
-          {selectedMovie && (
+          <MediaSearch mediaType="Album" setSelectedMedia={setSelectedAlbum} />
+          {selectedAlbum && (
             <>
-              <MovieSummaryCard movie={selectedMovie} />
+              <AlbumSummaryCard album={selectedAlbum} />
             </>
           )}
           <Button
@@ -141,20 +141,20 @@ export default function Movies() {
             id="action-button"
             className="my-3 float-end purple-brand-bg border-0 w-25"
             disabled={
-              !selectedMovie ||
+              !selectedAlbum ||
               !currentUser ||
-              movieQueue?.current
+              albumQueue?.current
                 ?.map((item: any) => item._id)
-                .includes(selectedMovie._id) ||
+                .includes(selectedAlbum._id) ||
               false ||
-              movieQueue?.history
+              albumQueue?.history
                 ?.map((item: any) => item._id)
-                .includes(selectedMovie._id) ||
+                .includes(selectedAlbum._id) ||
               false
             }
             onClick={() => {
-              addMovieToCurrentQueue();
-              setSelectedMovie(null);
+              addAlbumToCurrentQueue();
+              setSelectedAlbum(null);
             }}
           >
             <MdAdd className="me-1 mb-1 fs-4" /> Add
