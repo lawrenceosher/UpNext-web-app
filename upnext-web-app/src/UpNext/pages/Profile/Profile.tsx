@@ -184,8 +184,8 @@ export default function Profile() {
           </>
         )}
 
-        {/* Only show the current personal queues if you're viewing another user's profile*/}
-        {!isViewingOwnProfile && (
+        {/* Only show the current personal queues if you're viewing another user's profile and you're logged in */}
+        {!isViewingOwnProfile && currentUser !== null && (
           <>
             <Col>
               <h4>Current Personal Queues</h4>
