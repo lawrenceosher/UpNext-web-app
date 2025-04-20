@@ -58,6 +58,7 @@ export default function UpNext() {
               element={<GameDetails />}
             />
             <Route path="/Users" element={<Users />} />
+            <Route path="/Groups" element={<h1>Groups</h1>} />
           </Routes>
         </div>
       </div>
