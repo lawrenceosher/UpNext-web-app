@@ -7,3 +7,11 @@ export const getAllGroups = async () => {
   const response = await axiosWithCredentials.get(`${GROUPS_API}`);
   return response.data;
 };
+
+export const createGroup = async (groupName: string, users: string[]) => {
+  const response = await axiosWithCredentials.post(`${GROUPS_API}`, {
+    groupName,
+    users,
+  });
+  return response.data;
+}
