@@ -105,7 +105,7 @@ export default function TVDetails() {
           dismissible
         >
           <Alert.Heading>Add TV Show</Alert.Heading>
-          <p>Successfully added {tvShow.title} to your current queue!</p>
+          <p>Successfully added {tvShow.title} to your current personal queue!</p>
         </Alert>
       )}
       <div className="d-flex">

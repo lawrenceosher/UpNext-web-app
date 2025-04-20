@@ -19,6 +19,7 @@ import Podcasts from "./pages/Podcasts/Podcasts";
 import PodcastDetails from "./pages/Podcasts/PodcastDetails";
 import Games from "./pages/Games/Games";
 import GameDetails from "./pages/Games/GameDetails";
+import Groups from "./pages/Groups/Groups";
 
 export default function UpNext() {
   return (
@@ -48,16 +49,18 @@ export default function UpNext() {
             <Route path="/Books" element={<Books />} />
             <Route path="/Books/:bookId" element={<BookDetails />} />
             <Route path="/Podcasts" element={<Podcasts />} />
-            <Route
-              path="/Podcasts/:podcastId"
-              element={<PodcastDetails />}
-            />
+            <Route path="/Podcasts/:podcastId" element={<PodcastDetails />} />
             <Route path="/Games" element={<Games />} />
-            <Route
-              path="/Games/:gameId"
-              element={<GameDetails />}
-            />
+            <Route path="/Games/:gameId" element={<GameDetails />} />
             <Route path="/Users" element={<Users />} />
+            <Route
+              path="/Groups"
+              element={
+                <ProtectedRoute>
+                  <Groups />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </div>
       </div>

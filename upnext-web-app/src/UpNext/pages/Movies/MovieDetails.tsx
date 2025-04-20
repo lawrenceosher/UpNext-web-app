@@ -113,7 +113,7 @@ export default function MovieDetails() {
           dismissible
         >
           <Alert.Heading>Add Movie</Alert.Heading>
-          <p>Successfully added {movie.title} to your current queue!</p>
+          <p>Successfully added {movie.title} to your current personal queue!</p>
         </Alert>
       )}
 

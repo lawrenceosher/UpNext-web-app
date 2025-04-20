@@ -111,7 +111,7 @@ export default function AlbumDetails() {
           dismissible
         >
           <Alert.Heading>Add Album</Alert.Heading>
-          <p>Successfully added {album.title} to your current queue!</p>
+          <p>Successfully added {album.title} to your current personal queue!</p>
         </Alert>
       )}
       <div className="d-flex">

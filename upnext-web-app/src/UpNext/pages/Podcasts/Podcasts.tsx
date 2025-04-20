@@ -14,6 +14,7 @@ import * as queueClient from "../../clients/queueClient";
 import { Queue } from "../../types/queue";
 import { Podcast } from "../../types/podcast";
 import PodcastSummaryCard from "../../components/PodcastSummaryCard";
+import ListGroupSelect from "../../components/ListGroupSelect";
 
 export default function Podcasts() {
   const [queueHistorySelected, setQueueHistorySelected] = useState(false);
@@ -21,6 +22,7 @@ export default function Podcasts() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const [podcastQueue, setPodcastQueue] = useState<Queue | null>();
   const [listenedPodcastIDs, setListenedPodcastIDs] = useState<any>([]);
+  const [selectedGroup, setSelectedGroup] = useState("");
 
   const addPodcastToCurrentQueue = async () => {
     if (selectedPodcast === null || !currentUser || !podcastQueue) return;
@@ -38,7 +40,8 @@ export default function Podcasts() {
   };
 
   const movePodcastsFromCurrentToHistory = async () => {
-    if (!currentUser || listenedPodcastIDs.length === 0 || !podcastQueue) return;
+    if (!currentUser || listenedPodcastIDs.length === 0 || !podcastQueue)
+      return;
 
     try {
       const updatedQueue = await queueClient.moveMediaFromCurrentToHistory(
@@ -58,7 +61,8 @@ export default function Podcasts() {
       try {
         const queue = await queueClient.retrieveQueueByUserAndMediaType(
           currentUser.username,
-          "Podcast"
+          "Podcast",
+          selectedGroup
         );
         setPodcastQueue(queue);
       } catch (error) {
@@ -66,7 +70,7 @@ export default function Podcasts() {
       }
     };
     fetchQueueItems();
-  }, [currentUser]);
+  }, [currentUser, selectedGroup]);
 
   if (!podcastQueue && currentUser) return <p>Loading...</p>;
 
@@ -74,7 +78,12 @@ export default function Podcasts() {
     <Container>
       <Row>
         <Col>
-          {currentUser && <h1 className="mt-2">Personal Queue</h1>}
+          {currentUser && (
+            <ListGroupSelect
+              selectedGroup={selectedGroup}
+              setSelectedGroup={setSelectedGroup}
+            />
+          )}
           <QueueList
             mediaType="Podcast"
             queue={podcastQueue}
@@ -130,7 +139,10 @@ export default function Podcasts() {
           )}
         </Col>
         <Col>
-          <MediaSearch mediaType="Podcast" setSelectedMedia={setSelectedPodcast} />
+          <MediaSearch
+            mediaType="Podcast"
+            setSelectedMedia={setSelectedPodcast}
+          />
           {selectedPodcast && (
             <>
               <PodcastSummaryCard podcast={selectedPodcast} />

@@ -37,10 +37,16 @@ export const retrieveMediaDetails = async (
 
 export const retrieveQueueByUserAndMediaType = async (
   username: string,
-  mediaType: string
+  mediaType: string,
+  group?: string,
 ) => {
+
+  if (group === undefined) {
+    group = "";
+  }
+
   const response = await axiosWithCredentials.get(
-    `${QUEUE_API}/${mediaType}/users/${username}`
+    `${QUEUE_API}/${mediaType}/users/${username}?group=${group}`
   );
   return response.data;
 };

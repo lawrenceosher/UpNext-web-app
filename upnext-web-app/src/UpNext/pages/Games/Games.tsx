@@ -14,6 +14,7 @@ import * as queueClient from "../../clients/queueClient";
 import { Queue } from "../../types/queue";
 import { VideoGame } from "../../types/game";
 import GameSummaryCard from "../../components/GameSummaryCard";
+import ListGroupSelect from "../../components/ListGroupSelect";
 
 export default function Games() {
   const [queueHistorySelected, setQueueHistorySelected] = useState(false);
@@ -21,6 +22,7 @@ export default function Games() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const [gameQueue, setGameQueue] = useState<Queue | null>();
   const [playedGameIDs, setPlayedGameIDs] = useState<any>([]);
+  const [selectedGroup, setSelectedGroup] = useState("");
 
   const addGameToCurrentQueue = async () => {
     if (selectedGame === null || !currentUser || !gameQueue) return;
@@ -58,7 +60,8 @@ export default function Games() {
       try {
         const queue = await queueClient.retrieveQueueByUserAndMediaType(
           currentUser.username,
-          "VideoGame"
+          "VideoGame",
+          selectedGroup
         );
         setGameQueue(queue);
       } catch (error) {
@@ -66,7 +69,7 @@ export default function Games() {
       }
     };
     fetchQueueItems();
-  }, [currentUser]);
+  }, [currentUser, selectedGroup]);
 
   if (!gameQueue && currentUser) return <p>Loading...</p>;
 
@@ -74,7 +77,12 @@ export default function Games() {
     <Container>
       <Row>
         <Col>
-          {currentUser && <h1 className="mt-2">Personal Queue</h1>}
+          {currentUser && (
+            <ListGroupSelect
+              selectedGroup={selectedGroup}
+              setSelectedGroup={setSelectedGroup}
+            />
+          )}
           <QueueList
             mediaType="VideoGame"
             queue={gameQueue}
@@ -130,7 +138,10 @@ export default function Games() {
           )}
         </Col>
         <Col>
-          <MediaSearch mediaType="VideoGame" setSelectedMedia={setSelectedGame} />
+          <MediaSearch
+            mediaType="VideoGame"
+            setSelectedMedia={setSelectedGame}
+          />
           {selectedGame && (
             <>
               <GameSummaryCard game={selectedGame} />

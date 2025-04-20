@@ -14,6 +14,7 @@ import { Movie } from "../../types/movie";
 import { useSelector } from "react-redux";
 import * as queueClient from "../../clients/queueClient";
 import { Queue } from "../../types/queue";
+import ListGroupSelect from "../../components/ListGroupSelect";
 
 export default function Movies() {
   const [queueHistorySelected, setQueueHistorySelected] = useState(false);
@@ -21,6 +22,7 @@ export default function Movies() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const [movieQueue, setMovieQueue] = useState<Queue | null>();
   const [watchedMovieIDs, setWatchedMovieIDs] = useState<any>([]);
+  const [selectedGroup, setSelectedGroup] = useState("");
 
   const addMovieToCurrentQueue = async () => {
     if (selectedMovie === null || !currentUser || !movieQueue) return;
@@ -58,7 +60,8 @@ export default function Movies() {
       try {
         const queue = await queueClient.retrieveQueueByUserAndMediaType(
           currentUser.username,
-          "Movie"
+          "Movie",
+          selectedGroup
         );
         setMovieQueue(queue);
       } catch (error) {
@@ -66,7 +69,7 @@ export default function Movies() {
       }
     };
     fetchQueueItems();
-  }, [currentUser]);
+  }, [currentUser, selectedGroup]);
 
   if (!movieQueue && currentUser) return <p>Loading...</p>;
 
@@ -74,7 +77,7 @@ export default function Movies() {
     <Container>
       <Row>
         <Col>
-          {currentUser && <h1 className="mt-2">Personal Queue</h1>}
+          {currentUser && <ListGroupSelect selectedGroup={selectedGroup} setSelectedGroup={setSelectedGroup} />}
           <QueueList
             mediaType="Movie"
             queue={movieQueue}

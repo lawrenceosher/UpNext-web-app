@@ -107,7 +107,7 @@ export default function PodcastDetails() {
           dismissible
         >
           <Alert.Heading>Add Podcast</Alert.Heading>
-          <p>Successfully added {podcast.title} to your current queue!</p>
+          <p>Successfully added {podcast.title} to your current personal queue!</p>
         </Alert>
       )}
       <div className="d-flex">
