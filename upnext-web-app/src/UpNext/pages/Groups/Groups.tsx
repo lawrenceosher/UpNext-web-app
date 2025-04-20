@@ -9,6 +9,7 @@ import { BsPeople } from "react-icons/bs";
 import { MdAdd } from "react-icons/md";
 import "../../../utils.css";
 import CreateGroupModal from "./CreateGroupModal";
+import DeleteGroupModal from "./DeleteGroupModal";
 
 export default function Groups() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
@@ -17,6 +18,14 @@ export default function Groups() {
     groupName: "",
     users: [],
   });
+  const [groupForModal, setGroupForModal] = useState<Group>({
+    groupName: "",
+    _id: "",
+    users: [],
+  });
+  const [showDeleteGroup, setShowDeleteGroup] = useState(false);
+  const handleCloseDeleteGroup = () => setShowDeleteGroup(false);
+  const handleShowDeleteGroup = () => setShowDeleteGroup(true);
   const [showCreateGroup, setShowCreateGroup] = useState(false);
   const handleCloseCreateGroup = () => setShowCreateGroup(false);
   const handleShowCreateGroup = () => setShowCreateGroup(true);
@@ -32,6 +41,17 @@ export default function Groups() {
       handleCloseCreateGroup();
     } catch (error) {
       console.error("Error creating group:", error);
+    }
+  };
+
+  const handleDeleteGroup = async (groupId: string) => {
+    try {
+      await groupClient.deleteGroup(groupId);
+      setGroups((prevGroups) =>
+        prevGroups.filter((group) => group._id !== groupId)
+      );
+    } catch (error) {
+      console.error("Error deleting group:", error);
     }
   };
 
@@ -56,6 +76,15 @@ export default function Groups() {
         setNewGroup={setNewGroup}
         handleCreateGroup={handleCreateGroup}
       />
+
+      <DeleteGroupModal
+        show={showDeleteGroup}
+        handleClose={handleCloseDeleteGroup}
+        groupName={groupForModal.groupName}
+        groupId={groupForModal._id}
+        deleteGroup={handleDeleteGroup}
+      />
+
       <div className="d-flex justify-content-end me-4">
         <Button
           size="lg"
@@ -81,7 +110,13 @@ export default function Groups() {
               {currentUser && currentUser.role === "ADMIN" && (
                 <div className="d-inline-flex flex-grow-1 justify-content-end fs-3">
                   <FaPencil className="me-3" />
-                  <FaTrashCan className="text-danger" />
+                  <FaTrashCan
+                    className="text-danger"
+                    onClick={() => {
+                      setGroupForModal(group);
+                      handleShowDeleteGroup();
+                    }}
+                  />
                 </div>
               )}
             </ListGroup.Item>

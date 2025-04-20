@@ -14,4 +14,11 @@ export const createGroup = async (groupName: string, users: string[]) => {
     users,
   });
   return response.data;
-}
+};
+
+export const deleteGroup = async (groupId: string) => {
+  const response = await axiosWithCredentials.delete(
+    `${GROUPS_API}/${groupId}`
+  );
+  return response.data;
+};
