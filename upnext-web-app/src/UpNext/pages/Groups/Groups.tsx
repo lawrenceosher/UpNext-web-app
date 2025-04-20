@@ -91,6 +91,16 @@ export default function Groups() {
     fetchGroups();
   }, []);
 
+  if (currentUser && currentUser.role !== "ADMIN") {
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <h1 className="text-white">
+          You do not have permission to view this page.
+        </h1>
+      </div>
+    );
+  }
+
   return (
     <div>
       <CreateGroupModal
@@ -117,7 +127,8 @@ export default function Groups() {
         handleUpdateGroup={handleUpdateGroup}
       />
 
-      <div className="d-flex justify-content-end me-4">
+      <div className="d-flex me-4">
+        <h1 className="flex-grow-1">Groups ({groups.length})</h1>
         <Button
           size="lg"
           id="action-button"
