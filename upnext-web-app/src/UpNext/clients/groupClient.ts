@@ -34,3 +34,8 @@ export const updateGroup = async (
   });
   return response.data;
 };
+
+export const getGroupsForUser = async (username: string) => {
+  const response = await axiosWithCredentials.get(`${GROUPS_API}/${username}`);
+  return response.data;
+};
