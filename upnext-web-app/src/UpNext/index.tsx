@@ -19,6 +19,7 @@ import Podcasts from "./pages/Podcasts/Podcasts";
 import PodcastDetails from "./pages/Podcasts/PodcastDetails";
 import Games from "./pages/Games/Games";
 import GameDetails from "./pages/Games/GameDetails";
+import Groups from "./pages/Groups/Groups";
 
 export default function UpNext() {
   return (
@@ -58,7 +59,7 @@ export default function UpNext() {
               element={<GameDetails />}
             />
             <Route path="/Users" element={<Users />} />
-            <Route path="/Groups" element={<h1>Groups</h1>} />
+            <Route path="/Groups" element={<Groups />} />
           </Routes>
         </div>
       </div>
