@@ -12,7 +12,7 @@ function App() {
       <Provider store={store}>
         <div>
           <Routes>
-            <Route path="/" element={<Navigate to="UpNext/LogIn" />} />
+            <Route path="/" element={<Navigate to="UpNext/Home" />} />
             <Route path="/UpNext/*" element={<UpNext />} />
             <Route path="/UpNext/Register" element={<SignUp />} />
             <Route path="/UpNext/LogIn" element={<LogIn />} />
