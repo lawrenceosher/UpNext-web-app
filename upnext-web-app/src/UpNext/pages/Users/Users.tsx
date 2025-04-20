@@ -111,7 +111,8 @@ export default function Users() {
               <div className="d-inline-flex flex-grow-1 justify-content-end fs-3">
                 <FaTrashCan
                   className="text-danger"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     setUserForModal({ username: user.username, _id: user._id });
                     handleShow();
                   }}
