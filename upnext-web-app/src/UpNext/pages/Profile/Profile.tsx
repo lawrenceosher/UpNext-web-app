@@ -21,6 +21,7 @@ import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
 import * as userClient from "../../clients/userClient.ts";
 import * as queueClient from "../../clients/queueClient.ts";
+import * as groupClient from "../../clients/groupClient.ts";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentUser } from "../../redux/accountReducer.ts";
 import EditProfileForm from "./EditProfileForm.tsx";
@@ -68,6 +69,7 @@ export default function Profile() {
             podcasts: [],
             games: [],
           },
+          groups: [],
         });
 
         // Fetch history summary after user data is set
@@ -116,6 +118,14 @@ export default function Profile() {
             games: currentQueues.game.current,
           },
         }));
+
+        // Fetch groups
+        const groups = await groupClient.getGroupsForUser(user.username);
+        console.log(groups);
+        setUserData((prevState: any) => ({
+          ...prevState,
+          groups: groups,
+        }));
       } catch (error) {
         console.error("Error fetching user data or history summary:", error);
       }
@@ -162,13 +172,29 @@ export default function Profile() {
             </ul>
           </div>
 
+          {userData.groups && userData.groups.length > 0 && (
+            <div className="mt-4">
+              <h2 className="display-6 fw-bold">Groups</h2>
+              <ul className="p-0">
+                {userData.groups.map((group: any) => (
+                  <li
+                    key={group._id}
+                    className="d-flex align-items-center fs-3"
+                  >
+                    {group.groupName}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           {/* Only show the sign out button if you're viewing your own profile */}
           {isViewingOwnProfile && (
             <Button
               variant="danger"
               onClick={signout}
               size="lg"
-              className="mt-4"
+              className="mt-4 mb-4"
             >
               Sign Out
             </Button>
@@ -280,7 +306,10 @@ export default function Profile() {
                               navigate(`/UpNext/Books/${book._id}`)
                             }
                           >
-                            {index + 1}. {book.title} {book.datePublished !== '' ? `(${book.datePublished.slice(0, 4)})` : ""}
+                            {index + 1}. {book.title}{" "}
+                            {book.datePublished !== ""
+                              ? `(${book.datePublished.slice(0, 4)})`
+                              : ""}
                           </ListGroupItem>
                         )
                       )}
