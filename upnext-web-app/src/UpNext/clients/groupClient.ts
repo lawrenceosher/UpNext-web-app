@@ -22,3 +22,15 @@ export const deleteGroup = async (groupId: string) => {
   );
   return response.data;
 };
+
+export const updateGroup = async (
+  groupId: string,
+  groupName: string,
+  users: string[]
+) => {
+  const response = await axiosWithCredentials.put(`${GROUPS_API}/${groupId}`, {
+    groupName,
+    users,
+  });
+  return response.data;
+};

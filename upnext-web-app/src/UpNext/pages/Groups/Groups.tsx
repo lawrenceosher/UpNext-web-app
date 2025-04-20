@@ -10,6 +10,7 @@ import { MdAdd } from "react-icons/md";
 import "../../../utils.css";
 import CreateGroupModal from "./CreateGroupModal";
 import DeleteGroupModal from "./DeleteGroupModal";
+import UpdateGroupModal from "./UpdateGroupModal";
 
 export default function Groups() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
@@ -23,12 +24,18 @@ export default function Groups() {
     _id: "",
     users: [],
   });
+
   const [showDeleteGroup, setShowDeleteGroup] = useState(false);
   const handleCloseDeleteGroup = () => setShowDeleteGroup(false);
   const handleShowDeleteGroup = () => setShowDeleteGroup(true);
+
   const [showCreateGroup, setShowCreateGroup] = useState(false);
   const handleCloseCreateGroup = () => setShowCreateGroup(false);
   const handleShowCreateGroup = () => setShowCreateGroup(true);
+
+  const [showUpdateGroup, setShowUpdateGroup] = useState(false);
+  const handleCloseUpdateGroup = () => setShowUpdateGroup(false);
+  const handleShowUpdateGroup = () => setShowUpdateGroup(true);
 
   const handleCreateGroup = async () => {
     try {
@@ -52,6 +59,23 @@ export default function Groups() {
       );
     } catch (error) {
       console.error("Error deleting group:", error);
+    }
+  };
+
+  const handleUpdateGroup = async () => {
+    try {
+      const updatedGroupData = await groupClient.updateGroup(
+        groupForModal._id,
+        groupForModal.groupName,
+        groupForModal.users
+      );
+      setGroups((prevGroups) =>
+        prevGroups.map((group) =>
+          group._id === groupForModal._id ? updatedGroupData : group
+        )
+      );
+    } catch (error) {
+      console.error("Error updating group:", error);
     }
   };
 
@@ -85,6 +109,14 @@ export default function Groups() {
         deleteGroup={handleDeleteGroup}
       />
 
+      <UpdateGroupModal
+        show={showUpdateGroup}
+        handleClose={handleCloseUpdateGroup}
+        updatedGroup={groupForModal}
+        setUpdatedGroup={setGroupForModal}
+        handleUpdateGroup={handleUpdateGroup}
+      />
+
       <div className="d-flex justify-content-end me-4">
         <Button
           size="lg"
@@ -109,7 +141,13 @@ export default function Groups() {
               </div>
               {currentUser && currentUser.role === "ADMIN" && (
                 <div className="d-inline-flex flex-grow-1 justify-content-end fs-3">
-                  <FaPencil className="me-3" />
+                  <FaPencil
+                    className="me-3"
+                    onClick={() => {
+                      setGroupForModal(group);
+                      handleShowUpdateGroup();
+                    }}
+                  />
                   <FaTrashCan
                     className="text-danger"
                     onClick={() => {
