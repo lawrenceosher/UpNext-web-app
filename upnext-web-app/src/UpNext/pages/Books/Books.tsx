@@ -14,6 +14,7 @@ import * as queueClient from "../../clients/queueClient";
 import { Queue } from "../../types/queue";
 import { Book } from "../../types/book";
 import BookSummaryCard from "../../components/BookSummaryCard";
+import ListGroupSelect from "../../components/ListGroupSelect";
 
 export default function Books() {
   const [queueHistorySelected, setQueueHistorySelected] = useState(false);
@@ -21,6 +22,7 @@ export default function Books() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const [bookQueue, setBookQueue] = useState<Queue | null>();
   const [readBookIDs, setReadBookIDs] = useState<any>([]);
+  const [selectedGroup, setSelectedGroup] = useState("");
 
   const addBookToCurrentQueue = async () => {
     if (selectedBook === null || !currentUser || !bookQueue) return;
@@ -58,7 +60,8 @@ export default function Books() {
       try {
         const queue = await queueClient.retrieveQueueByUserAndMediaType(
           currentUser.username,
-          "Book"
+          "Book",
+          selectedGroup
         );
         setBookQueue(queue);
       } catch (error) {
@@ -66,7 +69,7 @@ export default function Books() {
       }
     };
     fetchQueueItems();
-  }, [currentUser]);
+  }, [currentUser, selectedGroup]);
 
   if (!bookQueue && currentUser) return <p>Loading...</p>;
 
@@ -74,7 +77,12 @@ export default function Books() {
     <Container>
       <Row>
         <Col>
-          {currentUser && <h1 className="mt-2">Personal Queue</h1>}
+          {currentUser && (
+            <ListGroupSelect
+              selectedGroup={selectedGroup}
+              setSelectedGroup={setSelectedGroup}
+            />
+          )}
           <QueueList
             mediaType="Book"
             queue={bookQueue}

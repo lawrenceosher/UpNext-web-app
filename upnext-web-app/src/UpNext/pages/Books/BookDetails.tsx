@@ -112,7 +112,7 @@ export default function BookDetails() {
           dismissible
         >
           <Alert.Heading>Add Book</Alert.Heading>
-          <p>Successfully added {book.title} to your current queue!</p>
+          <p>Successfully added {book.title} to your current personal queue!</p>
         </Alert>
       )}
       <div className="d-flex">

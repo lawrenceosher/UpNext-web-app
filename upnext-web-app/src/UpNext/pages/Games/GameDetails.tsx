@@ -108,7 +108,7 @@ export default function GameDetails() {
           dismissible
         >
           <Alert.Heading>Add Video Game</Alert.Heading>
-          <p>Successfully added {game.title} to your current queue!</p>
+          <p>Successfully added {game.title} to your current personal queue!</p>
         </Alert>
       )}
       <div className="d-flex">

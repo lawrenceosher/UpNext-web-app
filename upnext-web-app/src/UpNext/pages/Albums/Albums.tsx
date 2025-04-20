@@ -14,6 +14,7 @@ import * as queueClient from "../../clients/queueClient";
 import { Queue } from "../../types/queue";
 import { Album } from "../../types/album";
 import AlbumSummaryCard from "../../components/AlbumSummaryCard";
+import ListGroupSelect from "../../components/ListGroupSelect";
 
 export default function Albums() {
   const [queueHistorySelected, setQueueHistorySelected] = useState(false);
@@ -21,6 +22,7 @@ export default function Albums() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const [albumQueue, setAlbumQueue] = useState<Queue | null>();
   const [listenedAlbumIDs, setListenedAlbumIDs] = useState<any>([]);
+  const [selectedGroup, setSelectedGroup] = useState("");
 
   const addAlbumToCurrentQueue = async () => {
     if (selectedAlbum === null || !currentUser || !albumQueue) return;
@@ -58,7 +60,8 @@ export default function Albums() {
       try {
         const queue = await queueClient.retrieveQueueByUserAndMediaType(
           currentUser.username,
-          "Album"
+          "Album",
+          selectedGroup
         );
         setAlbumQueue(queue);
       } catch (error) {
@@ -66,7 +69,7 @@ export default function Albums() {
       }
     };
     fetchQueueItems();
-  }, [currentUser]);
+  }, [currentUser, selectedGroup]);
 
   if (!albumQueue && currentUser) return <p>Loading...</p>;
 
@@ -74,7 +77,12 @@ export default function Albums() {
     <Container>
       <Row>
         <Col>
-          {currentUser && <h1 className="mt-2">Personal Queue</h1>}
+          {currentUser && (
+            <ListGroupSelect
+              selectedGroup={selectedGroup}
+              setSelectedGroup={setSelectedGroup}
+            />
+          )}
           <QueueList
             mediaType="Album"
             queue={albumQueue}

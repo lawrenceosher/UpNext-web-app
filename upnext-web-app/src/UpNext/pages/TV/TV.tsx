@@ -14,6 +14,7 @@ import * as queueClient from "../../clients/queueClient";
 import { Queue } from "../../types/queue";
 import { TVShow } from "../../types/tvShow";
 import TVSummaryCard from "../../components/TVSummaryCard";
+import ListGroupSelect from "../../components/ListGroupSelect";
 
 export default function TV() {
   const [queueHistorySelected, setQueueHistorySelected] = useState(false);
@@ -21,6 +22,7 @@ export default function TV() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const [tvQueue, setTVQueue] = useState<Queue | null>();
   const [watchedTVIDs, setWatchedTVIDs] = useState<any>([]);
+  const [selectedGroup, setSelectedGroup] = useState("");
 
   const addTVToCurrentQueue = async () => {
     if (selectedTV === null || !currentUser || !tvQueue) return;
@@ -58,7 +60,8 @@ export default function TV() {
       try {
         const queue = await queueClient.retrieveQueueByUserAndMediaType(
           currentUser.username,
-          "TV"
+          "TV",
+          selectedGroup
         );
         setTVQueue(queue);
       } catch (error) {
@@ -66,7 +69,7 @@ export default function TV() {
       }
     };
     fetchQueueItems();
-  }, [currentUser]);
+  }, [currentUser, selectedGroup]);
 
   if (!tvQueue && currentUser) return <p>Loading...</p>;
 
@@ -74,7 +77,12 @@ export default function TV() {
     <Container>
       <Row>
         <Col>
-          {currentUser && <h1 className="mt-2">Personal Queue</h1>}
+          {currentUser && (
+            <ListGroupSelect
+              selectedGroup={selectedGroup}
+              setSelectedGroup={setSelectedGroup}
+            />
+          )}
           <QueueList
             mediaType="TV"
             queue={tvQueue}
