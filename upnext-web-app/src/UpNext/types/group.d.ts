@@ -1,5 +1,6 @@
 export interface Group {
   _id: string;
-  groupName: string;
-  users: User[];
+  name: string;
+  creator: string;
+  members: User[];
 }

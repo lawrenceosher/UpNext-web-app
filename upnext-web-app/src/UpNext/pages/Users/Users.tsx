@@ -7,6 +7,7 @@ import { FaTrashCan } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import DeleteUserModal from "../../components/DeleteUserModal";
 import { useNavigate } from "react-router-dom";
+import Groups from "../Groups/Groups";
 
 export default function Users() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
@@ -41,8 +42,8 @@ export default function Users() {
     }
 
     setAllUsers((prevUsers: any) =>
-        prevUsers.filter((user: any) => user._id !== userId)
-      );
+      prevUsers.filter((user: any) => user._id !== userId)
+    );
   };
 
   useEffect(() => {
@@ -107,21 +108,30 @@ export default function Users() {
               <span className="fw-bold">{user.username}</span>
               <div>User Since: {formatReadableDate(user.dateJoined)}</div>
             </div>
-            {currentUser && currentUser.role === "ADMIN" && (user.username !== currentUser.username) && (
-              <div className="d-inline-flex flex-grow-1 justify-content-end fs-3">
-                <FaTrashCan
-                  className="text-danger"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setUserForModal({ username: user.username, _id: user._id });
-                    handleShow();
-                  }}
-                />
-              </div>
-            )}
+            {currentUser &&
+              currentUser.role === "ADMIN" &&
+              user.username !== currentUser.username && (
+                <div className="d-inline-flex flex-grow-1 justify-content-end fs-3">
+                  <FaTrashCan
+                    className="text-danger"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setUserForModal({
+                        username: user.username,
+                        _id: user._id,
+                      });
+                      handleShow();
+                    }}
+                  />
+                </div>
+              )}
           </ListGroup.Item>
         ))}
       </ListGroup>
+
+      <div className="mt-4">
+        <Groups />
+      </div>
     </div>
   );
 }

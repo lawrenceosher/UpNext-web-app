@@ -19,7 +19,6 @@ import Podcasts from "./pages/Podcasts/Podcasts";
 import PodcastDetails from "./pages/Podcasts/PodcastDetails";
 import Games from "./pages/Games/Games";
 import GameDetails from "./pages/Games/GameDetails";
-import Groups from "./pages/Groups/Groups";
 
 export default function UpNext() {
   return (
@@ -53,14 +52,6 @@ export default function UpNext() {
             <Route path="/Games" element={<Games />} />
             <Route path="/Games/:gameId" element={<GameDetails />} />
             <Route path="/Users" element={<Users />} />
-            <Route
-              path="/Groups"
-              element={
-                <ProtectedRoute>
-                  <Groups />
-                </ProtectedRoute>
-              }
-            />
           </Routes>
         </div>
       </div>

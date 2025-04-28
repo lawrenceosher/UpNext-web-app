@@ -20,9 +20,10 @@ export default function Groups() {
     users: [],
   });
   const [groupForModal, setGroupForModal] = useState<Group>({
-    groupName: "",
+    name: "",
     _id: "",
-    users: [],
+    creator: "",
+    members: [],
   });
 
   const [showDeleteGroup, setShowDeleteGroup] = useState(false);
@@ -66,8 +67,8 @@ export default function Groups() {
     try {
       const updatedGroupData = await groupClient.updateGroup(
         groupForModal._id,
-        groupForModal.groupName,
-        groupForModal.users
+        groupForModal.name,
+        groupForModal.members
       );
       setGroups((prevGroups) =>
         prevGroups.map((group) =>
@@ -91,16 +92,6 @@ export default function Groups() {
     fetchGroups();
   }, []);
 
-  if (currentUser && currentUser.role !== "ADMIN") {
-    return (
-      <div className="d-flex justify-content-center align-items-center vh-100">
-        <h1 className="text-white">
-          You do not have permission to view this page.
-        </h1>
-      </div>
-    );
-  }
-
   return (
     <div>
       <CreateGroupModal
@@ -114,7 +105,7 @@ export default function Groups() {
       <DeleteGroupModal
         show={showDeleteGroup}
         handleClose={handleCloseDeleteGroup}
-        groupName={groupForModal.groupName}
+        groupName={groupForModal.name}
         groupId={groupForModal._id}
         deleteGroup={handleDeleteGroup}
       />
@@ -147,10 +138,10 @@ export default function Groups() {
             >
               <BsPeople className="me-3 fs-1 text-secondary" />
               <div className="fs-5">
-                <span className="fw-bold">{group.groupName}</span>
-                <div>Users: {group.users.join(", ")}</div>
+                <span className="fw-bold">{group.name}</span>
+                <div>Users: {group.members.join(", ")}</div>
               </div>
-              {currentUser && currentUser.role === "ADMIN" && (
+              {currentUser && (
                 <div className="d-inline-flex flex-grow-1 justify-content-end fs-3">
                   <FaPencil
                     className="me-3"
