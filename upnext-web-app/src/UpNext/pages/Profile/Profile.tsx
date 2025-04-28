@@ -121,7 +121,6 @@ export default function Profile() {
 
         // Fetch groups
         const groups = await groupClient.getGroupsForUser(user.username);
-        console.log(groups);
         setUserData((prevState: any) => ({
           ...prevState,
           groups: groups,
@@ -181,7 +180,7 @@ export default function Profile() {
                     key={group._id}
                     className="d-flex align-items-center fs-3"
                   >
-                    {group.groupName}
+                    {group.name}
                   </li>
                 ))}
               </ul>
@@ -207,6 +206,7 @@ export default function Profile() {
             <Col>
               <EditProfileForm existingUser={userData} />
             </Col>
+            <Col>Invitations</Col>
           </>
         )}
 
