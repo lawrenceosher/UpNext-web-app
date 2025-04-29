@@ -1,9 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Modal } from "react-bootstrap";
-import { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import * as userClient from "../../clients/userClient";
-import { MdAdd } from "react-icons/md";
 
 export default function UpdateGroupModal({
   show,
@@ -18,20 +15,6 @@ export default function UpdateGroupModal({
   setUpdatedGroup: (group: any) => void;
   handleUpdateGroup: () => void;
 }) {
-  const [allUsers, setAllUsers] = useState<any>([]);
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const users = await userClient.getAllUsers();
-        setAllUsers(users);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-        setAllUsers([]);
-      }
-    };
-    fetchUsers();
-  }, []);
   return (
     <div>
       <Modal show={show} onHide={handleClose} className="text-dark">
@@ -48,30 +31,8 @@ export default function UpdateGroupModal({
                 onChange={(e) =>
                   setUpdatedGroup({ ...updatedGroup, groupName: e.target.value })
                 }
-                placeholder="Enter group name"
+                placeholder="Enter new group name"
               />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formGroupMembers">
-              <Form.Label>Users</Form.Label>
-              <Form.Select
-                multiple
-                defaultValue={updatedGroup.users}
-                onChange={(e) =>
-                  setUpdatedGroup({
-                    ...updatedGroup,
-                    users: Array.from(
-                      e.target.selectedOptions,
-                      (option) => option.value
-                    ),
-                  })
-                }
-              >
-                {allUsers.map((user: any) => (
-                  <option key={user._id.toString()} value={user.username}>
-                    {user.username}
-                  </option>
-                ))}
-              </Form.Select>
             </Form.Group>
 
             <Button
@@ -83,7 +44,7 @@ export default function UpdateGroupModal({
                 handleClose();
               }}
             >
-              <MdAdd className="me-1 mb-1 fs-4" /> Update Group
+              Update Group
             </Button>
           </Form>
         </Modal.Body>

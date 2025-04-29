@@ -16,8 +16,8 @@ export default function Groups() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const [groups, setGroups] = useState<Group[]>([]);
   const [newGroup, setNewGroup] = useState({
-    groupName: "",
-    users: [],
+    name: "",
+    creator: currentUser ? currentUser.username : "",
   });
   const [groupForModal, setGroupForModal] = useState<Group>({
     name: "",
@@ -41,11 +41,11 @@ export default function Groups() {
   const handleCreateGroup = async () => {
     try {
       const createdGroup = await groupClient.createGroup(
-        newGroup.groupName,
-        newGroup.users
+        newGroup.name,
+        newGroup.creator
       );
       setGroups((prevGroups) => [...prevGroups, createdGroup]);
-      setNewGroup({ groupName: "", users: [] });
+      setNewGroup({ name: "", creator: currentUser ? currentUser.username : "" });
       handleCloseCreateGroup();
     } catch (error) {
       console.error("Error creating group:", error);
@@ -83,14 +83,17 @@ export default function Groups() {
   useEffect(() => {
     const fetchGroups = async () => {
       try {
-        const groupRes = await groupClient.getAllGroups();
+        if (!currentUser) return;
+        const groupRes = await groupClient.getGroupsForUser(currentUser.username);
         setGroups(groupRes);
       } catch (error) {
         console.error("Error fetching groups:", error);
       }
     };
     fetchGroups();
-  }, []);
+  }, [currentUser]);
+
+  if (!currentUser) return;
 
   return (
     <div>
@@ -119,7 +122,7 @@ export default function Groups() {
       />
 
       <div className="d-flex me-4">
-        <h1 className="flex-grow-1">Groups ({groups.length})</h1>
+        <h1 className="flex-grow-1">Joined Groups ({groups.length})</h1>
         <Button
           size="lg"
           id="action-button"
@@ -139,9 +142,10 @@ export default function Groups() {
               <BsPeople className="me-3 fs-1 text-secondary" />
               <div className="fs-5">
                 <span className="fw-bold">{group.name}</span>
+                <div>Created By: {group.creator}</div>
                 <div>Users: {group.members.join(", ")}</div>
               </div>
-              {currentUser && (
+              {currentUser && group.creator === currentUser.username && (
                 <div className="d-inline-flex flex-grow-1 justify-content-end fs-3">
                   <FaPencil
                     className="me-3"

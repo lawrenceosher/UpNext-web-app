@@ -1,9 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Modal } from "react-bootstrap";
-import { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import * as userClient from "../../clients/userClient";
 import { MdAdd } from "react-icons/md";
 
 export default function CreateGroupModal({
@@ -19,21 +16,7 @@ export default function CreateGroupModal({
   setNewGroup: (group: any) => void;
   handleCreateGroup: () => void;
 }) {
-  const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const [allUsers, setAllUsers] = useState<any>([]);
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const users = await userClient.getAllUsers();
-        setAllUsers(users);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-        setAllUsers([]);
-      }
-    };
-    fetchUsers();
-  }, []);
   return (
     <div>
       <Modal show={show} onHide={handleClose} className="text-dark">
@@ -52,28 +35,6 @@ export default function CreateGroupModal({
                 }
                 placeholder="Enter group name"
               />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formGroupMembers">
-              <Form.Label>Users</Form.Label>
-              <Form.Select
-                multiple
-                defaultValue={currentUser ? [currentUser.username] : []}
-                onChange={(e) =>
-                  setNewGroup({
-                    ...newGroup,
-                    users: Array.from(
-                      e.target.selectedOptions,
-                      (option) => option.value
-                    ),
-                  })
-                }
-              >
-                {allUsers.map((user: any) => (
-                  <option key={user._id.toString()} value={user.username}>
-                    {user.username}
-                  </option>
-                ))}
-              </Form.Select>
             </Form.Group>
 
             <Button
