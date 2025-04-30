@@ -35,18 +35,6 @@ export default function EditProfileForm({
   return (
     <div className="d-flex">
       <div>
-        <Form.Group className="mb-3" controlId="username">
-          <Form.Label>Username</Form.Label>
-          <Form.Control
-            size="lg"
-            type="text"
-            value={updatedUser.username}
-            onChange={(e) =>
-              setUpdatedUser({ ...updatedUser, username: e.target.value })
-            }
-            className="bg-transparent text-white"
-          />
-        </Form.Group>
         <Form.Group className="mb-3" controlId="password">
           <Form.Label>Reset Password</Form.Label>
           <Form.Control
@@ -66,19 +54,6 @@ export default function EditProfileForm({
             size="lg"
             type={showPassword ? "text" : "password"}
             placeholder="Verify New Password"
-            className="bg-transparent text-white"
-          />
-        </Form.Group>
-
-        <Form.Group className="mb-3" controlId="email">
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            size="lg"
-            type="email"
-            value={updatedUser.email}
-            onChange={(e) =>
-              setUpdatedUser({ ...updatedUser, email: e.target.value })
-            }
             className="bg-transparent text-white"
           />
         </Form.Group>

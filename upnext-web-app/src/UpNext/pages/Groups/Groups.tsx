@@ -11,6 +11,8 @@ import "../../../utils.css";
 import CreateGroupModal from "./CreateGroupModal";
 import DeleteGroupModal from "./DeleteGroupModal";
 import GroupDetailsModal from "./GroupDetailsModal";
+import { IoMdRemoveCircle } from "react-icons/io";
+import LeaveGroupModal from "./LeaveGroupModal";
 
 export default function Groups() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
@@ -37,6 +39,10 @@ export default function Groups() {
   const [showGroupDetailsModal, setShowGroupDetailsModal] = useState(false);
   const handleCloseGroupDetailsModal = () => setShowGroupDetailsModal(false);
   const handleShowGroupDetailsModal = () => setShowGroupDetailsModal(true);
+
+  const [showLeaveGroupModal, setShowLeaveGroupModal] = useState(false);
+  const handleCloseLeaveGroupModal = () => setShowLeaveGroupModal(false);
+  const handleShowLeaveGroupModal = () => setShowLeaveGroupModal(true);
 
   const handleCreateGroup = async () => {
     try {
@@ -79,6 +85,17 @@ export default function Groups() {
       );
     } catch (error) {
       console.error("Error updating group:", error);
+    }
+  };
+
+  const handleLeaveGroup = async (groupId: string) => {
+    try {
+      await groupClient.removeGroupMember(groupId, currentUser.username);
+      setGroups((prevGroups) =>
+        prevGroups.filter((group) => group._id !== groupId)
+      );
+    } catch (error) {
+      console.error("Error leaving group:", error);
     }
   };
 
@@ -125,6 +142,14 @@ export default function Groups() {
         handleUpdateGroup={handleUpdateGroup}
       />
 
+      <LeaveGroupModal
+        show={showLeaveGroupModal}
+        handleClose={handleCloseLeaveGroupModal}
+        groupName={groupForModal.name}
+        groupId={groupForModal._id}
+        leaveGroup={handleLeaveGroup}
+      />
+
       <div className="d-flex me-4">
         <h1 className="flex-grow-1">Joined Groups ({groups.length})</h1>
         <Button
@@ -155,7 +180,7 @@ export default function Groups() {
                 <div>Created By: {group.creator}</div>
                 <div>Users: {group.members.join(", ")}</div>
               </div>
-              {currentUser && group.creator === currentUser.username && (
+              {currentUser && group.creator === currentUser.username ? (
                 <div className="d-inline-flex flex-grow-1 justify-content-end fs-3">
                   <FaTrashCan
                     className="text-danger"
@@ -163,6 +188,16 @@ export default function Groups() {
                       e.stopPropagation();
                       setGroupForModal(group);
                       handleShowDeleteGroup();
+                    }}
+                  />
+                </div>
+              ) : (
+                <div className="d-inline-flex flex-grow-1 justify-content-end fs-1">
+                  <IoMdRemoveCircle
+                    className="text-danger"
+                    onClick={() => {
+                      setGroupForModal(group);
+                      handleShowLeaveGroupModal();
                     }}
                   />
                 </div>

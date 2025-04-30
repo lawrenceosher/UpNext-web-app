@@ -59,62 +59,8 @@ export default function SignUp() {
                 className="bg-transparent text-white"
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="firstName">
-              <Form.Label>First Name</Form.Label>
-              <Form.Control
-                size="lg"
-                type="text"
-                placeholder="Enter First Name"
-                value={user.firstName}
-                onChange={(e) => setUser({ ...user, firstName: e.target.value })}
-                className="bg-transparent text-white"
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="lastName">
-              <Form.Label>Last Name</Form.Label>
-              <Form.Control
-                size="lg"
-                type="text"
-                placeholder="Enter Last Name"
-                value={user.lastName}
-                onChange={(e) => setUser({ ...user, lastName: e.target.value })}
-                className="bg-transparent text-white"
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="email">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                size="lg"
-                type="email"
-                placeholder="Enter Email"
-                value={user.email}
-                onChange={(e) => setUser({ ...user, email: e.target.value })}
-                className="bg-transparent text-white"
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="role">
-              <Form.Label>Role</Form.Label>
-              <Form.Check
-                type="radio"
-                name="role"
-                label="Regular User"
-                onChange={(e) =>
-                  setUser({ ...user, role: e.target.value })
-                }
-                value={"USER"}
-                className="bg-transparent text-white"
-              />
-              <Form.Check
-                type="radio"
-                name="role"
-                label="System Administrator"
-                value={"ADMIN"}
-                onChange={(e) =>
-                  setUser({ ...user, role: e.target.value })
-                }
-                className="bg-transparent text-white"
-              />
-            </Form.Group>
+            
+
           </Form>
 
           <Form.Check
@@ -124,8 +70,8 @@ export default function SignUp() {
             onClick={() => setShowPassword(!showPassword)}
           />
 
-          <div className="d-flex justify-content-end mt-2">
-            <div className="fs-6">
+          <div className="d-flex mt-2">
+            <div className="fs-6 flex-grow-1">
               Already have an account? <br />
               <Link to="/UpNext/LogIn" className="text-white">
                 Log In

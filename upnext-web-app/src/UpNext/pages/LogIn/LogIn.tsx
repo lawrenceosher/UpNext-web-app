@@ -85,8 +85,8 @@ export default function LogIn() {
             onClick={() => setShowPassword(!showPassword)}
           />
 
-          <div className="d-flex justify-content-end mt-2">
-            <div className="fs-6">
+          <div className="d-flex mt-2">
+            <div className="fs-6 flex-grow-1">
               Don't have an account? <br />
               <Link to="/UpNext/Register" className="text-white">
                 Sign Up

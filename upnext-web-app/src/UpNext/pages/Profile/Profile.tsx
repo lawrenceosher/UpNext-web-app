@@ -8,10 +8,10 @@ import {
   ListGroupItem,
   Row,
 } from "react-bootstrap";
-import { MdDateRange } from "react-icons/md";
+import { MdDateRange, MdNotificationsNone } from "react-icons/md";
 import { BiMovie } from "react-icons/bi";
 import { FiTv } from "react-icons/fi";
-import { IoMusicalNotesOutline } from "react-icons/io5";
+import { IoMusicalNotesOutline, IoRemoveCircle } from "react-icons/io5";
 import { IoBookOutline } from "react-icons/io5";
 import { SlMicrophone } from "react-icons/sl";
 import { IoGameControllerOutline } from "react-icons/io5";
@@ -22,9 +22,11 @@ import { useEffect, useState } from "react";
 import * as userClient from "../../clients/userClient.ts";
 import * as queueClient from "../../clients/queueClient.ts";
 import * as groupClient from "../../clients/groupClient.ts";
+import * as invitationClient from "../../clients/invitationClient.ts";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentUser } from "../../redux/accountReducer.ts";
 import EditProfileForm from "./EditProfileForm.tsx";
+import { IoMdCheckmarkCircle } from "react-icons/io";
 
 export default function Profile() {
   const { userId } = useParams();
@@ -41,6 +43,34 @@ export default function Profile() {
       month: "long",
       year: "numeric",
     });
+  };
+
+  const acceptInvitation = async (invitationId: string) => {
+    try {
+      await invitationClient.respondToInvitation(invitationId, true);
+      setUserData((prevState: any) => ({
+        ...prevState,
+        pendingInvitations: prevState.pendingInvitations.filter(
+          (invitation: any) => invitation._id !== invitationId
+        ),
+      }));
+    } catch (error) {
+      console.error("Error accepting invitation:", error);
+    }
+  };
+
+  const rejectInvitation = async (invitationId: string) => {
+    try {
+      await invitationClient.respondToInvitation(invitationId, false);
+      setUserData((prevState: any) => ({
+        ...prevState,
+        pendingInvitations: prevState.pendingInvitations.filter(
+          (invitation: any) => invitation._id !== invitationId
+        ),
+      }));
+    } catch (error) {
+      console.error("Error rejecting invitation:", error);
+    }
   };
 
   useEffect(() => {
@@ -70,6 +100,7 @@ export default function Profile() {
             games: [],
           },
           groups: [],
+          pendingInvitations: [],
         });
 
         // Fetch history summary after user data is set
@@ -124,6 +155,15 @@ export default function Profile() {
         setUserData((prevState: any) => ({
           ...prevState,
           groups: groups,
+        }));
+
+        // Fetch pending invitations
+        const invitations = await invitationClient.getPendingInvitationsForUser(
+          user.username
+        );
+        setUserData((prevState: any) => ({
+          ...prevState,
+          pendingInvitations: invitations,
         }));
       } catch (error) {
         console.error("Error fetching user data or history summary:", error);
@@ -206,7 +246,40 @@ export default function Profile() {
             <Col>
               <EditProfileForm existingUser={userData} />
             </Col>
-            <Col>Invitations</Col>
+            <Col>
+              <div>
+                <h2 className="d-flex align-items-center">
+                  <MdNotificationsNone className="me-2" />
+                  Invitations ({userData.pendingInvitations.length})
+                </h2>
+              </div>
+              {userData.pendingInvitations.length !== 0 && (
+                <ListGroup className="mb-4 border w-75">
+                  {userData.pendingInvitations.map((invitation: any) => (
+                    <ListGroupItem
+                      key={invitation._id}
+                      className="rounded-0 bg-transparent text-white d-flex flex-row align-items-center"
+                    >
+                      <span className="flex-grow-1 fs-4">
+                        {invitation.group.name}
+                      </span>
+                      <IoMdCheckmarkCircle
+                        className="fs-2 text-success"
+                        onClick={() => {
+                          acceptInvitation(invitation._id);
+                        }}
+                      />
+                      <IoRemoveCircle
+                        className="ms-3 fs-2 text-danger"
+                        onClick={() => {
+                          rejectInvitation(invitation._id);
+                        }}
+                      />
+                    </ListGroupItem>
+                  ))}
+                </ListGroup>
+              )}
+            </Col>
           </>
         )}
 

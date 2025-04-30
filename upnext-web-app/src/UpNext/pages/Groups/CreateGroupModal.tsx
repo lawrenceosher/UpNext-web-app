@@ -29,9 +29,9 @@ export default function CreateGroupModal({
               <Form.Label>Group Name</Form.Label>
               <Form.Control
                 type="text"
-                value={newGroup.groupName}
+                value={newGroup.name}
                 onChange={(e) =>
-                  setNewGroup({ ...newGroup, groupName: e.target.value })
+                  setNewGroup({ ...newGroup, name: e.target.value })
                 }
                 placeholder="Enter group name"
               />
