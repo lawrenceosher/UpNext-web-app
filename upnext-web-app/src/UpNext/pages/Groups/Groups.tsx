@@ -4,13 +4,13 @@ import * as groupClient from "../../clients/groupClient";
 import { Button, ListGroup } from "react-bootstrap";
 import { Group } from "../../types/group";
 import { useSelector } from "react-redux";
-import { FaPencil, FaTrashCan } from "react-icons/fa6";
+import { FaTrashCan } from "react-icons/fa6";
 import { BsPeople } from "react-icons/bs";
 import { MdAdd } from "react-icons/md";
 import "../../../utils.css";
 import CreateGroupModal from "./CreateGroupModal";
 import DeleteGroupModal from "./DeleteGroupModal";
-import UpdateGroupModal from "./UpdateGroupModal";
+import GroupDetailsModal from "./GroupDetailsModal";
 
 export default function Groups() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
@@ -34,9 +34,9 @@ export default function Groups() {
   const handleCloseCreateGroup = () => setShowCreateGroup(false);
   const handleShowCreateGroup = () => setShowCreateGroup(true);
 
-  const [showUpdateGroup, setShowUpdateGroup] = useState(false);
-  const handleCloseUpdateGroup = () => setShowUpdateGroup(false);
-  const handleShowUpdateGroup = () => setShowUpdateGroup(true);
+  const [showGroupDetailsModal, setShowGroupDetailsModal] = useState(false);
+  const handleCloseGroupDetailsModal = () => setShowGroupDetailsModal(false);
+  const handleShowGroupDetailsModal = () => setShowGroupDetailsModal(true);
 
   const handleCreateGroup = async () => {
     try {
@@ -45,7 +45,10 @@ export default function Groups() {
         newGroup.creator
       );
       setGroups((prevGroups) => [...prevGroups, createdGroup]);
-      setNewGroup({ name: "", creator: currentUser ? currentUser.username : "" });
+      setNewGroup({
+        name: "",
+        creator: currentUser ? currentUser.username : "",
+      });
       handleCloseCreateGroup();
     } catch (error) {
       console.error("Error creating group:", error);
@@ -67,8 +70,7 @@ export default function Groups() {
     try {
       const updatedGroupData = await groupClient.updateGroup(
         groupForModal._id,
-        groupForModal.name,
-        groupForModal.members
+        groupForModal.name
       );
       setGroups((prevGroups) =>
         prevGroups.map((group) =>
@@ -84,7 +86,9 @@ export default function Groups() {
     const fetchGroups = async () => {
       try {
         if (!currentUser) return;
-        const groupRes = await groupClient.getGroupsForUser(currentUser.username);
+        const groupRes = await groupClient.getGroupsForUser(
+          currentUser.username
+        );
         setGroups(groupRes);
       } catch (error) {
         console.error("Error fetching groups:", error);
@@ -113,11 +117,11 @@ export default function Groups() {
         deleteGroup={handleDeleteGroup}
       />
 
-      <UpdateGroupModal
-        show={showUpdateGroup}
-        handleClose={handleCloseUpdateGroup}
-        updatedGroup={groupForModal}
-        setUpdatedGroup={setGroupForModal}
+      <GroupDetailsModal
+        show={showGroupDetailsModal}
+        handleClose={handleCloseGroupDetailsModal}
+        groupDetails={groupForModal}
+        setGroupDetails={setGroupForModal}
         handleUpdateGroup={handleUpdateGroup}
       />
 
@@ -138,6 +142,12 @@ export default function Groups() {
             <ListGroup.Item
               key={group._id}
               className="d-flex flex-row align-items-center bg-transparent text-white "
+              onClick={() => {
+                if (currentUser && group.creator === currentUser.username) {
+                  setGroupForModal(group);
+                  handleShowGroupDetailsModal();
+                }
+              }}
             >
               <BsPeople className="me-3 fs-1 text-secondary" />
               <div className="fs-5">
@@ -147,16 +157,10 @@ export default function Groups() {
               </div>
               {currentUser && group.creator === currentUser.username && (
                 <div className="d-inline-flex flex-grow-1 justify-content-end fs-3">
-                  <FaPencil
-                    className="me-3"
-                    onClick={() => {
-                      setGroupForModal(group);
-                      handleShowUpdateGroup();
-                    }}
-                  />
                   <FaTrashCan
                     className="text-danger"
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       setGroupForModal(group);
                       handleShowDeleteGroup();
                     }}

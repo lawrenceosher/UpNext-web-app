@@ -26,11 +26,9 @@ export const deleteGroup = async (groupId: string) => {
 export const updateGroup = async (
   groupId: string,
   groupName: string,
-  users: string[]
 ) => {
   const response = await axiosWithCredentials.put(`${GROUPS_API}/${groupId}`, {
-    groupName,
-    users,
+    name: groupName,
   });
   return response.data;
 };
@@ -39,3 +37,10 @@ export const getGroupsForUser = async (username: string) => {
   const response = await axiosWithCredentials.get(`${GROUPS_API}/${username}`);
   return response.data;
 };
+
+export const removeGroupMember = async (groupId: string, username: string) => {
+  const response = await axiosWithCredentials.put(`${GROUPS_API}/${groupId}/remove`, {
+    username,
+  });
+  return response.data;
+}
