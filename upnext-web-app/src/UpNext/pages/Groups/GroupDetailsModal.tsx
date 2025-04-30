@@ -3,11 +3,13 @@ import { useState, useEffect } from "react";
 import { ListGroup, Modal } from "react-bootstrap";
 import { Button, Form } from "react-bootstrap";
 import * as userClient from "../../clients/userClient";
+import * as invitationClient from "../../clients/invitationClient";
 import { FaTrash, FaUserCircle } from "react-icons/fa";
 import { FaPencil } from "react-icons/fa6";
 import "./GroupDetailsModal.css";
 import { RiMailAddLine } from "react-icons/ri";
 import { BsPeople } from "react-icons/bs";
+import { MdOutlineCancelScheduleSend } from "react-icons/md";
 
 export default function GroupDetailsModal({
   show,
@@ -33,6 +35,37 @@ export default function GroupDetailsModal({
 
   const [allUsers, setAllUsers] = useState<any>([]);
   const [isEditing, setIsEditing] = useState(false);
+  const [invitedUsers, setInvitedUsers] = useState<any>([]);
+
+  const sendNewInvitationToGroup = async (
+    groupId: string,
+    invitedUser: string
+  ) => {
+    try {
+      const sentInvitation = await invitationClient.sendInvitation(
+        groupId,
+        groupDetails.creator,
+        invitedUser
+      );
+      setInvitedUsers((prevInvitations: any) => [
+        ...prevInvitations,
+        sentInvitation,
+      ]);
+    } catch (error) {
+      console.error("Error sending invitation:", error);
+    }
+  };
+
+  const cancelSentInvitation = async (invitationId: string) => {
+    try {
+      await invitationClient.deleteSentInvitation(invitationId);
+      setInvitedUsers((prevInvitations: any) =>
+        prevInvitations.filter((invite: any) => invite._id !== invitationId)
+      );
+    } catch (error) {
+      console.error("Error canceling invitation:", error);
+    }
+  };
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -50,6 +83,22 @@ export default function GroupDetailsModal({
     };
     fetchUsers();
   }, [groupDetails.creator, groupDetails.members]);
+
+  useEffect(() => {
+    const fetchPendingInvitationsForGroup = async () => {
+      try {
+        const invitations =
+          await invitationClient.getPendingInvitationsForGroup(
+            groupDetails._id
+          );
+        setInvitedUsers(invitations);
+        console.log(invitations);
+      } catch (error) {
+        console.error("Error fetching pending invitations:", error);
+      }
+    };
+    fetchPendingInvitationsForGroup();
+  }, [groupDetails._id]);
 
   return (
     <div>
@@ -77,7 +126,11 @@ export default function GroupDetailsModal({
             </Form.Group>
           ) : (
             <div>
-              <h2 className="fw-bold"> <BsPeople className="me-3 fs-1" />{groupDetails.name} </h2>
+              <h2 className="fw-bold">
+                {" "}
+                <BsPeople className="me-3 fs-1" />
+                {groupDetails.name}{" "}
+              </h2>
             </div>
           )}
 
@@ -85,9 +138,9 @@ export default function GroupDetailsModal({
 
           <h5 className="mt-4 text-start">Group Members:</h5>
           <ListGroup id="users" className="text-start">
-            {groupDetails.members.map((user: any) => (
+            {groupDetails.members.map((user: any, index: any) => (
               <ListGroup.Item
-                key={user._id}
+                key={index}
                 className="d-flex flex-row align-items-center bg-transparent "
               >
                 <FaUserCircle className="me-3 fs-1 text-secondary" />
@@ -113,7 +166,27 @@ export default function GroupDetailsModal({
                   <span className="fw-bold">{user.username}</span>
                   <div>User Since: {formatReadableDate(user.dateJoined)}</div>
                 </div>
-                <RiMailAddLine className="fs-2 text-secondary" />
+                {invitedUsers
+                  .map((invite: any) => invite.invitedUser)
+                  .includes(user.username) ? (
+                  <MdOutlineCancelScheduleSend
+                    className="fs-2 text-danger"
+                    onClick={() => {
+                      cancelSentInvitation(
+                        invitedUsers.filter(
+                          (invite: any) => invite.invitedUser === user.username
+                        )[0]._id
+                      );
+                    }}
+                  />
+                ) : (
+                  <RiMailAddLine
+                    className="fs-2 text-secondary"
+                    onClick={() => {
+                      sendNewInvitationToGroup(groupDetails._id, user.username);
+                    }}
+                  />
+                )}
               </ListGroup.Item>
             ))}
           </ListGroup>
