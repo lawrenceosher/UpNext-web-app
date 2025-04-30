@@ -244,6 +244,11 @@ export default function Profile() {
         {isViewingOwnProfile && (
           <>
             <Col>
+            <div>
+                <h2 className="d-flex align-items-center mb-4">
+                  Update Account Security
+                </h2>
+              </div>
               <EditProfileForm existingUser={userData} />
             </Col>
             <Col>

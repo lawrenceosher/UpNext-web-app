@@ -14,12 +14,7 @@ export default function EditProfileForm({
 
   const [updatedUser, setUpdatedUser] = useState({
     _id: existingUser._id,
-    username: existingUser.username,
-    firstName: existingUser.firstName,
-    lastName: existingUser.lastName,
-    email: existingUser.email,
     password: existingUser.password,
-    role: existingUser.role,
   });
 
   const dispatch = useDispatch();
