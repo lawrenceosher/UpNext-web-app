@@ -262,7 +262,7 @@ export default function Profile() {
           )}
         </Col>
 
-        {/* Only show the edit profile form and invitations if you're viewing your own profile */}
+        {/* Only show the personal history, account settings, and invitations if you're viewing your own profile */}
         {isViewingOwnProfile && (
           <>
             <Col>

@@ -20,6 +20,10 @@ export default function LogIn() {
   const { errorMessage } = useSelector((state: any) => state.errorReducer);
 
   const logIn = async () => {
+    if (!credentials.username || !credentials.password) {
+      dispatch(setErrorMessage("Please enter a username and password"));
+      return;
+    }
     const user = await userClient.signin(credentials);
     if (!user) {
       dispatch(setErrorMessage("Invalid username or password"));
