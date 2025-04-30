@@ -4,6 +4,7 @@ import { ListGroup, Modal } from "react-bootstrap";
 import { Button, Form } from "react-bootstrap";
 import * as userClient from "../../clients/userClient";
 import * as invitationClient from "../../clients/invitationClient";
+import * as groupClient from "../../clients/groupClient";
 import { FaTrash, FaUserCircle } from "react-icons/fa";
 import { FaPencil } from "react-icons/fa6";
 import "./GroupDetailsModal.css";
@@ -67,6 +68,23 @@ export default function GroupDetailsModal({
     }
   };
 
+  const removeGroupMember = async (username: string) => {
+    try {
+      await groupClient.removeGroupMember(groupDetails._id, username);
+      setGroupDetails((prevGroup: any) => ({
+        ...prevGroup,
+        members: prevGroup.members.filter(
+          (member: string) => member !== username
+        ),
+      }));
+      setInvitedUsers((prevInvitations: any) =>
+        prevInvitations.filter((invite: any) => invite.invitedUser !== username)
+      );
+    } catch (error) {
+      console.error("Error removing group member:", error);
+    }
+  };
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -92,7 +110,6 @@ export default function GroupDetailsModal({
             groupDetails._id
           );
         setInvitedUsers(invitations);
-        console.log(invitations);
       } catch (error) {
         console.error("Error fetching pending invitations:", error);
       }
@@ -148,7 +165,12 @@ export default function GroupDetailsModal({
                   <span className="fw-bold">{user}</span>
                 </div>
                 {groupDetails.creator !== user && (
-                  <FaTrash className="fs-2 text-danger" />
+                  <FaTrash
+                    className="fs-2 text-danger"
+                    onClick={() => {
+                      removeGroupMember(user);
+                    }}
+                  />
                 )}
               </ListGroup.Item>
             ))}

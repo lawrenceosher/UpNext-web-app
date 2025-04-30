@@ -95,7 +95,7 @@ export default function Groups() {
       }
     };
     fetchGroups();
-  }, [currentUser]);
+  }, [currentUser, groupForModal]);
 
   if (!currentUser) return;
 
