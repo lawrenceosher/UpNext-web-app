@@ -418,8 +418,8 @@ export default function Profile() {
                 </ListGroup>
               </Accordion>
             </Col>
-            
-            <Col>
+
+            <Col className="col-auto">
               <div>
                 <div>
                   <MdOutlineSettings
