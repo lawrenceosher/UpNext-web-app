@@ -6,9 +6,14 @@ import {
   Container,
   ListGroup,
   ListGroupItem,
+  Offcanvas,
   Row,
 } from "react-bootstrap";
-import { MdDateRange, MdNotificationsNone } from "react-icons/md";
+import {
+  MdDateRange,
+  MdNotificationsNone,
+  MdOutlineSettings,
+} from "react-icons/md";
 import { BiMovie } from "react-icons/bi";
 import { FiTv } from "react-icons/fi";
 import { IoMusicalNotesOutline, IoRemoveCircle } from "react-icons/io5";
@@ -34,6 +39,15 @@ export default function Profile() {
   const [userData, setUserData] = useState<any | null>(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const [showUpdateProfile, setShowUpdateProfile] = useState(false);
+
+  const handleCloseUpdateProfile = () => setShowUpdateProfile(false);
+  const handleShowUpdateProfile = () => setShowUpdateProfile(true);
+
+  const [showAccountSettings, setShowAccountSettings] = useState(false);
+  const handleCloseAccountSettings = () => setShowAccountSettings(false);
+  const handleShowAccountSettings = () => setShowAccountSettings(true);
 
   const isViewingOwnProfile = userId === undefined && currentUser !== null;
 
@@ -226,64 +240,88 @@ export default function Profile() {
               </ul>
             </div>
           )}
-
-          {/* Only show the sign out button if you're viewing your own profile */}
-          {isViewingOwnProfile && (
-            <Button
-              variant="danger"
-              onClick={signout}
-              size="lg"
-              className="mt-4 mb-4"
-            >
-              Sign Out
-            </Button>
-          )}
         </Col>
 
-        {/* Only show the edit profile form if you're viewing your own profile */}
+        {/* Only show the edit profile form and invitations if you're viewing your own profile */}
         {isViewingOwnProfile && (
           <>
-            <Col>
-            <div>
-                <h2 className="d-flex align-items-center mb-4">
-                  Update Account Security
-                </h2>
-              </div>
-              <EditProfileForm existingUser={userData} />
-            </Col>
+            <Col></Col>
             <Col>
               <div>
-                <h2 className="d-flex align-items-center">
-                  <MdNotificationsNone className="me-2" />
-                  Invitations ({userData.pendingInvitations.length})
-                </h2>
+              <MdOutlineSettings
+                  className="display-5 float-end"
+                  onClick={handleShowAccountSettings}
+                />
+                <MdNotificationsNone
+                  className="display-5 float-end me-2"
+                  onClick={handleShowUpdateProfile}
+                />
               </div>
-              {userData.pendingInvitations.length !== 0 && (
-                <ListGroup className="mb-4 border w-75">
-                  {userData.pendingInvitations.map((invitation: any) => (
-                    <ListGroupItem
-                      key={invitation._id}
-                      className="rounded-0 bg-transparent text-white d-flex flex-row align-items-center"
-                    >
-                      <span className="flex-grow-1 fs-4">
-                        {invitation.group.name}
-                      </span>
-                      <IoMdCheckmarkCircle
-                        className="fs-2 text-success"
-                        onClick={() => {
-                          acceptInvitation(invitation._id);
-                        }}
-                      />
-                      <IoRemoveCircle
-                        className="ms-3 fs-2 text-danger"
-                        onClick={() => {
-                          rejectInvitation(invitation._id);
-                        }}
-                      />
-                    </ListGroupItem>
-                  ))}
-                </ListGroup>
-              )}
+              <Offcanvas
+                show={showUpdateProfile}
+                onHide={handleCloseUpdateProfile}
+                placement="end"
+                className="bg-dark text-white"
+              >
+                <Offcanvas.Header closeButton closeVariant="white">
+                  <Offcanvas.Title>
+                    <h2 className="mt-2">Invitations ({userData.pendingInvitations.length})</h2>
+                  </Offcanvas.Title>
+                </Offcanvas.Header>
+                <Offcanvas.Body>
+                  {userData.pendingInvitations.length !== 0 && (
+                    <ListGroup className="mb-4 border">
+                      {userData.pendingInvitations.map((invitation: any) => (
+                        <ListGroupItem
+                          key={invitation._id}
+                          className="rounded-0 bg-transparent text-white d-flex flex-row align-items-center"
+                        >
+                          <span className="flex-grow-1 fs-4">
+                            {invitation.group.name}
+                          </span>
+                          <IoMdCheckmarkCircle
+                            className="fs-2"
+                            style={{ color: "#732bce" }}
+                            onClick={() => {
+                              acceptInvitation(invitation._id);
+                            }}
+                          />
+                          <IoRemoveCircle
+                            className="ms-3 fs-2 text-danger"
+                            onClick={() => {
+                              rejectInvitation(invitation._id);
+                            }}
+                          />
+                        </ListGroupItem>
+                      ))}
+                    </ListGroup>
+                  )}
+                </Offcanvas.Body>
+              </Offcanvas>
+
+              <Offcanvas
+                show={showAccountSettings}
+                onHide={handleCloseAccountSettings}
+                placement="end"
+                className="bg-dark text-white"
+              >
+                <Offcanvas.Header closeButton closeVariant="white">
+                  <Offcanvas.Title>
+                    <h2 className="mt-2">Account Settings</h2>
+                  </Offcanvas.Title>
+                </Offcanvas.Header>
+                <Offcanvas.Body>
+                  <EditProfileForm existingUser={userData} />
+                  <Button
+                    variant="danger"
+                    onClick={signout}
+                    size="lg"
+                    className="mt-5"
+                  >
+                    Sign Out
+                  </Button>
+                </Offcanvas.Body>
+              </Offcanvas>
             </Col>
           </>
         )}

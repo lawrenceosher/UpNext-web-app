@@ -67,7 +67,7 @@ export default function EditProfileForm({
             className="mt-3 border-0"
             onClick={updateExistingUser}
           >
-            Update Profile
+            Update Password
           </Button>
         </div>
       </div>
