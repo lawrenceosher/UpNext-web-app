@@ -423,10 +423,12 @@ export default function Profile() {
               <div>
                 <div>
                   <MdOutlineSettings
+                    id="icon-button"
                     className="display-5 float-end"
                     onClick={handleShowAccountSettings}
                   />
                   <MdNotificationsNone
+                    id="icon-button"
                     className="display-5 float-end me-2"
                     onClick={handleShowUpdateProfile}
                   />

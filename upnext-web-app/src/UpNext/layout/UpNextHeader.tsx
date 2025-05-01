@@ -22,6 +22,7 @@ export default function UpNextHeader() {
       <div className="d-flex my-auto">
         <Link to="/UpNext/Users">
           <BsPeople
+            id="icon-button"
             className={`display-5 me-3 ${
               pathname.includes("Users") ? "text-dark" : "text-white"
             }`}
@@ -29,9 +30,11 @@ export default function UpNextHeader() {
         </Link>
         <Link to="/UpNext/Account/Profile">
           <FaRegUser
-            id="profile-icon"
+            id="icon-button"
             className={`display-6 mt-1 ${
-              pathname === "/UpNext/Account/Profile" ? "text-dark" : "text-white"
+              pathname === "/UpNext/Account/Profile"
+                ? "text-dark"
+                : "text-white"
             }`}
           />{" "}
         </Link>
