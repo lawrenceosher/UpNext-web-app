@@ -10,7 +10,7 @@ import { Alert, Button, Form } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import * as queueClient from "../../clients/queueClient";
 import { Movie } from "../../types/movie";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export default function MovieDetails() {
@@ -19,7 +19,6 @@ export default function MovieDetails() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
 
   const [movie, setMovie] = useState<Movie | null>(null);
-  const [otherUsers, setOtherUsers] = useState<any>(null);
   const [movieQueue, setMovieQueue] = useState<any>(null);
 
   const [showAlert, setShowAlert] = useState(false);
@@ -77,29 +76,7 @@ export default function MovieDetails() {
       }
     };
 
-    const fetchOtherUsers = async () => {
-      if (!movieId) return;
-
-      try {
-        const otherUsers = await queueClient.findOtherUsersWithSameMedia(
-          "Movie",
-          movieId
-        );
-        if (!currentUser) {
-          setOtherUsers(otherUsers);
-        } else {
-          const otherUsersExceptCurrent = otherUsers.filter(
-            (user: any) => user.username !== currentUser.username
-          );
-          setOtherUsers(otherUsersExceptCurrent);
-        }
-      } catch (error) {
-        console.error("Error fetching other users:", error);
-      }
-    };
-
     fetchMovieDetails();
-    fetchOtherUsers();
   }, [currentUser, movieId]);
 
   if (!movie) return <div>Loading...</div>;
@@ -151,23 +128,6 @@ export default function MovieDetails() {
             <MdOutlineDescription className="me-2 fs-3" /> Description
           </h5>
           <p className="mt-3 text-start pe-3">{movie.description}</p>
-          {currentUser && (
-            <>
-              <h5 className="mt-5 fw-bold d-flex align-items-center">
-                <IoIosPeople className="me-2 fs-2" /> Other Users Who Watched
-              </h5>
-              <ul className="list-unstyled">
-                {otherUsers &&
-                  otherUsers.map((u: any) => (
-                    <li key={u._id}>
-                      <Link to={`/UpNext/Account/Profile/${u._id}`}>
-                        {u.username}
-                      </Link>
-                    </li>
-                  ))}
-              </ul>
-            </>
-          )}
 
           <div>
             <Form className="d-flex align-items-center flex-fill justify-content-end me-4">

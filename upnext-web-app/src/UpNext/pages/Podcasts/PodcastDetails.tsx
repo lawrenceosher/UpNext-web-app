@@ -2,11 +2,10 @@
 import Image from "react-bootstrap/Image";
 import { CiCalendar } from "react-icons/ci";
 import { MdAdd, MdOutlineDescription } from "react-icons/md";
-import { IoIosPeople } from "react-icons/io";
 import { Alert, Button, Form } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import * as queueClient from "../../clients/queueClient";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Podcast } from "../../types/podcast";
 import { SlMicrophone } from "react-icons/sl";
@@ -19,7 +18,6 @@ export default function PodcastDetails() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
 
   const [podcast, setPodcast] = useState<Podcast | null>(null);
-  const [otherUsers, setOtherUsers] = useState<any>(null);
   const [podcastQueue, setPodcastQueue] = useState<any>(null);
 
   const [showAlert, setShowAlert] = useState(false);
@@ -71,29 +69,7 @@ export default function PodcastDetails() {
       }
     };
 
-    const fetchOtherUsers = async () => {
-      if (!podcastId) return;
-
-      try {
-        const otherUsers = await queueClient.findOtherUsersWithSameMedia(
-          "Podcast",
-          podcastId
-        );
-        if (!currentUser) {
-          setOtherUsers(otherUsers);
-        } else {
-          const otherUsersExceptCurrent = otherUsers.filter(
-            (user: any) => user.username !== currentUser.username
-          );
-          setOtherUsers(otherUsersExceptCurrent);
-        }
-      } catch (error) {
-        console.error("Error fetching other users:", error);
-      }
-    };
-
     fetchPodcastDetails();
-    fetchOtherUsers();
   }, [currentUser, podcastId]);
 
   if (!podcast) return <div>Loading...</div>;
@@ -141,24 +117,6 @@ export default function PodcastDetails() {
               </li>
             ))}
           </ol>
-
-          {currentUser && (
-            <>
-              <h5 className="mt-3 fw-bold d-flex align-items-center">
-                <IoIosPeople className="me-2 fs-2" /> Other Users Who Listened
-              </h5>
-              <ul className="list-unstyled">
-                {otherUsers &&
-                  otherUsers.map((u: any) => (
-                    <li key={u._id}>
-                      <Link to={`/UpNext/Account/Profile/${u._id}`}>
-                        {u.username}
-                      </Link>
-                    </li>
-                  ))}
-              </ul>
-            </>
-          )}
 
           <div>
             <Form className="d-flex align-items-center flex-fill justify-content-end me-4">

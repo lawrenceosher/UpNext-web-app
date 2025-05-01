@@ -7,11 +7,10 @@ import {
   MdOutlineDescription,
   MdOutlineHeadphones,
 } from "react-icons/md";
-import { IoIosPeople } from "react-icons/io";
 import { Alert, Button, Form } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import * as queueClient from "../../clients/queueClient";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Album } from "../../types/album";
 import { IoMusicalNotesOutline } from "react-icons/io5";
@@ -23,7 +22,6 @@ export default function AlbumDetails() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
 
   const [album, setAlbum] = useState<Album | null>(null);
-  const [otherUsers, setOtherUsers] = useState<any>(null);
   const [albumQueue, setAlbumQueue] = useState<any>(null);
 
   const [showAlert, setShowAlert] = useState(false);
@@ -75,29 +73,7 @@ export default function AlbumDetails() {
       }
     };
 
-    const fetchOtherUsers = async () => {
-      if (!albumId) return;
-
-      try {
-        const otherUsers = await queueClient.findOtherUsersWithSameMedia(
-          "Album",
-          albumId
-        );
-        if (!currentUser) {
-          setOtherUsers(otherUsers);
-        } else {
-          const otherUsersExceptCurrent = otherUsers.filter(
-            (user: any) => user.username !== currentUser.username
-          );
-          setOtherUsers(otherUsersExceptCurrent);
-        }
-      } catch (error) {
-        console.error("Error fetching other users:", error);
-      }
-    };
-
     fetchAlbumDetails();
-    fetchOtherUsers();
   }, [currentUser, albumId]);
 
   if (!album) return <div>Loading...</div>;
@@ -148,24 +124,6 @@ export default function AlbumDetails() {
               </li>
             ))}
           </ol>
-
-          {currentUser && (
-            <>
-              <h5 className="mt-3 fw-bold d-flex align-items-center">
-                <IoIosPeople className="me-2 fs-2" /> Other Users Who Listened
-              </h5>
-              <ul className="list-unstyled">
-                {otherUsers &&
-                  otherUsers.map((u: any) => (
-                    <li key={u._id}>
-                      <Link to={`/UpNext/Account/Profile/${u._id}`}>
-                        {u.username}
-                      </Link>
-                    </li>
-                  ))}
-              </ul>
-            </>
-          )}
 
           <div>
             <Form className="d-flex align-items-center flex-fill justify-content-end me-4">
