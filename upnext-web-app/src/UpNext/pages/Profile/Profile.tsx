@@ -6,12 +6,17 @@ import {
   Container,
   ListGroup,
   ListGroupItem,
+  Offcanvas,
   Row,
 } from "react-bootstrap";
-import { MdDateRange } from "react-icons/md";
+import {
+  MdDateRange,
+  MdNotificationsNone,
+  MdOutlineSettings,
+} from "react-icons/md";
 import { BiMovie } from "react-icons/bi";
 import { FiTv } from "react-icons/fi";
-import { IoMusicalNotesOutline } from "react-icons/io5";
+import { IoMusicalNotesOutline, IoRemoveCircle } from "react-icons/io5";
 import { IoBookOutline } from "react-icons/io5";
 import { SlMicrophone } from "react-icons/sl";
 import { IoGameControllerOutline } from "react-icons/io5";
@@ -22,9 +27,11 @@ import { useEffect, useState } from "react";
 import * as userClient from "../../clients/userClient.ts";
 import * as queueClient from "../../clients/queueClient.ts";
 import * as groupClient from "../../clients/groupClient.ts";
+import * as invitationClient from "../../clients/invitationClient.ts";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentUser } from "../../redux/accountReducer.ts";
 import EditProfileForm from "./EditProfileForm.tsx";
+import { IoMdCheckmarkCircle } from "react-icons/io";
 
 export default function Profile() {
   const { userId } = useParams();
@@ -32,6 +39,15 @@ export default function Profile() {
   const [userData, setUserData] = useState<any | null>(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const [showUpdateProfile, setShowUpdateProfile] = useState(false);
+
+  const handleCloseUpdateProfile = () => setShowUpdateProfile(false);
+  const handleShowUpdateProfile = () => setShowUpdateProfile(true);
+
+  const [showAccountSettings, setShowAccountSettings] = useState(false);
+  const handleCloseAccountSettings = () => setShowAccountSettings(false);
+  const handleShowAccountSettings = () => setShowAccountSettings(true);
 
   const isViewingOwnProfile = userId === undefined && currentUser !== null;
 
@@ -41,6 +57,34 @@ export default function Profile() {
       month: "long",
       year: "numeric",
     });
+  };
+
+  const acceptInvitation = async (invitationId: string) => {
+    try {
+      await invitationClient.respondToInvitation(invitationId, true);
+      setUserData((prevState: any) => ({
+        ...prevState,
+        pendingInvitations: prevState.pendingInvitations.filter(
+          (invitation: any) => invitation._id !== invitationId
+        ),
+      }));
+    } catch (error) {
+      console.error("Error accepting invitation:", error);
+    }
+  };
+
+  const rejectInvitation = async (invitationId: string) => {
+    try {
+      await invitationClient.respondToInvitation(invitationId, false);
+      setUserData((prevState: any) => ({
+        ...prevState,
+        pendingInvitations: prevState.pendingInvitations.filter(
+          (invitation: any) => invitation._id !== invitationId
+        ),
+      }));
+    } catch (error) {
+      console.error("Error rejecting invitation:", error);
+    }
   };
 
   useEffect(() => {
@@ -69,39 +113,60 @@ export default function Profile() {
             podcasts: [],
             games: [],
           },
+          historyQueues: {
+            movies: [],
+            tv: [],
+            albums: [],
+            books: [],
+            podcasts: [],
+            games: [],
+          },
           groups: [],
+          pendingInvitations: [],
         });
 
-        // Fetch history summary after user data is set
+        // Fetch history queues after user data is set
         const historySummary = await queueClient.retrieveHistorySummaryForUser(
           user.username
         );
         setUserData((prevState: any) => ({
           ...prevState,
           historySummary: [
-            { category: "Movies", icon: BiMovie, value: historySummary.movie },
-            { category: "TV", icon: FiTv, value: historySummary.tv },
+            {
+              category: "Movies",
+              icon: BiMovie,
+              value: historySummary.movie.history,
+            },
+            { category: "TV", icon: FiTv, value: historySummary.tv.history },
             {
               category: "Albums",
               icon: IoMusicalNotesOutline,
-              value: historySummary.album,
+              value: historySummary.album.history,
             },
             {
               category: "Books",
               icon: IoBookOutline,
-              value: historySummary.book,
+              value: historySummary.book.history,
             },
             {
               category: "Podcasts",
               icon: SlMicrophone,
-              value: historySummary.podcast,
+              value: historySummary.podcast.history,
             },
             {
               category: "Games",
               icon: IoGameControllerOutline,
-              value: historySummary.game,
+              value: historySummary.game.history,
             },
           ],
+          historyQueues: {
+            movies: historySummary.movie.history,
+            tv: historySummary.tv.history,
+            albums: historySummary.album.history,
+            books: historySummary.book.history,
+            podcasts: historySummary.podcast.history,
+            games: historySummary.game.history,
+          },
         }));
 
         // Fetch current queues after user data is set
@@ -121,10 +186,18 @@ export default function Profile() {
 
         // Fetch groups
         const groups = await groupClient.getGroupsForUser(user.username);
-        console.log(groups);
         setUserData((prevState: any) => ({
           ...prevState,
           groups: groups,
+        }));
+
+        // Fetch pending invitations
+        const invitations = await invitationClient.getPendingInvitationsForUser(
+          user.username
+        );
+        setUserData((prevState: any) => ({
+          ...prevState,
+          pendingInvitations: invitations,
         }));
       } catch (error) {
         console.error("Error fetching user data or history summary:", error);
@@ -166,7 +239,7 @@ export default function Profile() {
                   className="d-flex align-items-center fs-3"
                 >
                   {<category.icon className=" me-2" />} {category.category}:{" "}
-                  {category.value}{" "}
+                  {category.value.length}{" "}
                 </li>
               ))}
             </ul>
@@ -181,31 +254,253 @@ export default function Profile() {
                     key={group._id}
                     className="d-flex align-items-center fs-3"
                   >
-                    {group.groupName}
+                    {group.name}
                   </li>
                 ))}
               </ul>
             </div>
           )}
-
-          {/* Only show the sign out button if you're viewing your own profile */}
-          {isViewingOwnProfile && (
-            <Button
-              variant="danger"
-              onClick={signout}
-              size="lg"
-              className="mt-4 mb-4"
-            >
-              Sign Out
-            </Button>
-          )}
         </Col>
 
-        {/* Only show the edit profile form if you're viewing your own profile */}
+        {/* Only show the personal history, account settings, and invitations if you're viewing your own profile */}
         {isViewingOwnProfile && (
           <>
             <Col>
-              <EditProfileForm existingUser={userData} />
+              <h4>Personal History Queues</h4>
+
+              <Accordion>
+                <ListGroup className="mb-4 border">
+                  <QueueGroupToggle eventKey="0">Movies</QueueGroupToggle>
+                  <Accordion.Collapse eventKey="0">
+                    <ListGroup>
+                      {userData.historyQueues.movies.map(
+                        (movie: any, index: number) => (
+                          <ListGroupItem
+                            key={movie._id}
+                            className="rounded-0 bg-transparent text-white"
+                            onClick={() =>
+                              navigate(`/UpNext/Movies/${movie._id}`)
+                            }
+                          >
+                            {index + 1}. {movie.title} (
+                            {movie.releaseDate.slice(0, 4)})
+                          </ListGroupItem>
+                        )
+                      )}
+                    </ListGroup>
+                  </Accordion.Collapse>
+                </ListGroup>
+              </Accordion>
+
+              <Accordion>
+                <ListGroup className="mb-4 border">
+                  <QueueGroupToggle eventKey="1">TV</QueueGroupToggle>
+                  <Accordion.Collapse eventKey="1">
+                    <ListGroup>
+                      {userData.historyQueues.tv.map(
+                        (tv: any, index: number) => (
+                          <ListGroupItem
+                            key={tv._id}
+                            className="rounded-0 bg-transparent text-white"
+                            onClick={() => navigate(`/UpNext/TV/${tv._id}`)}
+                          >
+                            {index + 1}. {tv.title} (
+                            {tv.firstAirDate.slice(0, 4)})
+                          </ListGroupItem>
+                        )
+                      )}
+                    </ListGroup>
+                  </Accordion.Collapse>
+                </ListGroup>
+              </Accordion>
+
+              <Accordion>
+                <ListGroup className="mb-4 border">
+                  <QueueGroupToggle eventKey="2">Albums</QueueGroupToggle>
+                  <Accordion.Collapse eventKey="2">
+                    <ListGroup>
+                      {userData.historyQueues.albums.map(
+                        (album: any, index: number) => (
+                          <ListGroupItem
+                            key={album._id}
+                            className="rounded-0 bg-transparent text-white"
+                            onClick={() =>
+                              navigate(`/UpNext/Albums/${album._id}`)
+                            }
+                          >
+                            {index + 1}. {album.title} (
+                            {album.releaseDate.slice(0, 4)})
+                          </ListGroupItem>
+                        )
+                      )}
+                    </ListGroup>
+                  </Accordion.Collapse>
+                </ListGroup>
+              </Accordion>
+            </Col>
+
+            <Col>
+              <h4>
+                <br />
+              </h4>
+
+              <Accordion>
+                <ListGroup className="mb-4 border">
+                  <QueueGroupToggle eventKey="3">Books</QueueGroupToggle>
+                  <Accordion.Collapse eventKey="3">
+                    <ListGroup>
+                      {userData.historyQueues.books.map(
+                        (book: any, index: number) => (
+                          <ListGroupItem
+                            key={book._id}
+                            className="rounded-0 bg-transparent text-white"
+                            onClick={() =>
+                              navigate(`/UpNext/Books/${book._id}`)
+                            }
+                          >
+                            {index + 1}. {book.title}{" "}
+                            {book.datePublished !== ""
+                              ? `(${book.datePublished.slice(0, 4)})`
+                              : ""}
+                          </ListGroupItem>
+                        )
+                      )}
+                    </ListGroup>
+                  </Accordion.Collapse>
+                </ListGroup>
+              </Accordion>
+
+              <Accordion>
+                <ListGroup className="mb-4 border">
+                  <QueueGroupToggle eventKey="4">Podcasts</QueueGroupToggle>
+                  <Accordion.Collapse eventKey="4">
+                    <ListGroup>
+                      {userData.historyQueues.podcasts.map(
+                        (podcast: any, index: number) => (
+                          <ListGroupItem
+                            key={podcast._id}
+                            className="rounded-0 bg-transparent text-white"
+                            onClick={() =>
+                              navigate(`/UpNext/Podcasts/${podcast._id}`)
+                            }
+                          >
+                            {index + 1}. {podcast.title} (
+                            {podcast.latestEpisodeDate.slice(0, 4)})
+                          </ListGroupItem>
+                        )
+                      )}
+                    </ListGroup>
+                  </Accordion.Collapse>
+                </ListGroup>
+              </Accordion>
+
+              <Accordion>
+                <ListGroup className="mb-4 border">
+                  <QueueGroupToggle eventKey="5">Games</QueueGroupToggle>
+                  <Accordion.Collapse eventKey="5">
+                    <ListGroup>
+                      {userData.historyQueues.games.map(
+                        (game: any, index: number) => (
+                          <ListGroupItem
+                            key={game._id}
+                            className="rounded-0 bg-transparent text-white"
+                            onClick={() =>
+                              navigate(`/UpNext/Games/${game._id}`)
+                            }
+                          >
+                            {index + 1}. {game.title} (
+                            {game.releaseDate.slice(0, 4)})
+                          </ListGroupItem>
+                        )
+                      )}
+                    </ListGroup>
+                  </Accordion.Collapse>
+                </ListGroup>
+              </Accordion>
+            </Col>
+
+            <Col className="col-auto">
+              <div>
+                <div>
+                  <MdOutlineSettings
+                    id="icon-button"
+                    className="display-5 float-end"
+                    onClick={handleShowAccountSettings}
+                  />
+                  <MdNotificationsNone
+                    id="icon-button"
+                    className="display-5 float-end me-2"
+                    onClick={handleShowUpdateProfile}
+                  />
+                </div>
+                <Offcanvas
+                  show={showUpdateProfile}
+                  onHide={handleCloseUpdateProfile}
+                  placement="end"
+                  className="bg-dark text-white"
+                >
+                  <Offcanvas.Header closeButton closeVariant="white">
+                    <Offcanvas.Title>
+                      <h2 className="mt-2">
+                        Invitations ({userData.pendingInvitations.length})
+                      </h2>
+                    </Offcanvas.Title>
+                  </Offcanvas.Header>
+                  <Offcanvas.Body>
+                    {userData.pendingInvitations.length !== 0 && (
+                      <ListGroup className="mb-4 border">
+                        {userData.pendingInvitations.map((invitation: any) => (
+                          <ListGroupItem
+                            key={invitation._id}
+                            className="rounded-0 bg-transparent text-white d-flex flex-row align-items-center"
+                          >
+                            <span className="flex-grow-1 fs-4">
+                              {invitation.group.name}
+                            </span>
+                            <IoMdCheckmarkCircle
+                              className="fs-2"
+                              style={{ color: "#732bce" }}
+                              onClick={() => {
+                                acceptInvitation(invitation._id);
+                              }}
+                            />
+                            <IoRemoveCircle
+                              className="ms-3 fs-2 text-danger"
+                              onClick={() => {
+                                rejectInvitation(invitation._id);
+                              }}
+                            />
+                          </ListGroupItem>
+                        ))}
+                      </ListGroup>
+                    )}
+                  </Offcanvas.Body>
+                </Offcanvas>
+
+                <Offcanvas
+                  show={showAccountSettings}
+                  onHide={handleCloseAccountSettings}
+                  placement="end"
+                  className="bg-dark text-white"
+                >
+                  <Offcanvas.Header closeButton closeVariant="white">
+                    <Offcanvas.Title>
+                      <h2 className="mt-2">Account Settings</h2>
+                    </Offcanvas.Title>
+                  </Offcanvas.Header>
+                  <Offcanvas.Body>
+                    <EditProfileForm existingUser={userData} />
+                    <Button
+                      variant="danger"
+                      onClick={signout}
+                      size="lg"
+                      className="mt-5"
+                    >
+                      Sign Out
+                    </Button>
+                  </Offcanvas.Body>
+                </Offcanvas>
+              </div>
             </Col>
           </>
         )}

@@ -42,7 +42,7 @@ export default function ListGroupSelect({
       <option value="">Personal</option>
       {groupsForUser.map((group: any) => (
         <option key={group._id} value={group._id}>
-          {group.groupName}
+          {group.name}
         </option>
       ))}
     </Form.Select>

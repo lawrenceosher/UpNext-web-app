@@ -4,25 +4,28 @@ import * as groupClient from "../../clients/groupClient";
 import { Button, ListGroup } from "react-bootstrap";
 import { Group } from "../../types/group";
 import { useSelector } from "react-redux";
-import { FaPencil, FaTrashCan } from "react-icons/fa6";
+import { FaTrashCan } from "react-icons/fa6";
 import { BsPeople } from "react-icons/bs";
 import { MdAdd } from "react-icons/md";
 import "../../../utils.css";
 import CreateGroupModal from "./CreateGroupModal";
 import DeleteGroupModal from "./DeleteGroupModal";
-import UpdateGroupModal from "./UpdateGroupModal";
+import GroupDetailsModal from "./GroupDetailsModal";
+import { IoMdRemoveCircle } from "react-icons/io";
+import LeaveGroupModal from "./LeaveGroupModal";
 
 export default function Groups() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const [groups, setGroups] = useState<Group[]>([]);
   const [newGroup, setNewGroup] = useState({
-    groupName: "",
-    users: [],
+    name: "",
+    creator: currentUser ? currentUser.username : "",
   });
   const [groupForModal, setGroupForModal] = useState<Group>({
-    groupName: "",
+    name: "",
     _id: "",
-    users: [],
+    creator: "",
+    members: [],
   });
 
   const [showDeleteGroup, setShowDeleteGroup] = useState(false);
@@ -33,18 +36,25 @@ export default function Groups() {
   const handleCloseCreateGroup = () => setShowCreateGroup(false);
   const handleShowCreateGroup = () => setShowCreateGroup(true);
 
-  const [showUpdateGroup, setShowUpdateGroup] = useState(false);
-  const handleCloseUpdateGroup = () => setShowUpdateGroup(false);
-  const handleShowUpdateGroup = () => setShowUpdateGroup(true);
+  const [showGroupDetailsModal, setShowGroupDetailsModal] = useState(false);
+  const handleCloseGroupDetailsModal = () => setShowGroupDetailsModal(false);
+  const handleShowGroupDetailsModal = () => setShowGroupDetailsModal(true);
+
+  const [showLeaveGroupModal, setShowLeaveGroupModal] = useState(false);
+  const handleCloseLeaveGroupModal = () => setShowLeaveGroupModal(false);
+  const handleShowLeaveGroupModal = () => setShowLeaveGroupModal(true);
 
   const handleCreateGroup = async () => {
     try {
       const createdGroup = await groupClient.createGroup(
-        newGroup.groupName,
-        newGroup.users
+        newGroup.name,
+        newGroup.creator
       );
       setGroups((prevGroups) => [...prevGroups, createdGroup]);
-      setNewGroup({ groupName: "", users: [] });
+      setNewGroup({
+        name: "",
+        creator: currentUser ? currentUser.username : "",
+      });
       handleCloseCreateGroup();
     } catch (error) {
       console.error("Error creating group:", error);
@@ -66,8 +76,7 @@ export default function Groups() {
     try {
       const updatedGroupData = await groupClient.updateGroup(
         groupForModal._id,
-        groupForModal.groupName,
-        groupForModal.users
+        groupForModal.name
       );
       setGroups((prevGroups) =>
         prevGroups.map((group) =>
@@ -79,27 +88,33 @@ export default function Groups() {
     }
   };
 
+  const handleLeaveGroup = async (groupId: string) => {
+    try {
+      await groupClient.removeGroupMember(groupId, currentUser.username);
+      setGroups((prevGroups) =>
+        prevGroups.filter((group) => group._id !== groupId)
+      );
+    } catch (error) {
+      console.error("Error leaving group:", error);
+    }
+  };
+
   useEffect(() => {
     const fetchGroups = async () => {
       try {
-        const groupRes = await groupClient.getAllGroups();
+        if (!currentUser) return;
+        const groupRes = await groupClient.getGroupsForUser(
+          currentUser.username
+        );
         setGroups(groupRes);
       } catch (error) {
         console.error("Error fetching groups:", error);
       }
     };
     fetchGroups();
-  }, []);
+  }, [currentUser, groupForModal]);
 
-  if (currentUser && currentUser.role !== "ADMIN") {
-    return (
-      <div className="d-flex justify-content-center align-items-center vh-100">
-        <h1 className="text-white">
-          You do not have permission to view this page.
-        </h1>
-      </div>
-    );
-  }
+  if (!currentUser) return;
 
   return (
     <div>
@@ -114,21 +129,29 @@ export default function Groups() {
       <DeleteGroupModal
         show={showDeleteGroup}
         handleClose={handleCloseDeleteGroup}
-        groupName={groupForModal.groupName}
+        groupName={groupForModal.name}
         groupId={groupForModal._id}
         deleteGroup={handleDeleteGroup}
       />
 
-      <UpdateGroupModal
-        show={showUpdateGroup}
-        handleClose={handleCloseUpdateGroup}
-        updatedGroup={groupForModal}
-        setUpdatedGroup={setGroupForModal}
+      <GroupDetailsModal
+        show={showGroupDetailsModal}
+        handleClose={handleCloseGroupDetailsModal}
+        groupDetails={groupForModal}
+        setGroupDetails={setGroupForModal}
         handleUpdateGroup={handleUpdateGroup}
       />
 
+      <LeaveGroupModal
+        show={showLeaveGroupModal}
+        handleClose={handleCloseLeaveGroupModal}
+        groupName={groupForModal.name}
+        groupId={groupForModal._id}
+        leaveGroup={handleLeaveGroup}
+      />
+
       <div className="d-flex me-4">
-        <h1 className="flex-grow-1">Groups ({groups.length})</h1>
+        <h1 className="flex-grow-1">Joined Groups ({groups.length})</h1>
         <Button
           size="lg"
           id="action-button"
@@ -144,26 +167,37 @@ export default function Groups() {
             <ListGroup.Item
               key={group._id}
               className="d-flex flex-row align-items-center bg-transparent text-white "
+              onClick={() => {
+                if (currentUser && group.creator === currentUser.username) {
+                  setGroupForModal(group);
+                  handleShowGroupDetailsModal();
+                }
+              }}
             >
               <BsPeople className="me-3 fs-1 text-secondary" />
               <div className="fs-5">
-                <span className="fw-bold">{group.groupName}</span>
-                <div>Users: {group.users.join(", ")}</div>
+                <span className="fw-bold">{group.name}</span>
+                <div>Created By: {group.creator}</div>
+                <div>Users: {group.members.join(", ")}</div>
               </div>
-              {currentUser && currentUser.role === "ADMIN" && (
+              {currentUser && group.creator === currentUser.username ? (
                 <div className="d-inline-flex flex-grow-1 justify-content-end fs-3">
-                  <FaPencil
-                    className="me-3"
-                    onClick={() => {
+                  <FaTrashCan
+                    className="text-danger"
+                    onClick={(e) => {
+                      e.stopPropagation();
                       setGroupForModal(group);
-                      handleShowUpdateGroup();
+                      handleShowDeleteGroup();
                     }}
                   />
-                  <FaTrashCan
+                </div>
+              ) : (
+                <div className="d-inline-flex flex-grow-1 justify-content-end fs-1">
+                  <IoMdRemoveCircle
                     className="text-danger"
                     onClick={() => {
                       setGroupForModal(group);
-                      handleShowDeleteGroup();
+                      handleShowLeaveGroupModal();
                     }}
                   />
                 </div>

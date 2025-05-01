@@ -1,20 +1,43 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Form } from "react-bootstrap";
+import { Alert, Button, Form } from "react-bootstrap";
 import "./SignUp.css";
 import { Link, useNavigate } from "react-router";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCurrentUser } from "../../redux/accountReducer";
 import * as userClient from "../../clients/userClient";
+import { clearErrorMessage, setErrorMessage } from "../../redux/errorReducer";
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
-  const [user, setUser] = useState<any>({});
+  const [user, setUser] = useState({
+    username: "",
+    password: "",
+    verifyPassword: "",
+  });
+  const { errorMessage } = useSelector((state: any) => state.errorReducer);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const signUp = async () => {
-    const currentUser = await userClient.signup(user);
+    if (!user.username || !user.password) {
+      dispatch(setErrorMessage("Please enter a username and password"));
+      return;
+    }
+    if (user.password !== user.verifyPassword) {
+      dispatch(setErrorMessage("Passwords do not match"));
+      return;
+    }
+
+    let currentUser;
+    try {
+      currentUser = await userClient.signup(user);
+    } catch (error) {
+      dispatch(setErrorMessage((error as Error).message));
+      return;
+    }
+    
+
     dispatch(setCurrentUser(currentUser));
     navigate("/UpNext/Home");
   };
@@ -22,6 +45,18 @@ export default function SignUp() {
   return (
     <div className="d-flex justify-content-center">
       <div>
+        {errorMessage && (
+          <div className="d-block">
+            <Alert
+              variant="danger"
+              className="text-center mt-5 mb-3 text-center"
+              onClose={() => dispatch(clearErrorMessage())}
+              dismissible
+            >
+              <Alert.Heading>{errorMessage}</Alert.Heading>
+            </Alert>
+          </div>
+        )}
         <h1 className="fw-bold display-5 mt-5 mb-3 text-center">UpNext</h1>
         <div
           id="signup-form"
@@ -56,61 +91,9 @@ export default function SignUp() {
                 size="lg"
                 type={showPassword ? "text" : "password"}
                 placeholder="Verify Password"
-                className="bg-transparent text-white"
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="firstName">
-              <Form.Label>First Name</Form.Label>
-              <Form.Control
-                size="lg"
-                type="text"
-                placeholder="Enter First Name"
-                value={user.firstName}
-                onChange={(e) => setUser({ ...user, firstName: e.target.value })}
-                className="bg-transparent text-white"
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="lastName">
-              <Form.Label>Last Name</Form.Label>
-              <Form.Control
-                size="lg"
-                type="text"
-                placeholder="Enter Last Name"
-                value={user.lastName}
-                onChange={(e) => setUser({ ...user, lastName: e.target.value })}
-                className="bg-transparent text-white"
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="email">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                size="lg"
-                type="email"
-                placeholder="Enter Email"
-                value={user.email}
-                onChange={(e) => setUser({ ...user, email: e.target.value })}
-                className="bg-transparent text-white"
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="role">
-              <Form.Label>Role</Form.Label>
-              <Form.Check
-                type="radio"
-                name="role"
-                label="Regular User"
+                value={user.verifyPassword}
                 onChange={(e) =>
-                  setUser({ ...user, role: e.target.value })
-                }
-                value={"USER"}
-                className="bg-transparent text-white"
-              />
-              <Form.Check
-                type="radio"
-                name="role"
-                label="System Administrator"
-                value={"ADMIN"}
-                onChange={(e) =>
-                  setUser({ ...user, role: e.target.value })
+                  setUser({ ...user, verifyPassword: e.target.value })
                 }
                 className="bg-transparent text-white"
               />
@@ -124,8 +107,8 @@ export default function SignUp() {
             onClick={() => setShowPassword(!showPassword)}
           />
 
-          <div className="d-flex justify-content-end mt-2">
-            <div className="fs-6">
+          <div className="d-flex mt-2">
+            <div className="fs-6 flex-grow-1">
               Already have an account? <br />
               <Link to="/UpNext/LogIn" className="text-white">
                 Log In
@@ -136,6 +119,11 @@ export default function SignUp() {
               id="signup-button"
               className="ms-3 border-0"
               onClick={signUp}
+              disabled={
+                user.username.length < 1 ||
+                user.password.length < 1 ||
+                user.verifyPassword.length < 1
+              }
             >
               Sign Up
             </Button>

@@ -29,6 +29,7 @@ export default function UpNextNavigation() {
     >
       {links.map((link) => (
         <ListGroup.Item
+          id="icon-button"
           key={link.path}
           as={Link}
           to={`/UpNext/${link.path}`}

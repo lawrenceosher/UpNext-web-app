@@ -20,6 +20,10 @@ export default function LogIn() {
   const { errorMessage } = useSelector((state: any) => state.errorReducer);
 
   const logIn = async () => {
+    if (!credentials.username || !credentials.password) {
+      dispatch(setErrorMessage("Please enter a username and password"));
+      return;
+    }
     const user = await userClient.signin(credentials);
     if (!user) {
       dispatch(setErrorMessage("Invalid username or password"));
@@ -85,8 +89,8 @@ export default function LogIn() {
             onClick={() => setShowPassword(!showPassword)}
           />
 
-          <div className="d-flex justify-content-end mt-2">
-            <div className="fs-6">
+          <div className="d-flex mt-2">
+            <div className="fs-6 flex-grow-1">
               Don't have an account? <br />
               <Link to="/UpNext/Register" className="text-white">
                 Sign Up

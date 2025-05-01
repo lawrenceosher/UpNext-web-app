@@ -16,10 +16,6 @@ export interface UserCredentials {
  */
 export interface User extends UserCredentials {
   _id: string;
-  firstName: string;
-  lastName: string;
   dateJoined: Date;
-  email: string;
-  phone: string;
-  role: string;
+
 }
