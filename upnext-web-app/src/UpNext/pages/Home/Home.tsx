@@ -10,7 +10,7 @@ import useCurrentQueues from "../../hooks/useCurrentQueues";
 /**
  * Home component that displays the trending media and current personal queues.
  * It retrieves the current user and their queues, as well as the trending media
- * for both anonymous users and logged-in users.
+ * for both anonymous users and logged-in users. Default landing page for the app.
  * @returns A component that displays the trending media and current personal queues.
  */
 export default function Home() {
