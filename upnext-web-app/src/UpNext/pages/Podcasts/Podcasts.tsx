@@ -3,18 +3,18 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import { IoTrendingUpSharp } from "react-icons/io5";
 import { MdHistory, MdOutlineDone, MdAdd } from "react-icons/md";
 
-import MediaSearch from "../../components/MediaSearch";
+import MediaSearch from "../../components/QueuePages/MediaSearch";
 
 import "../../../utils.css";
 import "../Movies/Movies.css";
-import QueueList from "../../components/QueueList";
+import QueueList from "../../components/QueuePages/QueueList";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import * as queueClient from "../../clients/queueClient";
 import { Queue } from "../../types/queue";
 import { Podcast } from "../../types/podcast";
 import PodcastSummaryCard from "../../components/SummaryCards/PodcastSummaryCard";
-import ListGroupSelect from "../../components/ListGroupSelect";
+import ListGroupSelect from "../../components/QueuePages/ListGroupSelect";
 
 export default function Podcasts() {
   const [queueHistorySelected, setQueueHistorySelected] = useState(false);

@@ -3,18 +3,18 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import { IoTrendingUpSharp } from "react-icons/io5";
 import { MdHistory, MdOutlineDone, MdAdd } from "react-icons/md";
 
-import MediaSearch from "../../components/MediaSearch";
+import MediaSearch from "../../components/QueuePages/MediaSearch";
 import MovieSummaryCard from "../../components/SummaryCards/MovieSummaryCard";
 
 import "../../../utils.css";
 import "./Movies.css";
-import QueueList from "../../components/QueueList";
+import QueueList from "../../components/QueuePages/QueueList";
 import { useEffect, useState } from "react";
 import { Movie } from "../../types/movie";
 import { useSelector } from "react-redux";
 import * as queueClient from "../../clients/queueClient";
 import { Queue } from "../../types/queue";
-import ListGroupSelect from "../../components/ListGroupSelect";
+import ListGroupSelect from "../../components/QueuePages/ListGroupSelect";
 
 export default function Movies() {
   const [queueHistorySelected, setQueueHistorySelected] = useState(false);
@@ -77,7 +77,12 @@ export default function Movies() {
     <Container>
       <Row>
         <Col>
-          {currentUser && <ListGroupSelect selectedGroup={selectedGroup} setSelectedGroup={setSelectedGroup} />}
+          {currentUser && (
+            <ListGroupSelect
+              selectedGroup={selectedGroup}
+              setSelectedGroup={setSelectedGroup}
+            />
+          )}
           <QueueList
             mediaType="Movie"
             queue={movieQueue}

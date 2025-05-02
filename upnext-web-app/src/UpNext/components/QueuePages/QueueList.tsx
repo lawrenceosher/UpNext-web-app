@@ -3,9 +3,9 @@ import { FormCheck, ListGroup } from "react-bootstrap";
 import { CiCircleRemove } from "react-icons/ci";
 import { useState } from "react";
 import DeleteQueueItemModal from "./DeleteQueueItemModal";
-import "./QueueList.css";
+import "./styles/QueueList.css";
 import { useSelector } from "react-redux";
-import * as queueClient from "../clients/queueClient";
+import * as queueClient from "../../clients/queueClient";
 
 export default function QueueList({
   mediaType,
@@ -31,8 +31,8 @@ export default function QueueList({
   const handleClose = () => setShowDeleteQueueItemModal(false);
   const handleShow = () => setShowDeleteQueueItemModal(true);
   const [queueItemForModal, setQueueItemForModal] = useState<any>({
-    _id: '',
-    title: '',
+    _id: "",
+    title: "",
   });
   const { currentUser } = useSelector((state: any) => state.accountReducer);
 

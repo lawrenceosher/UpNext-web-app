@@ -74,6 +74,7 @@ export default function GroupDetailsModal({
 
           <h4>Creator: {groupDetails.creator}</h4>
 
+          { /* Displaying all of the members of the group */ }
           <h5 className="mt-4 text-start">Group Members:</h5>
           <ListGroup id="users" className="text-start">
             {groupDetails.members.map((user: any, index: any) => (
@@ -86,6 +87,7 @@ export default function GroupDetailsModal({
                   <span className="fw-bold">{user}</span>
                 </div>
                 {groupDetails.creator !== user && (
+                  // Only show the remove button if the user is not the creator
                   <FaTrash
                     className="fs-2 text-danger"
                     onClick={() => {
@@ -112,6 +114,7 @@ export default function GroupDetailsModal({
                 {invitedUsers
                   .map((invite: any) => invite.invitedUser)
                   .includes(user.username) ? (
+                  // If the user is already invited, show the cancel button
                   <MdOutlineCancelScheduleSend
                     className="fs-2 text-danger"
                     onClick={() => {
@@ -123,6 +126,7 @@ export default function GroupDetailsModal({
                     }}
                   />
                 ) : (
+                  // If the user is not invited, show the send button
                   <RiMailAddLine
                     className="fs-2 text-secondary"
                     onClick={() => {
