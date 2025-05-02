@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import * as queueClient from "../../clients/queueClient";
 import { Queue } from "../../types/queue";
 import { Podcast } from "../../types/podcast";
-import PodcastSummaryCard from "../../components/PodcastSummaryCard";
+import PodcastSummaryCard from "../../components/SummaryCards/PodcastSummaryCard";
 import ListGroupSelect from "../../components/ListGroupSelect";
 
 export default function Podcasts() {

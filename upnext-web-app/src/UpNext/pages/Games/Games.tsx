@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import * as queueClient from "../../clients/queueClient";
 import { Queue } from "../../types/queue";
 import { VideoGame } from "../../types/game";
-import GameSummaryCard from "../../components/GameSummaryCard";
+import GameSummaryCard from "../../components/SummaryCards/GameSummaryCard";
 import ListGroupSelect from "../../components/ListGroupSelect";
 
 export default function Games() {

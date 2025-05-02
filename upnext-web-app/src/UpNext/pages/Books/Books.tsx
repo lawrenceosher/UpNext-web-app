@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import * as queueClient from "../../clients/queueClient";
 import { Queue } from "../../types/queue";
 import { Book } from "../../types/book";
-import BookSummaryCard from "../../components/BookSummaryCard";
+import BookSummaryCard from "../../components/SummaryCards/BookSummaryCard";
 import ListGroupSelect from "../../components/ListGroupSelect";
 
 export default function Books() {

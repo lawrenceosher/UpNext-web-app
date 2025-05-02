@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import * as queueClient from "../../clients/queueClient";
 import { Queue } from "../../types/queue";
 import { Album } from "../../types/album";
-import AlbumSummaryCard from "../../components/AlbumSummaryCard";
+import AlbumSummaryCard from "../../components/SummaryCards/AlbumSummaryCard";
 import ListGroupSelect from "../../components/ListGroupSelect";
 
 export default function Albums() {

@@ -4,7 +4,7 @@ import { IoTrendingUpSharp } from "react-icons/io5";
 import { MdHistory, MdOutlineDone, MdAdd } from "react-icons/md";
 
 import MediaSearch from "../../components/MediaSearch";
-import MovieSummaryCard from "../../components/MovieSummaryCard";
+import MovieSummaryCard from "../../components/SummaryCards/MovieSummaryCard";
 
 import "../../../utils.css";
 import "./Movies.css";

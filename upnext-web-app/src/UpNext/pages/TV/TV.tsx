@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import * as queueClient from "../../clients/queueClient";
 import { Queue } from "../../types/queue";
 import { TVShow } from "../../types/tvShow";
-import TVSummaryCard from "../../components/TVSummaryCard";
+import TVSummaryCard from "../../components/SummaryCards/TVSummaryCard";
 import ListGroupSelect from "../../components/ListGroupSelect";
 
 export default function TV() {
