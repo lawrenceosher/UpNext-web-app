@@ -3,6 +3,14 @@ import { Modal } from "react-bootstrap";
 import { Button, Form } from "react-bootstrap";
 import { MdAdd } from "react-icons/md";
 
+/**
+ * Modal to create a new group
+ * @param show Condition to show the modal
+ * @param handleClose Function to close the modal
+ * @param newGroup Object containing the new group details
+ * @param setNewGroup Function to set the new group details
+ * @param handleCreateGroup Function to handle the creation of the group
+ */
 export default function CreateGroupModal({
   show,
   handleClose,
@@ -16,7 +24,6 @@ export default function CreateGroupModal({
   setNewGroup: (group: any) => void;
   handleCreateGroup: () => void;
 }) {
-
   return (
     <div>
       <Modal show={show} onHide={handleClose} className="text-dark">

@@ -1,5 +1,13 @@
 import { Modal, Button } from "react-bootstrap";
 
+/**
+ * Modal to delete a group
+ * @param show Condition to show the modal
+ * @param handleClose Function to close the modal
+ * @param groupName Name of the group to be deleted
+ * @param groupId ID of the group to be deleted
+ * @param deleteGroup Function to handle the deletion of the group
+ */
 export default function DeleteGroupModal({
   show,
   handleClose,
