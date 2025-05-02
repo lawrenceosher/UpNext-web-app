@@ -1,11 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Container, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import "./Home.css";
 import { useSelector } from "react-redux";
-import CurrentPersonalQueues from "../../components/CurrentPersonalQueues";
 import TrendingMedia from "../../components/TrendingMedia";
 import useTrending from "../../hooks/useTrending";
 import useCurrentQueues from "../../hooks/useCurrentQueues";
+import MovieAccordion from "../../components/Accordions/MovieAccordion";
+import TVAccordion from "../../components/Accordions/TVAccordion";
+import AlbumAccordion from "../../components/Accordions/AlbumAccordion";
+import BookAccordion from "../../components/Accordions/BookAccordion";
+import PodcastAccordion from "../../components/Accordions/PodcastAccordion";
+import GameAccordion from "../../components/Accordions/GameAccordion";
 
 /**
  * Home component that displays the trending media and current personal queues.
@@ -44,7 +49,30 @@ export default function Home() {
           <Row className="mt-3">
             <h1>Current Personal Queues</h1>
           </Row>
-          <CurrentPersonalQueues currentQueues={currentQueues} />
+
+          {/* Display the current personal queues for the user */}
+          <Row className="mt-3">
+            <Col>
+              <MovieAccordion movies={currentQueues.movies} />
+            </Col>
+            <Col>
+              <TVAccordion shows={currentQueues.tv} />
+            </Col>
+            <Col>
+              <AlbumAccordion albums={currentQueues.albums} />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <BookAccordion books={currentQueues.books} />
+            </Col>
+            <Col>
+              <PodcastAccordion podcasts={currentQueues.podcasts} />
+            </Col>
+            <Col>
+              <GameAccordion games={currentQueues.games} />
+            </Col>
+          </Row>
         </>
       )}
     </Container>

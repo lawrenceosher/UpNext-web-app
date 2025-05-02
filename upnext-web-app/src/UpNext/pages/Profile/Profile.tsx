@@ -270,7 +270,7 @@ export default function Profile() {
         {isViewingOwnProfile && (
           <>
             <Col>
-              <h4>Personal History Queues</h4>
+              <h4>Personal Queues - History</h4>
               <MovieAccordion movies={userData.historyQueues.movies} />
               <TVAccordion shows={userData.historyQueues.tv} />
               <AlbumAccordion albums={userData.historyQueues.albums} />
@@ -375,7 +375,7 @@ export default function Profile() {
         {!isViewingOwnProfile && currentUser !== null && (
           <>
             <Col>
-              <h4>Current Personal Queues</h4>
+              <h4>Personal Queues - Current</h4>
               <MovieAccordion movies={userData.currentQueues.movies} />
               <TVAccordion shows={userData.currentQueues.tv} />
               <AlbumAccordion albums={userData.currentQueues.albums} />
