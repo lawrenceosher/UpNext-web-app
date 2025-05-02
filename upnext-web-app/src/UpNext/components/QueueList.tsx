@@ -122,7 +122,8 @@ export default function QueueList({
                   <CiCircleRemove
                     id="remove-button"
                     className="fs-2"
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       setQueueItemForModal(mediaItem);
                       handleShow();
                     }}
