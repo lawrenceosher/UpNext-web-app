@@ -3,7 +3,7 @@ import { FormCheck, ListGroup } from "react-bootstrap";
 import { CiCircleRemove } from "react-icons/ci";
 import { useState } from "react";
 import DeleteQueueItemModal from "./DeleteQueueItemModal";
-import "./styles/QueueList.css";
+import "../styles/QueueList.css";
 import { useSelector } from "react-redux";
 import * as queueClient from "../../clients/queueClient";
 

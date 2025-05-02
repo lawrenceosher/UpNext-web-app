@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { FormControl, InputGroup, ListGroup } from "react-bootstrap";
 import { FaSearch } from "react-icons/fa";
-import "./styles/MediaSearch.css";
+import "../styles/MediaSearch.css";
 import * as queueClient from "../../clients/queueClient";
 
 export default function MediaSearch({
