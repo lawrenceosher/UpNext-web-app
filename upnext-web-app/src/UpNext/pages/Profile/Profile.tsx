@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-  Accordion,
   Button,
   Col,
   Container,
@@ -21,7 +20,6 @@ import { IoBookOutline } from "react-icons/io5";
 import { SlMicrophone } from "react-icons/sl";
 import { IoGameControllerOutline } from "react-icons/io5";
 import "./Profile.css";
-import QueueGroupToggle from "./QueueGroupToggle";
 import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
 import * as userClient from "../../clients/userClient.ts";
@@ -32,6 +30,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCurrentUser } from "../../redux/accountReducer.ts";
 import EditProfileForm from "./EditProfileForm.tsx";
 import { IoMdCheckmarkCircle } from "react-icons/io";
+import MovieAccordion from "../../components/Accordions/MovieAccordion.tsx";
+import TVAccordion from "../../components/Accordions/TVAccordion.tsx";
+import AlbumAccordion from "../../components/Accordions/AlbumAccordion.tsx";
+import BookAccordion from "../../components/Accordions/BookAccordion.tsx";
+import PodcastAccordion from "../../components/Accordions/PodcastAccordion.tsx";
+import GameAccordion from "../../components/Accordions/GameAccordion.tsx";
 
 export default function Profile() {
   const { userId } = useParams();
@@ -267,156 +271,18 @@ export default function Profile() {
           <>
             <Col>
               <h4>Personal History Queues</h4>
-
-              <Accordion>
-                <ListGroup className="mb-4 border">
-                  <QueueGroupToggle eventKey="0">Movies</QueueGroupToggle>
-                  <Accordion.Collapse eventKey="0">
-                    <ListGroup>
-                      {userData.historyQueues.movies.map(
-                        (movie: any, index: number) => (
-                          <ListGroupItem
-                            key={movie._id}
-                            className="rounded-0 bg-transparent text-white"
-                            onClick={() =>
-                              navigate(`/UpNext/Movies/${movie._id}`)
-                            }
-                          >
-                            {index + 1}. {movie.title} (
-                            {movie.releaseDate.slice(0, 4)})
-                          </ListGroupItem>
-                        )
-                      )}
-                    </ListGroup>
-                  </Accordion.Collapse>
-                </ListGroup>
-              </Accordion>
-
-              <Accordion>
-                <ListGroup className="mb-4 border">
-                  <QueueGroupToggle eventKey="1">TV</QueueGroupToggle>
-                  <Accordion.Collapse eventKey="1">
-                    <ListGroup>
-                      {userData.historyQueues.tv.map(
-                        (tv: any, index: number) => (
-                          <ListGroupItem
-                            key={tv._id}
-                            className="rounded-0 bg-transparent text-white"
-                            onClick={() => navigate(`/UpNext/TV/${tv._id}`)}
-                          >
-                            {index + 1}. {tv.title} (
-                            {tv.firstAirDate.slice(0, 4)})
-                          </ListGroupItem>
-                        )
-                      )}
-                    </ListGroup>
-                  </Accordion.Collapse>
-                </ListGroup>
-              </Accordion>
-
-              <Accordion>
-                <ListGroup className="mb-4 border">
-                  <QueueGroupToggle eventKey="2">Albums</QueueGroupToggle>
-                  <Accordion.Collapse eventKey="2">
-                    <ListGroup>
-                      {userData.historyQueues.albums.map(
-                        (album: any, index: number) => (
-                          <ListGroupItem
-                            key={album._id}
-                            className="rounded-0 bg-transparent text-white"
-                            onClick={() =>
-                              navigate(`/UpNext/Albums/${album._id}`)
-                            }
-                          >
-                            {index + 1}. {album.title} (
-                            {album.releaseDate.slice(0, 4)})
-                          </ListGroupItem>
-                        )
-                      )}
-                    </ListGroup>
-                  </Accordion.Collapse>
-                </ListGroup>
-              </Accordion>
+              <MovieAccordion movies={userData.historyQueues.movies} />
+              <TVAccordion shows={userData.historyQueues.tv} />
+              <AlbumAccordion albums={userData.historyQueues.albums} />
             </Col>
 
             <Col>
               <h4>
                 <br />
               </h4>
-
-              <Accordion>
-                <ListGroup className="mb-4 border">
-                  <QueueGroupToggle eventKey="3">Books</QueueGroupToggle>
-                  <Accordion.Collapse eventKey="3">
-                    <ListGroup>
-                      {userData.historyQueues.books.map(
-                        (book: any, index: number) => (
-                          <ListGroupItem
-                            key={book._id}
-                            className="rounded-0 bg-transparent text-white"
-                            onClick={() =>
-                              navigate(`/UpNext/Books/${book._id}`)
-                            }
-                          >
-                            {index + 1}. {book.title}{" "}
-                            {book.datePublished !== ""
-                              ? `(${book.datePublished.slice(0, 4)})`
-                              : ""}
-                          </ListGroupItem>
-                        )
-                      )}
-                    </ListGroup>
-                  </Accordion.Collapse>
-                </ListGroup>
-              </Accordion>
-
-              <Accordion>
-                <ListGroup className="mb-4 border">
-                  <QueueGroupToggle eventKey="4">Podcasts</QueueGroupToggle>
-                  <Accordion.Collapse eventKey="4">
-                    <ListGroup>
-                      {userData.historyQueues.podcasts.map(
-                        (podcast: any, index: number) => (
-                          <ListGroupItem
-                            key={podcast._id}
-                            className="rounded-0 bg-transparent text-white"
-                            onClick={() =>
-                              navigate(`/UpNext/Podcasts/${podcast._id}`)
-                            }
-                          >
-                            {index + 1}. {podcast.title} (
-                            {podcast.latestEpisodeDate.slice(0, 4)})
-                          </ListGroupItem>
-                        )
-                      )}
-                    </ListGroup>
-                  </Accordion.Collapse>
-                </ListGroup>
-              </Accordion>
-
-              <Accordion>
-                <ListGroup className="mb-4 border">
-                  <QueueGroupToggle eventKey="5">Games</QueueGroupToggle>
-                  <Accordion.Collapse eventKey="5">
-                    <ListGroup>
-                      {userData.historyQueues.games.map(
-                        (game: any, index: number) => (
-                          <ListGroupItem
-                            key={game._id}
-                            className="rounded-0 bg-transparent text-white"
-                            onClick={() =>
-                              navigate(`/UpNext/Games/${game._id}`)
-                            }
-                          >
-                            {index + 1}. {game.title} (
-                            {game.releaseDate.slice(0, 4)})
-                          </ListGroupItem>
-                        )
-                      )}
-                    </ListGroup>
-                  </Accordion.Collapse>
-                </ListGroup>
-              </Accordion>
+              <BookAccordion books={userData.historyQueues.books} />
+              <PodcastAccordion podcasts={userData.historyQueues.podcasts} />
+              <GameAccordion games={userData.historyQueues.games} />
             </Col>
 
             <Col className="col-auto">
@@ -510,76 +376,9 @@ export default function Profile() {
           <>
             <Col>
               <h4>Current Personal Queues</h4>
-
-              <Accordion>
-                <ListGroup className="mb-4 border">
-                  <QueueGroupToggle eventKey="0">Movies</QueueGroupToggle>
-                  <Accordion.Collapse eventKey="0">
-                    <ListGroup>
-                      {userData.currentQueues.movies.map(
-                        (movie: any, index: number) => (
-                          <ListGroupItem
-                            key={movie._id}
-                            className="rounded-0 bg-transparent text-white"
-                            onClick={() =>
-                              navigate(`/UpNext/Movies/${movie._id}`)
-                            }
-                          >
-                            {index + 1}. {movie.title} (
-                            {movie.releaseDate.slice(0, 4)})
-                          </ListGroupItem>
-                        )
-                      )}
-                    </ListGroup>
-                  </Accordion.Collapse>
-                </ListGroup>
-              </Accordion>
-
-              <Accordion>
-                <ListGroup className="mb-4 border">
-                  <QueueGroupToggle eventKey="1">TV</QueueGroupToggle>
-                  <Accordion.Collapse eventKey="1">
-                    <ListGroup>
-                      {userData.currentQueues.tv.map(
-                        (tv: any, index: number) => (
-                          <ListGroupItem
-                            key={tv._id}
-                            className="rounded-0 bg-transparent text-white"
-                            onClick={() => navigate(`/UpNext/TV/${tv._id}`)}
-                          >
-                            {index + 1}. {tv.title} (
-                            {tv.firstAirDate.slice(0, 4)})
-                          </ListGroupItem>
-                        )
-                      )}
-                    </ListGroup>
-                  </Accordion.Collapse>
-                </ListGroup>
-              </Accordion>
-
-              <Accordion>
-                <ListGroup className="mb-4 border">
-                  <QueueGroupToggle eventKey="2">Albums</QueueGroupToggle>
-                  <Accordion.Collapse eventKey="2">
-                    <ListGroup>
-                      {userData.currentQueues.albums.map(
-                        (album: any, index: number) => (
-                          <ListGroupItem
-                            key={album._id}
-                            className="rounded-0 bg-transparent text-white"
-                            onClick={() =>
-                              navigate(`/UpNext/Albums/${album._id}`)
-                            }
-                          >
-                            {index + 1}. {album.title} (
-                            {album.releaseDate.slice(0, 4)})
-                          </ListGroupItem>
-                        )
-                      )}
-                    </ListGroup>
-                  </Accordion.Collapse>
-                </ListGroup>
-              </Accordion>
+              <MovieAccordion movies={userData.currentQueues.movies} />
+              <TVAccordion shows={userData.currentQueues.tv} />
+              <AlbumAccordion albums={userData.currentQueues.albums} />
             </Col>
 
             <Col>
@@ -587,79 +386,9 @@ export default function Profile() {
                 <br />
               </h4>
 
-              <Accordion>
-                <ListGroup className="mb-4 border">
-                  <QueueGroupToggle eventKey="3">Books</QueueGroupToggle>
-                  <Accordion.Collapse eventKey="3">
-                    <ListGroup>
-                      {userData.currentQueues.books.map(
-                        (book: any, index: number) => (
-                          <ListGroupItem
-                            key={book._id}
-                            className="rounded-0 bg-transparent text-white"
-                            onClick={() =>
-                              navigate(`/UpNext/Books/${book._id}`)
-                            }
-                          >
-                            {index + 1}. {book.title}{" "}
-                            {book.datePublished !== ""
-                              ? `(${book.datePublished.slice(0, 4)})`
-                              : ""}
-                          </ListGroupItem>
-                        )
-                      )}
-                    </ListGroup>
-                  </Accordion.Collapse>
-                </ListGroup>
-              </Accordion>
-
-              <Accordion>
-                <ListGroup className="mb-4 border">
-                  <QueueGroupToggle eventKey="4">Podcasts</QueueGroupToggle>
-                  <Accordion.Collapse eventKey="4">
-                    <ListGroup>
-                      {userData.currentQueues.podcasts.map(
-                        (podcast: any, index: number) => (
-                          <ListGroupItem
-                            key={podcast._id}
-                            className="rounded-0 bg-transparent text-white"
-                            onClick={() =>
-                              navigate(`/UpNext/Podcasts/${podcast._id}`)
-                            }
-                          >
-                            {index + 1}. {podcast.title} (
-                            {podcast.latestEpisodeDate.slice(0, 4)})
-                          </ListGroupItem>
-                        )
-                      )}
-                    </ListGroup>
-                  </Accordion.Collapse>
-                </ListGroup>
-              </Accordion>
-
-              <Accordion>
-                <ListGroup className="mb-4 border">
-                  <QueueGroupToggle eventKey="5">Games</QueueGroupToggle>
-                  <Accordion.Collapse eventKey="5">
-                    <ListGroup>
-                      {userData.currentQueues.games.map(
-                        (game: any, index: number) => (
-                          <ListGroupItem
-                            key={game._id}
-                            className="rounded-0 bg-transparent text-white"
-                            onClick={() =>
-                              navigate(`/UpNext/Games/${game._id}`)
-                            }
-                          >
-                            {index + 1}. {game.title} (
-                            {game.releaseDate.slice(0, 4)})
-                          </ListGroupItem>
-                        )
-                      )}
-                    </ListGroup>
-                  </Accordion.Collapse>
-                </ListGroup>
-              </Accordion>
+              <BookAccordion books={userData.currentQueues.books} />
+              <PodcastAccordion podcasts={userData.currentQueues.podcasts} />
+              <GameAccordion games={userData.currentQueues.games} />
             </Col>
           </>
         )}
