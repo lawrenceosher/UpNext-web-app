@@ -1,17 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, useEffect } from "react";
 import { ListGroup, Modal } from "react-bootstrap";
 import { Button, Form } from "react-bootstrap";
-import * as userClient from "../../clients/userClient";
-import * as invitationClient from "../../clients/invitationClient";
-import * as groupClient from "../../clients/groupClient";
 import { FaTrash, FaUserCircle } from "react-icons/fa";
 import { FaPencil } from "react-icons/fa6";
 import "./GroupDetailsModal.css";
 import { RiMailAddLine } from "react-icons/ri";
 import { BsPeople } from "react-icons/bs";
 import { MdOutlineCancelScheduleSend } from "react-icons/md";
+import { formatReadableDate } from "../../utils";
+import useGroupDetails from "../../hooks/useGroupDetails";
 
+/**
+ * Displays the details of a group, allowing the user to edit the group name,
+ * view group members, and send/unsend invitations to other users.
+ * It includes an input for editing group name as well.
+ */
 export default function GroupDetailsModal({
   show,
   handleClose,
@@ -25,97 +28,15 @@ export default function GroupDetailsModal({
   setGroupDetails: (group: any) => void;
   handleUpdateGroup: () => void;
 }) {
-  function formatReadableDate(isoDateString: string) {
-    const myDate = new Date(isoDateString);
-
-    const year = myDate.getFullYear();
-    const month = String(myDate.getMonth() + 1).padStart(2, "0");
-    const day = String(myDate.getDate()).padStart(2, "0");
-    return `${month}/${day}/${year}`;
-  }
-
-  const [allUsers, setAllUsers] = useState<any>([]);
-  const [isEditing, setIsEditing] = useState(false);
-  const [invitedUsers, setInvitedUsers] = useState<any>([]);
-
-  const sendNewInvitationToGroup = async (
-    groupId: string,
-    invitedUser: string
-  ) => {
-    try {
-      const sentInvitation = await invitationClient.sendInvitation(
-        groupId,
-        groupDetails.creator,
-        invitedUser
-      );
-      setInvitedUsers((prevInvitations: any) => [
-        ...prevInvitations,
-        sentInvitation,
-      ]);
-    } catch (error) {
-      console.error("Error sending invitation:", error);
-    }
-  };
-
-  const cancelSentInvitation = async (invitationId: string) => {
-    try {
-      await invitationClient.deleteSentInvitation(invitationId);
-      setInvitedUsers((prevInvitations: any) =>
-        prevInvitations.filter((invite: any) => invite._id !== invitationId)
-      );
-    } catch (error) {
-      console.error("Error canceling invitation:", error);
-    }
-  };
-
-  const removeGroupMember = async (username: string) => {
-    try {
-      await groupClient.removeGroupMember(groupDetails._id, username);
-      setGroupDetails((prevGroup: any) => ({
-        ...prevGroup,
-        members: prevGroup.members.filter(
-          (member: string) => member !== username
-        ),
-      }));
-      setInvitedUsers((prevInvitations: any) =>
-        prevInvitations.filter((invite: any) => invite.invitedUser !== username)
-      );
-    } catch (error) {
-      console.error("Error removing group member:", error);
-    }
-  };
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const users = await userClient.getAllUsers();
-        const filteredUsers = users.filter(
-          (user: any) => !groupDetails.members.includes(user.username)
-        );
-
-        setAllUsers(filteredUsers);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-        setAllUsers([]);
-      }
-    };
-    fetchUsers();
-  }, [groupDetails.creator, groupDetails.members]);
-
-  useEffect(() => {
-    const fetchPendingInvitationsForGroup = async () => {
-      try {
-        const invitations =
-          await invitationClient.getPendingInvitationsForGroup(
-            groupDetails._id
-          );
-        setInvitedUsers(invitations);
-      } catch (error) {
-        console.error("Error fetching pending invitations:", error);
-      }
-    };
-    fetchPendingInvitationsForGroup();
-  }, [groupDetails._id]);
+  const {
+    allUsers,
+    isEditing,
+    setIsEditing,
+    sendNewInvitationToGroup,
+    cancelSentInvitation,
+    removeGroupMember,
+    invitedUsers,
+  } = useGroupDetails(groupDetails, setGroupDetails);
 
   return (
     <div>

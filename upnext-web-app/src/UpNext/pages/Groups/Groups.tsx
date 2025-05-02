@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState } from "react";
-import * as groupClient from "../../clients/groupClient";
 import { Button, ListGroup } from "react-bootstrap";
 import { Group } from "../../types/group";
 import { useSelector } from "react-redux";
@@ -13,111 +11,44 @@ import DeleteGroupModal from "./DeleteGroupModal";
 import GroupDetailsModal from "./GroupDetailsModal";
 import { IoMdRemoveCircle } from "react-icons/io";
 import LeaveGroupModal from "./LeaveGroupModal";
+import useGroups from "../../hooks/useGroups";
 
+/**
+ * Displays the groups feature of the application where users can create, delete, and manage groups.
+ * It includes modals for creating a new group, deleting a group, viewing group details, and leaving a group.
+ */
 export default function Groups() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const [groups, setGroups] = useState<Group[]>([]);
-  const [newGroup, setNewGroup] = useState({
-    name: "",
-    creator: currentUser ? currentUser.username : "",
-  });
-  const [groupForModal, setGroupForModal] = useState<Group>({
-    name: "",
-    _id: "",
-    creator: "",
-    members: [],
-  });
 
-  const [showDeleteGroup, setShowDeleteGroup] = useState(false);
-  const handleCloseDeleteGroup = () => setShowDeleteGroup(false);
-  const handleShowDeleteGroup = () => setShowDeleteGroup(true);
-
-  const [showCreateGroup, setShowCreateGroup] = useState(false);
-  const handleCloseCreateGroup = () => setShowCreateGroup(false);
-  const handleShowCreateGroup = () => setShowCreateGroup(true);
-
-  const [showGroupDetailsModal, setShowGroupDetailsModal] = useState(false);
-  const handleCloseGroupDetailsModal = () => setShowGroupDetailsModal(false);
-  const handleShowGroupDetailsModal = () => setShowGroupDetailsModal(true);
-
-  const [showLeaveGroupModal, setShowLeaveGroupModal] = useState(false);
-  const handleCloseLeaveGroupModal = () => setShowLeaveGroupModal(false);
-  const handleShowLeaveGroupModal = () => setShowLeaveGroupModal(true);
-
-  const handleCreateGroup = async () => {
-    try {
-      const createdGroup = await groupClient.createGroup(
-        newGroup.name,
-        newGroup.creator
-      );
-      setGroups((prevGroups) => [...prevGroups, createdGroup]);
-      setNewGroup({
-        name: "",
-        creator: currentUser ? currentUser.username : "",
-      });
-      handleCloseCreateGroup();
-    } catch (error) {
-      console.error("Error creating group:", error);
-    }
-  };
-
-  const handleDeleteGroup = async (groupId: string) => {
-    try {
-      await groupClient.deleteGroup(groupId);
-      setGroups((prevGroups) =>
-        prevGroups.filter((group) => group._id !== groupId)
-      );
-    } catch (error) {
-      console.error("Error deleting group:", error);
-    }
-  };
-
-  const handleUpdateGroup = async () => {
-    try {
-      const updatedGroupData = await groupClient.updateGroup(
-        groupForModal._id,
-        groupForModal.name
-      );
-      setGroups((prevGroups) =>
-        prevGroups.map((group) =>
-          group._id === groupForModal._id ? updatedGroupData : group
-        )
-      );
-    } catch (error) {
-      console.error("Error updating group:", error);
-    }
-  };
-
-  const handleLeaveGroup = async (groupId: string) => {
-    try {
-      await groupClient.removeGroupMember(groupId, currentUser.username);
-      setGroups((prevGroups) =>
-        prevGroups.filter((group) => group._id !== groupId)
-      );
-    } catch (error) {
-      console.error("Error leaving group:", error);
-    }
-  };
-
-  useEffect(() => {
-    const fetchGroups = async () => {
-      try {
-        if (!currentUser) return;
-        const groupRes = await groupClient.getGroupsForUser(
-          currentUser.username
-        );
-        setGroups(groupRes);
-      } catch (error) {
-        console.error("Error fetching groups:", error);
-      }
-    };
-    fetchGroups();
-  }, [currentUser, groupForModal]);
+  const {
+    groups,
+    newGroup,
+    setNewGroup,
+    groupForModal,
+    setGroupForModal,
+    showDeleteGroup,
+    handleCloseDeleteGroup,
+    handleShowDeleteGroup,
+    showCreateGroup,
+    handleCloseCreateGroup,
+    handleShowCreateGroup,
+    showGroupDetailsModal,
+    handleCloseGroupDetailsModal,
+    handleShowGroupDetailsModal,
+    showLeaveGroupModal,
+    handleCloseLeaveGroupModal,
+    handleShowLeaveGroupModal,
+    handleCreateGroup,
+    handleDeleteGroup,
+    handleUpdateGroup,
+    handleLeaveGroup,
+  } = useGroups(currentUser);
 
   if (!currentUser) return;
 
   return (
     <div>
+      {/* Modals for creating, deleting, and viewing group details and leaving a group */}
       <CreateGroupModal
         show={showCreateGroup}
         handleClose={handleCloseCreateGroup}
@@ -161,6 +92,8 @@ export default function Groups() {
           <MdAdd className="me-1 mb-1 fs-4" /> Create Group
         </Button>
       </div>
+
+      {/* Rendering the list of groups the user is a member of */}
       {groups && groups.length > 0 && (
         <ListGroup className="mt-4 me-4">
           {groups.map((group: Group) => (
@@ -182,6 +115,7 @@ export default function Groups() {
               </div>
               {currentUser && group.creator === currentUser.username ? (
                 <div className="d-inline-flex flex-grow-1 justify-content-end fs-3">
+                  {/* Can only delete group if you are the group creator */}
                   <FaTrashCan
                     className="text-danger"
                     onClick={(e) => {
@@ -193,6 +127,7 @@ export default function Groups() {
                 </div>
               ) : (
                 <div className="d-inline-flex flex-grow-1 justify-content-end fs-1">
+                  {/* Can only leave group if you are not the group creator */}
                   <IoMdRemoveCircle
                     className="text-danger"
                     onClick={() => {
