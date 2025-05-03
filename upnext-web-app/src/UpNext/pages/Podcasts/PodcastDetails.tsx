@@ -3,74 +3,33 @@ import Image from "react-bootstrap/Image";
 import { CiCalendar } from "react-icons/ci";
 import { MdAdd, MdOutlineDescription } from "react-icons/md";
 import { Alert, Button, Form } from "react-bootstrap";
-import { useEffect, useState } from "react";
-import * as queueClient from "../../clients/queueClient";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Podcast } from "../../types/podcast";
 import { SlMicrophone } from "react-icons/sl";
 import { BiLabel } from "react-icons/bi";
 import { FaRegListAlt } from "react-icons/fa";
+import useDetails from "../../hooks/useDetails";
+import { formatDateString } from "../../utils";
 
 export default function PodcastDetails() {
   const { podcastId } = useParams();
-
   const { currentUser } = useSelector((state: any) => state.accountReducer);
 
-  const [podcast, setPodcast] = useState<Podcast | null>(null);
-  const [podcastQueue, setPodcastQueue] = useState<any>(null);
-
-  const [showAlert, setShowAlert] = useState(false);
-
-  const readableDate = (dateString: string) => {
-    return `${dateString.slice(5, 7)}/${dateString.slice(
-      8,
-      10
-    )}/${dateString.slice(0, 4)}`;
+  const {
+    media: podcast,
+    addMediaToCurrentQueue: addPodcastToCurrentQueue,
+    showAlert,
+    setShowAlert,
+    isMediaInQueue,
+  } = useDetails(currentUser, podcastId, "Podcast") as {
+    media: Podcast;
+    mediaQueue: any;
+    addMediaToCurrentQueue: () => void;
+    showAlert: boolean;
+    setShowAlert: (value: boolean) => void;
+    isMediaInQueue: (mediaId: string) => boolean;
   };
-
-  const addPodcastToCurrentQueue = async () => {
-    if (!currentUser || !podcastQueue) return;
-
-    try {
-      const updatedQueue = await queueClient.addMediaToQueue(
-        "Podcast",
-        podcastQueue._id,
-        podcast
-      );
-      setPodcastQueue(updatedQueue);
-    } catch (error) {
-      console.error("Error adding podcast to queue:", error);
-    }
-  };
-
-  useEffect(() => {
-    const fetchPodcastDetails = async () => {
-      try {
-        if (!podcastId) return;
-        const podcastResult = await queueClient.retrieveMediaDetails(
-          "Podcast",
-          podcastId
-        );
-        setPodcast(podcastResult);
-      } catch (error) {
-        console.error("Error fetching podcast:", error);
-      }
-
-      if (!currentUser) return;
-      try {
-        const queue = await queueClient.retrieveQueueByUserAndMediaType(
-          currentUser.username,
-          "Podcast"
-        );
-        setPodcastQueue(queue);
-      } catch (error) {
-        console.error("Error fetching queue items:", error);
-      }
-    };
-
-    fetchPodcastDetails();
-  }, [currentUser, podcastId]);
 
   if (!podcast) return <div>Loading...</div>;
 
@@ -83,7 +42,9 @@ export default function PodcastDetails() {
           dismissible
         >
           <Alert.Heading>Add Podcast</Alert.Heading>
-          <p>Successfully added {podcast.title} to your current personal queue!</p>
+          <p>
+            Successfully added {podcast.title} to your current personal queue!
+          </p>
         </Alert>
       )}
       <div className="d-flex">
@@ -101,7 +62,7 @@ export default function PodcastDetails() {
           </h4>
           <h4 className="mt-3 d-flex align-items-center">
             <CiCalendar className="me-2 fs-3" />{" "}
-            {readableDate(podcast.latestEpisodeDate)}
+            {formatDateString(podcast.latestEpisodeDate)}
           </h4>
           <h5 className="mt-3 fw-bold d-flex align-items-center">
             <MdOutlineDescription className="me-2 fs-3" /> Description
@@ -124,17 +85,7 @@ export default function PodcastDetails() {
                 size="lg"
                 id="action-button"
                 className="my-3 float-end purple-brand-bg border-0 w-25"
-                disabled={
-                  !currentUser ||
-                  (podcastQueue &&
-                    podcastQueue.current
-                      .map((item: any) => item._id)
-                      .includes(podcastId)) ||
-                  (podcastQueue &&
-                    podcastQueue.history
-                      .map((item: any) => item._id)
-                      .includes(podcastId))
-                }
+                disabled={!currentUser || isMediaInQueue(podcastId ?? "")}
                 onClick={() => {
                   addPodcastToCurrentQueue();
                   setShowAlert(true);

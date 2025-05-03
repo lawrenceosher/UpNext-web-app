@@ -25,4 +25,16 @@ function formatReadableDate(isoDateString: string) {
   return `${month}/${day}/${year}`;
 }
 
-export { readableDateJoined, formatReadableDate };
+/**
+ * Formats a date string from YYYY-MM-DD to MM/DD/YYYY
+ * @param dateString - The date string to be formatted
+ * @returns A string representing the date in MM/DD/YYYY format
+ */
+function formatDateString(dateString: string) {
+  return `${dateString.slice(5, 7)}/${dateString.slice(
+    8,
+    10
+  )}/${dateString.slice(0, 4)}`;
+};
+
+export { readableDateJoined, formatReadableDate, formatDateString };

@@ -8,73 +8,32 @@ import {
   MdOutlineHeadphones,
 } from "react-icons/md";
 import { Alert, Button, Form } from "react-bootstrap";
-import { useEffect, useState } from "react";
-import * as queueClient from "../../clients/queueClient";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Album } from "../../types/album";
 import { IoMusicalNotesOutline } from "react-icons/io5";
 import { BiLabel } from "react-icons/bi";
+import useDetails from "../../hooks/useDetails";
+import { formatDateString } from "../../utils";
 
 export default function AlbumDetails() {
   const { albumId } = useParams();
-
   const { currentUser } = useSelector((state: any) => state.accountReducer);
 
-  const [album, setAlbum] = useState<Album | null>(null);
-  const [albumQueue, setAlbumQueue] = useState<any>(null);
-
-  const [showAlert, setShowAlert] = useState(false);
-
-  const readableDate = (dateString: string) => {
-    return `${dateString.slice(5, 7)}/${dateString.slice(
-      8,
-      10
-    )}/${dateString.slice(0, 4)}`;
+  const {
+    media: album,
+    addMediaToCurrentQueue: addAlbumToCurrentQueue,
+    showAlert,
+    setShowAlert,
+    isMediaInQueue,
+  } = useDetails(currentUser, albumId, "Album") as {
+    media: Album;
+    mediaQueue: any;
+    addMediaToCurrentQueue: () => void;
+    showAlert: boolean;
+    setShowAlert: (value: boolean) => void;
+    isMediaInQueue: (mediaId: string) => boolean;
   };
-
-  const addAlbumToCurrentQueue = async () => {
-    if (!currentUser || !albumQueue) return;
-
-    try {
-      const updatedQueue = await queueClient.addMediaToQueue(
-        "Album",
-        albumQueue._id,
-        album
-      );
-      setAlbumQueue(updatedQueue);
-    } catch (error) {
-      console.error("Error adding album to queue:", error);
-    }
-  };
-
-  useEffect(() => {
-    const fetchAlbumDetails = async () => {
-      try {
-        if (!albumId) return;
-        const albumResult = await queueClient.retrieveMediaDetails(
-          "Album",
-          albumId
-        );
-        setAlbum(albumResult);
-      } catch (error) {
-        console.error("Error fetching album:", error);
-      }
-
-      if (!currentUser) return;
-      try {
-        const queue = await queueClient.retrieveQueueByUserAndMediaType(
-          currentUser.username,
-          "Album"
-        );
-        setAlbumQueue(queue);
-      } catch (error) {
-        console.error("Error fetching queue items:", error);
-      }
-    };
-
-    fetchAlbumDetails();
-  }, [currentUser, albumId]);
 
   if (!album) return <div>Loading...</div>;
 
@@ -87,7 +46,9 @@ export default function AlbumDetails() {
           dismissible
         >
           <Alert.Heading>Add Album</Alert.Heading>
-          <p>Successfully added {album.title} to your current personal queue!</p>
+          <p>
+            Successfully added {album.title} to your current personal queue!
+          </p>
         </Alert>
       )}
       <div className="d-flex">
@@ -106,7 +67,7 @@ export default function AlbumDetails() {
           </h4>
           <h4 className="mt-3 d-flex align-items-center">
             <CiCalendar className="me-2 fs-3" />{" "}
-            {readableDate(album.releaseDate)}
+            {formatDateString(album.releaseDate)}
           </h4>
           <h4 className="mt-3 d-flex align-items-center">
             <MdAccessTime className="me-2 fs-3" /> {album.tracks.length} Tracks
@@ -131,17 +92,7 @@ export default function AlbumDetails() {
                 size="lg"
                 id="action-button"
                 className="my-3 float-end purple-brand-bg border-0 w-25"
-                disabled={
-                  !currentUser ||
-                  (albumQueue &&
-                    albumQueue.current
-                      .map((item: any) => item._id)
-                      .includes(albumId)) ||
-                  (albumQueue &&
-                    albumQueue.history
-                      .map((item: any) => item._id)
-                      .includes(albumId))
-                }
+                disabled={!currentUser || isMediaInQueue(albumId ?? "")}
                 onClick={() => {
                   addAlbumToCurrentQueue();
                   setShowAlert(true);

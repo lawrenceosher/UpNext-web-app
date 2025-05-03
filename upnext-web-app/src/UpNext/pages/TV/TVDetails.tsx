@@ -7,69 +7,31 @@ import { LuListVideo, LuTvMinimalPlay } from "react-icons/lu";
 import { FaMasksTheater } from "react-icons/fa6";
 import { IoIosPeople } from "react-icons/io";
 import { Alert, Button, Form } from "react-bootstrap";
-import { useEffect, useState } from "react";
-import * as queueClient from "../../clients/queueClient";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { TVShow } from "../../types/tvShow";
 import { FiTv } from "react-icons/fi";
+import useDetails from "../../hooks/useDetails";
+import { formatDateString } from "../../utils";
 
 export default function TVDetails() {
   const { tvId } = useParams();
-
   const { currentUser } = useSelector((state: any) => state.accountReducer);
 
-  const [tvShow, setTvShow] = useState<TVShow | null>(null);
-  const [tvQueue, setTVQueue] = useState<any>(null);
-
-  const [showAlert, setShowAlert] = useState(false);
-
-  const readableDate = (dateString: string) => {
-    return `${dateString.slice(5, 7)}/${dateString.slice(
-      8,
-      10
-    )}/${dateString.slice(0, 4)}`;
+  const {
+    media: tvShow,
+    addMediaToCurrentQueue: addTVShowToCurrentQueue,
+    showAlert,
+    setShowAlert,
+    isMediaInQueue,
+  } = useDetails(currentUser, tvId, "TV") as {
+    media: TVShow;
+    mediaQueue: any;
+    addMediaToCurrentQueue: () => void;
+    showAlert: boolean;
+    setShowAlert: (value: boolean) => void;
+    isMediaInQueue: (mediaId: string) => boolean;
   };
-
-  const addTVShowToCurrentQueue = async () => {
-    if (!currentUser || !tvQueue) return;
-
-    try {
-      const updatedQueue = await queueClient.addMediaToQueue(
-        "TV",
-        tvQueue._id,
-        tvShow
-      );
-      setTVQueue(updatedQueue);
-    } catch (error) {
-      console.error("Error adding tv show to queue:", error);
-    }
-  };
-
-  useEffect(() => {
-    const fetchTVShowDetails = async () => {
-      try {
-        if (!tvId) return;
-        const tvResult = await queueClient.retrieveMediaDetails("TV", tvId);
-        setTvShow(tvResult);
-      } catch (error) {
-        console.error("Error fetching tv show:", error);
-      }
-
-      if (!currentUser) return;
-      try {
-        const queue = await queueClient.retrieveQueueByUserAndMediaType(
-          currentUser.username,
-          "TV"
-        );
-        setTVQueue(queue);
-      } catch (error) {
-        console.error("Error fetching queue items:", error);
-      }
-    };
-
-    fetchTVShowDetails();
-  }, [currentUser, tvId]);
 
   if (!tvShow) return <div>Loading...</div>;
 
@@ -82,7 +44,9 @@ export default function TVDetails() {
           dismissible
         >
           <Alert.Heading>Add TV Show</Alert.Heading>
-          <p>Successfully added {tvShow.title} to your current personal queue!</p>
+          <p>
+            Successfully added {tvShow.title} to your current personal queue!
+          </p>
         </Alert>
       )}
       <div className="d-flex">
@@ -101,11 +65,11 @@ export default function TVDetails() {
           </h4>
           <h4 className="mt-3 d-flex align-items-center">
             <CiCalendar className="me-2 fs-3" />
-            {readableDate(tvShow.firstAirDate)}{" "}
+            {formatDateString(tvShow.firstAirDate)}{" "}
             {tvShow.lastAirDate &&
               tvShow.lastAirDate.length > 0 &&
               `-
-            ${readableDate(tvShow.lastAirDate)}`}
+            ${formatDateString(tvShow.lastAirDate)}`}
           </h4>
 
           <h4 className="mt-3 d-flex align-items-center">
@@ -134,15 +98,7 @@ export default function TVDetails() {
                 size="lg"
                 id="action-button"
                 className="my-3 float-end purple-brand-bg border-0 w-25"
-                disabled={
-                  !currentUser ||
-                  (tvQueue &&
-                    tvQueue.current
-                      .map((item: any) => item._id)
-                      .includes(tvId)) ||
-                  (tvQueue &&
-                    tvQueue.history.map((item: any) => item._id).includes(tvId))
-                }
+                disabled={!currentUser || isMediaInQueue(tvId ?? "")}
                 onClick={() => {
                   addTVShowToCurrentQueue();
                   setShowAlert(true);

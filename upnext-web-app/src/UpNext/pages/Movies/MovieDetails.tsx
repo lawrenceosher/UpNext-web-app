@@ -7,28 +7,15 @@ import { MdAccessTime, MdAdd, MdOutlineDescription } from "react-icons/md";
 import { FaMasksTheater } from "react-icons/fa6";
 import { IoIosPeople } from "react-icons/io";
 import { Alert, Button, Form } from "react-bootstrap";
-import { useEffect, useState } from "react";
-import * as queueClient from "../../clients/queueClient";
 import { Movie } from "../../types/movie";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import useDetails from "../../hooks/useDetails";
+import { formatDateString } from "../../utils";
 
 export default function MovieDetails() {
   const { movieId } = useParams();
-
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-
-  const [movie, setMovie] = useState<Movie | null>(null);
-  const [movieQueue, setMovieQueue] = useState<any>(null);
-
-  const [showAlert, setShowAlert] = useState(false);
-
-  const readableDate = (dateString: string) => {
-    return `${dateString.slice(5, 7)}/${dateString.slice(
-      8,
-      10
-    )}/${dateString.slice(0, 4)}`;
-  };
 
   const convertRuntime = (minutes: number) => {
     const hours = Math.floor(minutes / 60);
@@ -36,48 +23,20 @@ export default function MovieDetails() {
     return `${hours}h ${remainingMinutes}m`;
   };
 
-  const addMovieToCurrentQueue = async () => {
-    if (!currentUser || !movieQueue) return;
-
-    try {
-      const updatedQueue = await queueClient.addMediaToQueue(
-        "Movie",
-        movieQueue._id,
-        movie
-      );
-      setMovieQueue(updatedQueue);
-    } catch (error) {
-      console.error("Error adding movie to queue:", error);
-    }
+  const {
+    media: movie,
+    addMediaToCurrentQueue: addMovieToCurrentQueue,
+    showAlert,
+    setShowAlert,
+    isMediaInQueue,
+  } = useDetails(currentUser, movieId, "Movie") as {
+    media: Movie;
+    mediaQueue: any;
+    addMediaToCurrentQueue: () => void;
+    showAlert: boolean;
+    setShowAlert: (value: boolean) => void;
+    isMediaInQueue: (mediaId: string) => boolean;
   };
-
-  useEffect(() => {
-    const fetchMovieDetails = async () => {
-      try {
-        if (!movieId) return;
-        const movieResult = await queueClient.retrieveMediaDetails(
-          "Movie",
-          movieId
-        );
-        setMovie(movieResult);
-      } catch (error) {
-        console.error("Error fetching movie:", error);
-      }
-
-      if (!currentUser) return;
-      try {
-        const queue = await queueClient.retrieveQueueByUserAndMediaType(
-          currentUser.username,
-          "Movie"
-        );
-        setMovieQueue(queue);
-      } catch (error) {
-        console.error("Error fetching queue items:", error);
-      }
-    };
-
-    fetchMovieDetails();
-  }, [currentUser, movieId]);
 
   if (!movie) return <div>Loading...</div>;
 
@@ -90,7 +49,9 @@ export default function MovieDetails() {
           dismissible
         >
           <Alert.Heading>Add Movie</Alert.Heading>
-          <p>Successfully added {movie.title} to your current personal queue!</p>
+          <p>
+            Successfully added {movie.title} to your current personal queue!
+          </p>
         </Alert>
       )}
 
@@ -110,7 +71,7 @@ export default function MovieDetails() {
           </h4>
           <h4 className="mt-3 d-flex align-items-center">
             <CiCalendar className="me-2 fs-3" />{" "}
-            {readableDate(movie.releaseDate)}
+            {formatDateString(movie.releaseDate)}
           </h4>
           <h4 className="mt-3 d-flex align-items-center">
             <MdAccessTime className="me-2 fs-3" />{" "}
@@ -135,17 +96,7 @@ export default function MovieDetails() {
                 size="lg"
                 id="action-button"
                 className="my-3 float-end purple-brand-bg border-0 w-25"
-                disabled={
-                  !currentUser ||
-                  (movieQueue &&
-                    movieQueue.current
-                      .map((item: any) => item._id)
-                      .includes(movieId)) ||
-                  (movieQueue &&
-                    movieQueue.history
-                      .map((item: any) => item._id)
-                      .includes(movieId))
-                }
+                disabled={!currentUser || isMediaInQueue(movieId ?? "")}
                 onClick={() => {
                   addMovieToCurrentQueue();
                   setShowAlert(true);
