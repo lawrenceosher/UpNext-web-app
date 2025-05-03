@@ -25,10 +25,3 @@ export interface Queue {
   current: MediaItem[];
   history: MediaItem[];
 }
-
-/**
- * Represents the response for queue-related operations.
- * - `Queue`: A queue object if the operation is successful.
- * - `error`: An error message if the operation fails.
- */
-export type QueueResponse = Queue | { error: string };
