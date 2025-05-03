@@ -1,46 +1,19 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Alert, Button, Form } from "react-bootstrap";
 import "./SignUp.css";
-import { Link, useNavigate } from "react-router";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setCurrentUser } from "../../redux/accountReducer";
-import * as userClient from "../../clients/userClient";
-import { clearErrorMessage, setErrorMessage } from "../../redux/errorReducer";
+import { Link } from "react-router";
+import { useDispatch } from "react-redux";
+import { clearErrorMessage } from "../../redux/errorReducer";
+import useAuth from "../../hooks/useAuth";
 
+/**
+ * Component that allows users to register and create a new account.
+ * It provides a form for users to enter their username, password, and verify password.
+ */
 export default function SignUp() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [user, setUser] = useState({
-    username: "",
-    password: "",
-    verifyPassword: "",
-  });
-  const { errorMessage } = useSelector((state: any) => state.errorReducer);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  const signUp = async () => {
-    if (!user.username || !user.password) {
-      dispatch(setErrorMessage("Please enter a username and password"));
-      return;
-    }
-    if (user.password !== user.verifyPassword) {
-      dispatch(setErrorMessage("Passwords do not match"));
-      return;
-    }
-
-    let currentUser;
-    try {
-      currentUser = await userClient.signup(user);
-    } catch (error) {
-      dispatch(setErrorMessage((error as Error).message));
-      return;
-    }
-    
-
-    dispatch(setCurrentUser(currentUser));
-    navigate("/UpNext/Home");
-  };
+  const { errorMessage, user, setUser, showPassword, setShowPassword, signUp } =
+    useAuth();
 
   return (
     <div className="d-flex justify-content-center">
