@@ -3,6 +3,10 @@ import { IoTrendingUpSharp } from "react-icons/io5";
 import { MdHistory, MdOutlineDone } from "react-icons/md";
 import { Queue } from "../../types/queue";
 
+/**
+ * Displays action buttons for the queue page, allowing users to switch between current and history views,
+ * and to submit consumed media.
+ */
 export default function QueueActionButtons({
   queueHistorySelected,
   setQueueHistorySelected,
@@ -50,6 +54,8 @@ export default function QueueActionButtons({
         }
         onClick={() => {
           moveMediaFromCurrentToHistory();
+
+          // Clear the consumed media IDs after moving them to history
           setConsumedMediaIDs([]);
         }}
       >

@@ -4,6 +4,14 @@ import { MediaItem, Queue } from "../types/queue";
 import { User } from "../types/user";
 import * as queueClient from "../clients/queueClient";
 
+/**
+ * Custom hook to manage the queue page state and actions.
+ * It handles fetching the queue, adding media to the queue,
+ * moving media from current to history, and checking if media is in the queue.
+ * @param currentUser - The current user object
+ * @param mediaType - The type of media (e.g., "Movie", "TV", etc.)
+ * @returns An object containing state and functions for managing the queue
+ */
 const useQueuePage = (currentUser: User | undefined, mediaType: string) => {
   const [mediaQueue, setMediaQueue] = useState<Queue | null>();
   const [consumedMediaIDs, setConsumedMediaIDs] = useState<string[]>([]);
@@ -20,6 +28,7 @@ const useQueuePage = (currentUser: User | undefined, mediaType: string) => {
         mediaQueue._id,
         selectedMedia
       );
+
       setMediaQueue(updatedQueue);
     } catch (error) {
       console.error("Error adding media to queue:", error);
@@ -35,12 +44,18 @@ const useQueuePage = (currentUser: User | undefined, mediaType: string) => {
         mediaQueue._id,
         consumedMediaIDs
       );
+
       setMediaQueue(updatedQueue);
     } catch (error) {
       console.error("Error moving media to history:", error);
     }
   };
 
+  /**
+   * Checks if a media item is in the current or history queue.
+   * @param mediaId - The ID of the media item to check
+   * @returns True if the media item is in the queue, false otherwise
+   */
   const isMediaInQueue = (mediaId: string) => {
     return (
       mediaQueue?.current?.map((item: any) => item._id).includes(mediaId) ||
@@ -57,11 +72,13 @@ const useQueuePage = (currentUser: User | undefined, mediaType: string) => {
           mediaType,
           selectedGroup
         );
+
         setMediaQueue(queue);
       } catch (error) {
         console.error("Error fetching queue items:", error);
       }
     };
+    
     fetchQueueItems();
   }, [currentUser, mediaType, selectedGroup]);
 

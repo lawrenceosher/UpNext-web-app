@@ -18,6 +18,12 @@ import PodcastSummaryCard from "../../components/SummaryCards/PodcastSummaryCard
 import BookSummaryCard from "../../components/SummaryCards/BookSummaryCard";
 import QueueActionButtons from "../../components/QueuePages/QueueActionButtons";
 
+/**
+ * Displays the page for the queue of a specific media type.
+ * It includes a list of media items in the queue, a search bar to find new media,
+ * and buttons to manage the queue.
+ * @param mediaType - The type of media to be displayed in the queue (e.g., "Movie", "TV", etc.) 
+ */
 export default function Queue({ mediaType }: { mediaType: string }) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
 
