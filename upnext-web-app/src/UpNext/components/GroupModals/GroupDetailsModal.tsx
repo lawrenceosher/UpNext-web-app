@@ -3,7 +3,7 @@ import { ListGroup, Modal } from "react-bootstrap";
 import { Button, Form } from "react-bootstrap";
 import { FaTrash, FaUserCircle } from "react-icons/fa";
 import { FaPencil } from "react-icons/fa6";
-import "./GroupDetailsModal.css";
+import "../styles/GroupDetailsModal.css";
 import { RiMailAddLine } from "react-icons/ri";
 import { BsPeople } from "react-icons/bs";
 import { MdOutlineCancelScheduleSend } from "react-icons/md";
@@ -74,7 +74,7 @@ export default function GroupDetailsModal({
 
           <h4>Creator: {groupDetails.creator}</h4>
 
-          { /* Displaying all of the members of the group */ }
+          {/* Displaying all of the members of the group */}
           <h5 className="mt-4 text-start">Group Members:</h5>
           <ListGroup id="users" className="text-start">
             {groupDetails.members.map((user: any, index: any) => (

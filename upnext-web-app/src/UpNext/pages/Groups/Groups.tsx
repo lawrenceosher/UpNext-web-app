@@ -6,11 +6,11 @@ import { FaTrashCan } from "react-icons/fa6";
 import { BsPeople } from "react-icons/bs";
 import { MdAdd } from "react-icons/md";
 import "../../../utils.css";
-import CreateGroupModal from "./CreateGroupModal";
-import DeleteGroupModal from "./DeleteGroupModal";
-import GroupDetailsModal from "./GroupDetailsModal";
+import CreateGroupModal from "../../components/GroupModals/CreateGroupModal";
+import DeleteGroupModal from "../../components/GroupModals/DeleteGroupModal";
+import GroupDetailsModal from "../../components/GroupModals/GroupDetailsModal";
 import { IoMdRemoveCircle } from "react-icons/io";
-import LeaveGroupModal from "./LeaveGroupModal";
+import LeaveGroupModal from "../../components/GroupModals/LeaveGroupModal";
 import useGroups from "../../hooks/useGroups";
 
 /**
