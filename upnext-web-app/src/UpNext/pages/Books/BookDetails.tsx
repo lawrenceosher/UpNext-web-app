@@ -11,12 +11,13 @@ import { Book } from "../../types/book";
 import { TiPencil } from "react-icons/ti";
 import { LuBookText } from "react-icons/lu";
 import useDetails from "../../hooks/useDetails";
-import { formatDateString } from "../../utils";
+import { formatDateString, stripHtml } from "../../utils";
 
-function stripHtml(html: string): string {
-  return html.replace(/<[^>]*>/g, "").trim();
-}
-
+/**
+ * Displays the details of a specific book.
+ * It fetches the book data using the bookId from the URL parameters,
+ * and allows the user to add the book to their current queue.
+ */
 export default function BookDetails() {
   const { bookId } = useParams();
   const { currentUser } = useSelector((state: any) => state.accountReducer);

@@ -37,4 +37,14 @@ function formatDateString(dateString: string) {
   )}/${dateString.slice(0, 4)}`;
 };
 
-export { readableDateJoined, formatReadableDate, formatDateString };
+/**
+ * Strips HTML tags from a given string.
+ * This function uses a regular expression to remove all HTML tags
+ * @param html - The HTML string to be stripped of tags.
+ * @returns - The stripped string without HTML tags.
+ */
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]*>/g, "").trim();
+}
+
+export { readableDateJoined, formatReadableDate, formatDateString, stripHtml };

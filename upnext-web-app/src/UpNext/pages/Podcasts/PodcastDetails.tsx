@@ -12,6 +12,11 @@ import { FaRegListAlt } from "react-icons/fa";
 import useDetails from "../../hooks/useDetails";
 import { formatDateString } from "../../utils";
 
+/**
+ * Displays the details of a specific podcast.
+ * It fetches the podcast data using the podcastId from the URL parameters,
+ * and allows the user to add the podcast to their current queue.
+ */
 export default function PodcastDetails() {
   const { podcastId } = useParams();
   const { currentUser } = useSelector((state: any) => state.accountReducer);

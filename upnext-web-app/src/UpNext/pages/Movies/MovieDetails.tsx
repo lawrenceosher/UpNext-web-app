@@ -13,6 +13,11 @@ import { useSelector } from "react-redux";
 import useDetails from "../../hooks/useDetails";
 import { formatDateString } from "../../utils";
 
+/**
+ * Displays the details of a specific movie.
+ * It fetches the movie data using the movieId from the URL parameters,
+ * and allows the user to add the movie to their current queue.
+ */
 export default function MovieDetails() {
   const { movieId } = useParams();
   const { currentUser } = useSelector((state: any) => state.accountReducer);

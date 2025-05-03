@@ -16,6 +16,11 @@ import { BiLabel } from "react-icons/bi";
 import useDetails from "../../hooks/useDetails";
 import { formatDateString } from "../../utils";
 
+/**
+ * Displays the details of a specific album.
+ * It fetches the album data using the albumId from the URL parameters,
+ * and allows the user to add the album to their current queue.
+ */
 export default function AlbumDetails() {
   const { albumId } = useParams();
   const { currentUser } = useSelector((state: any) => state.accountReducer);

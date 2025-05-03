@@ -14,6 +14,11 @@ import { FiTv } from "react-icons/fi";
 import useDetails from "../../hooks/useDetails";
 import { formatDateString } from "../../utils";
 
+/**
+ * Displays the details of a specific TV show.
+ * It fetches the TV show data using the tvId from the URL parameters,
+ * and allows the user to add the TV show to their current queue.
+ */
 export default function TVDetails() {
   const { tvId } = useParams();
   const { currentUser } = useSelector((state: any) => state.accountReducer);

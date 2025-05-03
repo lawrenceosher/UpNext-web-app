@@ -13,6 +13,11 @@ import { GiPlatform } from "react-icons/gi";
 import useDetails from "../../hooks/useDetails";
 import { formatDateString } from "../../utils";
 
+/**
+ * Displays the details of a specific video game.
+ * It fetches the game data using the gameId from the URL parameters,
+ * and allows the user to add the game to their current queue.
+ */
 export default function GameDetails() {
   const { gameId } = useParams();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
