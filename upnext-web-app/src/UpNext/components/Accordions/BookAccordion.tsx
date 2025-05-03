@@ -1,11 +1,11 @@
 import { Accordion, ListGroup, ListGroupItem } from "react-bootstrap";
-import QueueGroupToggle from "../../pages/Profile/QueueGroupToggle";
+import QueueGroupToggle from "../QueueGroupToggle";
 import { Book } from "../../types/book";
 import { useNavigate } from "react-router-dom";
 
 export default function BookAccordion({ books }: { books: Book[] }) {
   const navigate = useNavigate();
-  
+
   return (
     <Accordion>
       <ListGroup className="mb-4 border">

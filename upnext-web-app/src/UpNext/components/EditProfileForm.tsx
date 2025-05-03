@@ -1,42 +1,26 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
 import { Alert, Button, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import * as userClient from "../../clients/userClient";
-import { setCurrentUser } from "../../redux/accountReducer";
+import { clearErrorMessage } from "../redux/errorReducer";
+import useAuth from "../hooks/useAuth";
 
-export default function EditProfileForm({
-  existingUser,
-}: {
-  existingUser: any;
-}) {
-  const [showPassword, setShowPassword] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  const [updatedUser, setUpdatedUser] = useState({
-    _id: existingUser._id,
-    password: "",
-    verifyPassword: "",
-  });
-
+/**
+ * Form for editing the user's profile, specifically for resetting the password.
+ * It includes fields for entering a new password and verifying it.
+ * It also includes a checkbox to show/hide the password.
+ */
+export default function EditProfileForm() {
   const dispatch = useDispatch();
 
-  const updateExistingUser = async () => {
-    if (updatedUser.password !== updatedUser.verifyPassword) {
-      setErrorMessage("Passwords do not match");
-      return;
-    }
-    const resultingUser = await userClient.updateUser(
-      updatedUser._id,
-      updatedUser
-    );
-    dispatch(setCurrentUser(resultingUser));
-    setUpdatedUser({
-      _id: existingUser._id,
-      password: "",
-      verifyPassword: "",
-    });
-  };
+  const {
+    errorMessage,
+    showPassword,
+    updatedUser,
+    setUpdatedUser,
+    setShowPassword,
+    updateExistingUser,
+    successMessage,
+    setSuccessMessage,
+  } = useAuth();
 
   return (
     <div className="d-flex">
@@ -44,11 +28,22 @@ export default function EditProfileForm({
         {errorMessage && (
           <Alert
             variant="danger"
-            onClose={() => setErrorMessage(null)}
+            onClose={() => dispatch(clearErrorMessage())}
             dismissible
           >
             <Alert.Heading>Failed to Reset Passwords</Alert.Heading>
             <p>{errorMessage}</p>
+          </Alert>
+        )}
+
+        {successMessage && (
+          <Alert
+            variant="success"
+            onClose={() => setSuccessMessage(null)}
+            dismissible
+          >
+            <Alert.Heading>Success</Alert.Heading>
+            <p>{successMessage}</p>
           </Alert>
         )}
 

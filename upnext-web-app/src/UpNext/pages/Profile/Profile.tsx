@@ -21,10 +21,7 @@ import UserSummary from "../../components/UserSummary.tsx";
  * Users navigate to this page to view their own profile or the profile of another user.
  */
 export default function Profile() {
-  // Retrieve the userId from the URL parameters
   const { userId } = useParams();
-
-  // Get the current user from the Redux store
   const { currentUser } = useSelector((state: any) => state.accountReducer);
 
   const {
@@ -99,7 +96,6 @@ export default function Profile() {
                 showAccountSettings={showAccountSettings}
                 handleCloseAccountSettings={handleCloseAccountSettings}
                 signout={signout}
-                userData={userData}
               />
             </Col>
           </>

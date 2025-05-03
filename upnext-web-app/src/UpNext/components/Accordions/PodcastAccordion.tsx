@@ -1,5 +1,5 @@
 import { Accordion, ListGroup, ListGroupItem } from "react-bootstrap";
-import QueueGroupToggle from "../../pages/Profile/QueueGroupToggle";
+import QueueGroupToggle from "../QueueGroupToggle";
 import { Podcast } from "../../types/podcast";
 import { useNavigate } from "react-router-dom";
 
@@ -9,7 +9,7 @@ export default function PodcastAccordion({
   podcasts: Podcast[];
 }) {
   const navigate = useNavigate();
-  
+
   return (
     <Accordion>
       <ListGroup className="mb-4 border">

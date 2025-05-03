@@ -11,7 +11,7 @@ import { Movie } from "../../types/movie";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import useDetails from "../../hooks/useDetails";
-import { formatDateString } from "../../utils";
+import { convertRuntime, formatDateString } from "../../utils";
 
 /**
  * Displays the details of a specific movie.
@@ -21,12 +21,6 @@ import { formatDateString } from "../../utils";
 export default function MovieDetails() {
   const { movieId } = useParams();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-
-  const convertRuntime = (minutes: number) => {
-    const hours = Math.floor(minutes / 60);
-    const remainingMinutes = minutes % 60;
-    return `${hours}h ${remainingMinutes}m`;
-  };
 
   const {
     media: movie,

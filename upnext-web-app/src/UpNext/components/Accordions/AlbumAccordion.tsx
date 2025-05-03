@@ -1,5 +1,5 @@
 import { Accordion, ListGroup, ListGroupItem } from "react-bootstrap";
-import QueueGroupToggle from "../../pages/Profile/QueueGroupToggle";
+import QueueGroupToggle from "../QueueGroupToggle";
 import { Album } from "../../types/album";
 import { useNavigate } from "react-router-dom";
 

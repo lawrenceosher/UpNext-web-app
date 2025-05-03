@@ -1,5 +1,5 @@
 import { Accordion, ListGroup, ListGroupItem } from "react-bootstrap";
-import QueueGroupToggle from "../../pages/Profile/QueueGroupToggle";
+import QueueGroupToggle from "../QueueGroupToggle";
 import { VideoGame } from "../../types/game";
 import { useNavigate } from "react-router-dom";
 

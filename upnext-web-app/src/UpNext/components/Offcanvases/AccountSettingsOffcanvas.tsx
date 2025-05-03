@@ -1,23 +1,19 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Offcanvas, Button } from "react-bootstrap";
-import EditProfileForm from "../../pages/Profile/EditProfileForm";
+import EditProfileForm from "../EditProfileForm";
 
 /**
  * Displays an offcanvas for account settings that contains a form for resetting the user's password and signing out.
  * @param showAccountSettings - Boolean to show or hide the offcanvas
  * @param handleCloseAccountSettings - Function to close the offcanvas
- * @param userData - User data to be passed to the EditProfileForm
  * @param signout - Function to sign out the user
  */
 export default function AccountSettingsOffcanvas({
   showAccountSettings,
   handleCloseAccountSettings,
-  userData,
   signout,
 }: {
   showAccountSettings: boolean;
   handleCloseAccountSettings: () => void;
-  userData: any;
   signout: () => void;
 }) {
   return (
@@ -33,7 +29,7 @@ export default function AccountSettingsOffcanvas({
         </Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body>
-        <EditProfileForm existingUser={userData} />
+        <EditProfileForm />
         <Button variant="danger" onClick={signout} size="lg" className="mt-5">
           Sign Out
         </Button>

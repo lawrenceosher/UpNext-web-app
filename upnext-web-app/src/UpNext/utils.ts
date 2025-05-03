@@ -47,4 +47,15 @@ function stripHtml(html: string): string {
   return html.replace(/<[^>]*>/g, "").trim();
 }
 
-export { readableDateJoined, formatReadableDate, formatDateString, stripHtml };
+/**
+ * Converts a runtime in minutes to a string in the format "Xh Ym"
+ * @param minutes - The runtime in minutes
+ * @returns A string representing the runtime in hours and minutes
+ */
+const convertRuntime = (minutes: number) => {
+  const hours = Math.floor(minutes / 60);
+  const remainingMinutes = minutes % 60;
+  return `${hours}h ${remainingMinutes}m`;
+};
+
+export { readableDateJoined, formatReadableDate, formatDateString, stripHtml, convertRuntime };
