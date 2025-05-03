@@ -68,7 +68,6 @@ export const moveMediaFromCurrentToHistory = async (
   queueId: string,
   mediaIds: any
 ) => {
-  console.log(mediaIds);
   const response = await axiosWithCredentials.put(
     `${QUEUE_API}/${mediaType}/${queueId}/addToHistory`,
     { mediaIDs: [...mediaIds] }

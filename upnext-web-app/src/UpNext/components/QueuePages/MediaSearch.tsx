@@ -66,7 +66,7 @@ export default function MediaSearch({
           }}
         />
       </InputGroup>
-      {searchResults && (
+      {searchResults.length > 0 && (
         <div id="search-results">
           <ListGroup>
             {searchResults.map((item: any) => (
