@@ -10,7 +10,7 @@ import * as userClient from "../clients/userClient";
  * Hook that manages authentication logic.
  * It provides functions for logging in and signing up users,
  * as well as managing the state of user credentials and error messages.
- * @returns
+ * @returns An object containing authentication-related state and functions.
  */
 const useAuth = () => {
   // Get the current user from the Redux store
