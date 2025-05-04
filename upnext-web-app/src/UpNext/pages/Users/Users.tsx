@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Groups from "../Groups/Groups";
 import { formatReadableDate } from "../../utils";
 import useUsersPage from "../../hooks/useUsersPage";
+import "./Users.css";
 
 /**
  * Displays a list of all users for the application along with groups that any user can create and join.
@@ -34,7 +35,7 @@ export default function Users() {
         </InputGroup>
       </div>
 
-      <ListGroup className="mt-4 me-4">
+      <ListGroup id="users-list" className="mt-4 me-4 border-bottom">
         {allUsers.map((user: any) => (
           <ListGroup.Item
             key={user._id}
