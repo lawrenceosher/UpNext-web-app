@@ -1,5 +1,5 @@
 import Image from "react-bootstrap/Image";
-import "./SummaryCard.css";
+import "../styles/SummaryCard.css";
 import { Link, useNavigate } from "react-router-dom";
 import { TVShow } from "../../types/tvShow";
 
