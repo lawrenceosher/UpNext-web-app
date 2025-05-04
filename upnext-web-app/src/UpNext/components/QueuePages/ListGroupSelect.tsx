@@ -2,6 +2,7 @@
 import { Form } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import useListGroupSelect from "../../hooks/useListGroupSelect";
+import { Group } from "../../types/group";
 
 /**
  * Dropdown component for selecting a group.
@@ -32,7 +33,7 @@ export default function ListGroupSelect({
       onChange={handleGroupChange}
     >
       <option value="">Personal</option>
-      {groupsForUser.map((group: any) => (
+      {groupsForUser.map((group: Group) => (
         <option key={group._id} value={group._id}>
           {group.name}
         </option>
