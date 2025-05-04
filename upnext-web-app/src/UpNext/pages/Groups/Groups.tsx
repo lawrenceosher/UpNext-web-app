@@ -95,7 +95,7 @@ export default function Groups() {
 
       {/* Rendering the list of groups the user is a member of */}
       {groups && groups.length > 0 && (
-        <ListGroup className="mt-4 me-4">
+        <ListGroup className="mt-4 me-4 mb-4">
           {groups.map((group: Group) => (
             <ListGroup.Item
               key={group._id}
