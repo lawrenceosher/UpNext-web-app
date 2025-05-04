@@ -76,7 +76,7 @@ export default function PodcastDetails() {
           <h5 className="mt-3 fw-bold d-flex align-items-center">
             <FaRegListAlt className="me-2 fs-3" /> Most Recent Episodes
           </h5>
-          <ol className="mt-3 text-start pe-3">
+          <ol className="mt-3 text-start pe-3 ps-3">
             {podcast.episodes.map((episode, index) => (
               <li key={index} className="text-white mb-3">
                 {episode}

@@ -83,7 +83,7 @@ export default function AlbumDetails() {
           <h5 className="mt-3 fw-bold d-flex align-items-center">
             <MdOutlineDescription className="me-2 fs-3" /> Tracks
           </h5>
-          <ol className="mt-3 text-start pe-3">
+          <ol className="mt-3 text-start pe-3 ps-4">
             {album.tracks.map((track, index) => (
               <li key={index} className="text-white">
                 {track}
