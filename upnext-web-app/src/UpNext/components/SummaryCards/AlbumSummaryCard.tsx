@@ -1,8 +1,13 @@
 import Image from "react-bootstrap/Image";
 import "./SummaryCard.css";
 import { Link, useNavigate } from "react-router-dom";
-import { Album } from "../types/album";
+import { Album } from "../../types/album";
 
+/**
+ * Displays a summary card for an album containing its cover art, title, artist, and track list.
+ * The card is clickable and navigates to the AlbumDetails page when clicked.
+ * @param album - The album object containing details about the album. 
+ */
 export default function AlbumSummaryCard({ album }: { album: Album }) {
   const navigate = useNavigate();
 

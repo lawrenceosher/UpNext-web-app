@@ -1,8 +1,13 @@
 import Image from "react-bootstrap/Image";
 import "./SummaryCard.css";
 import { Link, useNavigate } from "react-router-dom";
-import { VideoGame } from "../types/game";
+import { VideoGame } from "../../types/game";
 
+/**
+ * Displays a summary card for a video game containing its cover art, title, and companies.
+ * The card is clickable and navigates to the GameDetails page when clicked.
+ * @param game - The game object containing details about the game. 
+ */
 export default function GameSummaryCard({ game }: { game: VideoGame }) {
   const navigate = useNavigate();
 

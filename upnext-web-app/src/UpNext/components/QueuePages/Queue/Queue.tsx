@@ -2,27 +2,33 @@
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { MdAdd } from "react-icons/md";
 
-import MediaSearch from "../../components/QueuePages/MediaSearch";
+import MediaSearch from "../MediaSearch";
 
-import "../../../utils.css";
-import "../Queue/Queue.css";
-import QueueList from "../../components/QueuePages/QueueList";
+import "../../../../utils.css";
+import "./Queue.css";
+import QueueList from "../QueueList";
 import { useSelector } from "react-redux";
-import AlbumSummaryCard from "../../components/SummaryCards/AlbumSummaryCard";
-import ListGroupSelect from "../../components/QueuePages/ListGroupSelect";
-import useQueuePage from "../../hooks/useQueuePage";
-import MovieSummaryCard from "../../components/SummaryCards/MovieSummaryCard";
-import TVSummaryCard from "../../components/SummaryCards/TVSummaryCard";
-import GameSummaryCard from "../../components/SummaryCards/GameSummaryCard";
-import PodcastSummaryCard from "../../components/SummaryCards/PodcastSummaryCard";
-import BookSummaryCard from "../../components/SummaryCards/BookSummaryCard";
-import QueueActionButtons from "../../components/QueuePages/QueueActionButtons";
+import AlbumSummaryCard from "../../SummaryCards/AlbumSummaryCard";
+import ListGroupSelect from "../ListGroupSelect";
+import useQueuePage from "../../../hooks/useQueuePage";
+import MovieSummaryCard from "../../SummaryCards/MovieSummaryCard";
+import TVSummaryCard from "../../SummaryCards/TVSummaryCard";
+import GameSummaryCard from "../../SummaryCards/GameSummaryCard";
+import PodcastSummaryCard from "../../SummaryCards/PodcastSummaryCard";
+import BookSummaryCard from "../../SummaryCards/BookSummaryCard";
+import QueueActionButtons from "../QueueActionButtons";
+import { Album } from "../../../types/album";
+import { Movie } from "../../../types/movie";
+import { TVShow } from "../../../types/tvShow";
+import { VideoGame } from "../../../types/game";
+import { Podcast } from "../../../types/podcast";
+import { Book } from "../../../types/book";
 
 /**
  * Displays the page for the queue of a specific media type.
  * It includes a list of media items in the queue, a search bar to find new media,
  * and buttons to manage the queue.
- * @param mediaType - The type of media to be displayed in the queue (e.g., "Movie", "TV", etc.) 
+ * @param mediaType - The type of media to be displayed in the queue (e.g., "Movie", "TV", etc.)
  */
 export default function Queue({ mediaType }: { mediaType: string }) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
@@ -84,19 +90,23 @@ export default function Queue({ mediaType }: { mediaType: string }) {
           {selectedMedia && (
             <>
               {mediaType === "Album" && (
-                <AlbumSummaryCard album={selectedMedia} />
+                <AlbumSummaryCard album={selectedMedia as Album} />
               )}
               {mediaType === "Movie" && (
-                <MovieSummaryCard movie={selectedMedia} />
+                <MovieSummaryCard movie={selectedMedia as Movie} />
               )}
-              {mediaType === "TV" && <TVSummaryCard tv={selectedMedia} />}
+              {mediaType === "TV" && (
+                <TVSummaryCard tv={selectedMedia as TVShow} />
+              )}
               {mediaType === "VideoGame" && (
-                <GameSummaryCard game={selectedMedia} />
+                <GameSummaryCard game={selectedMedia as VideoGame} />
               )}
               {mediaType === "Podcast" && (
-                <PodcastSummaryCard podcast={selectedMedia} />
+                <PodcastSummaryCard podcast={selectedMedia as Podcast} />
               )}
-              {mediaType === "Book" && <BookSummaryCard book={selectedMedia} />}
+              {mediaType === "Book" && (
+                <BookSummaryCard book={selectedMedia as Book} />
+              )}
             </>
           )}
           <Button

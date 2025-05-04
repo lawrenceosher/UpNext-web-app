@@ -1,8 +1,13 @@
 import Image from "react-bootstrap/Image";
 import "./SummaryCard.css";
 import { Link, useNavigate } from "react-router-dom";
-import { TVShow } from "../types/tvShow";
+import { TVShow } from "../../types/tvShow";
 
+/**
+ * Displays a summary card for a TV show containing its poster, title, creator, and description.
+ * The card is clickable and navigates to the TVDetails page when clicked.
+ * @param tv - The TV show object containing details about the TV show. 
+ */
 export default function TVSummaryCard({ tv }: { tv: TVShow }) {
   const navigate = useNavigate();
 

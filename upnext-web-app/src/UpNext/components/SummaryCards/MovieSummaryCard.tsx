@@ -1,8 +1,13 @@
 import Image from "react-bootstrap/Image";
 import "./SummaryCard.css";
 import { Link, useNavigate } from "react-router-dom";
-import { Movie } from "../types/movie";
+import { Movie } from "../../types/movie";
 
+/**
+ * Displays a summary card for a movie containing its poster, title, director, and description.
+ * The card is clickable and navigates to the MovieDetails page when clicked.
+ * @param movie - The movie object containing details about the movie.
+ */
 export default function MovieSummaryCard({ movie }: { movie: Movie }) {
   const navigate = useNavigate();
 

@@ -1,12 +1,25 @@
 import Image from "react-bootstrap/Image";
 import "./SummaryCard.css";
 import { Link, useNavigate } from "react-router-dom";
-import { Book } from "../types/book";
+import { Book } from "../../types/book";
 
+/**
+ * Truncate text to a specified length and add ellipsis if necessary.
+ * This function is used to limit the length of the book synopsis displayed on the card
+ * to ensure it fits well within the card layout.
+ * @param text The text to be truncated
+ * @param maxLength The maximum length of the text
+ * @returns The truncated text with ellipsis if it exceeds the maxLength
+ */
 function truncate(text: string, maxLength: number): string {
   return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
 }
 
+/**
+ * Displays a summary card for a book containing its cover art, title, author(s), and synopsis.
+ * The card is clickable and navigates to the BookDetails page when clicked.
+ * @param book - The book object containing details about the book.
+ */
 export default function BookSummaryCard({ book }: { book: Book }) {
   const navigate = useNavigate();
   const maxLength = 250;

@@ -9,11 +9,16 @@ import Users from "./pages/Users/Users";
 import Session from "./auth/Session";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import TVDetails from "./pages/TV/TVDetails";
-import Queue from "./pages/Queue/Queue";
 import AlbumDetails from "./pages/Albums/AlbumDetails";
 import BookDetails from "./pages/Books/BookDetails";
 import PodcastDetails from "./pages/Podcasts/PodcastDetails";
 import GameDetails from "./pages/Games/GameDetails";
+import Movies from "./pages/Movies/Movies";
+import TV from "./pages/TV/TV";
+import Albums from "./pages/Albums/Albums";
+import Books from "./pages/Books/Books";
+import Podcasts from "./pages/Podcasts/Podcasts";
+import Games from "./pages/Games/Games";
 
 export default function UpNext() {
   return (
@@ -34,17 +39,17 @@ export default function UpNext() {
             />
             <Route path="/Account/Profile/:userId" element={<Profile />} />
             <Route path="/Home" element={<Home />} />
-            <Route path="/Movies" element={<Queue mediaType="Movie" />} />
+            <Route path="/Movies" element={<Movies />} />
             <Route path="/Movies/:movieId" element={<MovieDetails />} />
-            <Route path="/TV" element={<Queue mediaType="TV" />} />
+            <Route path="/TV" element={<TV />} />
             <Route path="/TV/:tvId" element={<TVDetails />} />
-            <Route path="/Albums" element={<Queue mediaType="Album" />} />
+            <Route path="/Albums" element={<Albums />} />
             <Route path="/Albums/:albumId" element={<AlbumDetails />} />
-            <Route path="/Books" element={<Queue mediaType="Book" />} />
+            <Route path="/Books" element={<Books />} />
             <Route path="/Books/:bookId" element={<BookDetails />} />
-            <Route path="/Podcasts" element={<Queue mediaType="Podcast" />} />
+            <Route path="/Podcasts" element={<Podcasts />} />
             <Route path="/Podcasts/:podcastId" element={<PodcastDetails />} />
-            <Route path="/Games" element={<Queue mediaType="VideoGame" />} />
+            <Route path="/Games" element={<Games />} />
             <Route path="/Games/:gameId" element={<GameDetails />} />
             <Route path="/Users" element={<Users />} />
           </Routes>

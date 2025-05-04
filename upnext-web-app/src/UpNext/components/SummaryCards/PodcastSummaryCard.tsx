@@ -1,8 +1,13 @@
 import Image from "react-bootstrap/Image";
 import "./SummaryCard.css";
 import { Link, useNavigate } from "react-router-dom";
-import { Podcast } from "../types/podcast";
+import { Podcast } from "../../types/podcast";
 
+/**
+ * Displays a summary card for a podcast containing its cover art, title, publisher, and episode list.
+ * The card is clickable and navigates to the PodcastDetails page when clicked.
+ * @param podcast - The podcast object containing details about the podcast. 
+ */
 export default function PodcastSummaryCard({ podcast }: { podcast: Podcast }) {
   const navigate = useNavigate();
 
