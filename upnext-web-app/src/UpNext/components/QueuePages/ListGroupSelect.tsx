@@ -1,9 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
-import * as groupClient from "../../clients/groupClient";
 import { useSelector } from "react-redux";
+import useListGroupSelect from "../../hooks/useListGroupSelect";
 
+/**
+ * Dropdown component for selecting a group.
+ * It fetches the list of groups for the current user and allows
+ * the user to select a group from the dropdown.
+ * @param selectedGroup - The currently selected group ID
+ * @param setSelectedGroup - Function to set the selected group ID
+ */
 export default function ListGroupSelect({
   selectedGroup,
   setSelectedGroup,
@@ -12,25 +18,11 @@ export default function ListGroupSelect({
   setSelectedGroup: (groupId: string) => void;
 }) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const [groupsForUser, setGroupsForUser] = useState<any>([]);
 
-  const handleGroupChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedGroup(event.target.value);
-  };
-
-  useEffect(() => {
-    const fetchGroups = async () => {
-      if (!currentUser) return;
-      try {
-        const groups = await groupClient.getGroupsForUser(currentUser.username);
-        setGroupsForUser(groups);
-      } catch (error) {
-        console.error("Error fetching groups:", error);
-        setGroupsForUser([]);
-      }
-    };
-    fetchGroups();
-  }, [currentUser]);
+  const { groupsForUser, handleGroupChange } = useListGroupSelect(
+    currentUser,
+    setSelectedGroup
+  );
 
   return (
     <Form.Select
