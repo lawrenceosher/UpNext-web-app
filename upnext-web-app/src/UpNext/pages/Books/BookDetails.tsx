@@ -3,8 +3,6 @@ import Image from "react-bootstrap/Image";
 import { CiCalendar } from "react-icons/ci";
 import { MdAdd, MdOutlineDescription } from "react-icons/md";
 import { Alert, Button, Form } from "react-bootstrap";
-import { useEffect, useState } from "react";
-import * as queueClient from "../../clients/queueClient";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { IoBookOutline } from "react-icons/io5";
@@ -12,70 +10,32 @@ import { BiLabel } from "react-icons/bi";
 import { Book } from "../../types/book";
 import { TiPencil } from "react-icons/ti";
 import { LuBookText } from "react-icons/lu";
+import useDetails from "../../hooks/useDetails";
+import { formatDateString, stripHtml } from "../../utils";
 
-function stripHtml(html: string): string {
-  return html.replace(/<[^>]*>/g, "").trim();
-}
-
+/**
+ * Displays the details of a specific book.
+ * It fetches the book data using the bookId from the URL parameters,
+ * and allows the user to add the book to their current queue.
+ */
 export default function BookDetails() {
   const { bookId } = useParams();
-
   const { currentUser } = useSelector((state: any) => state.accountReducer);
 
-  const [book, setBook] = useState<Book | null>(null);
-  const [bookQueue, setBookQueue] = useState<any>(null);
-
-  const [showAlert, setShowAlert] = useState(false);
-
-  const readableDate = (dateString: string) => {
-    return `${dateString.slice(5, 7)}/${dateString.slice(
-      8,
-      10
-    )}/${dateString.slice(0, 4)}`;
+  const {
+    media: book,
+    addMediaToCurrentQueue: addBookToCurrentQueue,
+    showAlert,
+    setShowAlert,
+    isMediaInQueue,
+  } = useDetails(currentUser, bookId, "Book") as {
+    media: Book;
+    mediaQueue: any;
+    addMediaToCurrentQueue: () => void;
+    showAlert: boolean;
+    setShowAlert: (value: boolean) => void;
+    isMediaInQueue: (mediaId: string) => boolean;
   };
-
-  const addBookToCurrentQueue = async () => {
-    if (!currentUser || !bookQueue) return;
-
-    try {
-      const updatedQueue = await queueClient.addMediaToQueue(
-        "Book",
-        bookQueue._id,
-        book
-      );
-      setBookQueue(updatedQueue);
-    } catch (error) {
-      console.error("Error adding book to queue:", error);
-    }
-  };
-
-  useEffect(() => {
-    const fetchBookDetails = async () => {
-      try {
-        if (!bookId) return;
-        const bookResult = await queueClient.retrieveMediaDetails(
-          "Book",
-          bookId
-        );
-        setBook(bookResult);
-      } catch (error) {
-        console.error("Error fetching book:", error);
-      }
-
-      if (!currentUser) return;
-      try {
-        const queue = await queueClient.retrieveQueueByUserAndMediaType(
-          currentUser.username,
-          "Book"
-        );
-        setBookQueue(queue);
-      } catch (error) {
-        console.error("Error fetching queue items:", error);
-      }
-    };
-
-    fetchBookDetails();
-  }, [currentUser, bookId]);
 
   if (!book) return <div>Loading...</div>;
 
@@ -107,7 +67,7 @@ export default function BookDetails() {
           </h4>
           <h4 className="mt-3 d-flex align-items-center">
             <CiCalendar className="me-2 fs-3" />{" "}
-            {readableDate(book.datePublished)}
+            {formatDateString(book.datePublished)}
           </h4>
           <h4 className="mt-3 d-flex align-items-center">
             <LuBookText className="me-2 fs-3" /> {book.pages} Pages
@@ -126,17 +86,7 @@ export default function BookDetails() {
                 size="lg"
                 id="action-button"
                 className="my-3 float-end purple-brand-bg border-0 w-25"
-                disabled={
-                  !currentUser ||
-                  (bookQueue &&
-                    bookQueue.current
-                      .map((item: any) => item._id)
-                      .includes(bookId)) ||
-                  (bookQueue &&
-                    bookQueue.history
-                      .map((item: any) => item._id)
-                      .includes(bookId))
-                }
+                disabled={!currentUser || isMediaInQueue(bookId ?? "")}
                 onClick={() => {
                   addBookToCurrentQueue();
                   setShowAlert(true);

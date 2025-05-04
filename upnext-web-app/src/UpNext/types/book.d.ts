@@ -1,4 +1,14 @@
-// Normalized Book type with data aggregated from ISBN Database API
+/**
+ * Normalized book object with data aggregated from the Google Books API
+ * - `_id`: Unique identifier for the book
+ * - `title`: Title of the book
+ * - `authors`: List of authors who wrote the book
+ * - `synopsis`: Brief summary or description of the book
+ * - `publisher`: Name of the publisher that published the book
+ * - `coverArt`: URL to the book's cover art
+ * - `datePublished`: Date when the book was published
+ * - `pages`: Number of pages in the book
+ */
 export interface Book {
   _id: string;
   title: string;
@@ -9,6 +19,3 @@ export interface Book {
   datePublished: string;
   pages: number;
 }
-
-// Response from UpNext API
-export type BookResponse = Book | { error: string };

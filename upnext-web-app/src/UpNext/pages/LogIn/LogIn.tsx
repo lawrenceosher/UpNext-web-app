@@ -1,37 +1,27 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Alert, Button, Form } from "react-bootstrap";
 import "./LogIn.css";
-import { Link, useNavigate } from "react-router";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router";
+import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../../redux/accountReducer";
-import * as userClient from "../../clients/userClient";
-import { clearErrorMessage, setErrorMessage } from "../../redux/errorReducer";
+import { clearErrorMessage } from "../../redux/errorReducer";
+import useAuth from "../../hooks/useAuth";
 
+/**
+ * Component that allows users to log in.
+ * It provides a form for users to enter their username and password.
+ * It also includes options to show/hide the password and to sign up or continue as a guest.
+ */
 export default function LogIn() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [credentials, setCredentials] = useState<any>({
-    username: "",
-    password: "",
-  });
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  const { errorMessage } = useSelector((state: any) => state.errorReducer);
-
-  const logIn = async () => {
-    if (!credentials.username || !credentials.password) {
-      dispatch(setErrorMessage("Please enter a username and password"));
-      return;
-    }
-    const user = await userClient.signin(credentials);
-    if (!user) {
-      dispatch(setErrorMessage("Invalid username or password"));
-      return;
-    }
-    dispatch(setCurrentUser(user));
-    navigate("/UpNext/Home");
-  };
+  const {
+    showPassword,
+    setShowPassword,
+    credentials,
+    setCredentials,
+    logIn,
+    errorMessage,
+  } = useAuth();
 
   return (
     <div className="d-flex justify-content-center">
@@ -96,7 +86,11 @@ export default function LogIn() {
                 Sign Up
               </Link>
               <br />
-              <Link to="/UpNext/Home" className="text-white" onClick={() => dispatch(setCurrentUser(null))}>
+              <Link
+                to="/UpNext/Home"
+                className="text-white"
+                onClick={() => dispatch(setCurrentUser(null))}
+              >
                 Continue as Guest
               </Link>
             </div>
@@ -105,6 +99,10 @@ export default function LogIn() {
               id="login-button"
               className="ms-3 border-0"
               onClick={logIn}
+              disabled={
+                credentials.username.length < 1 ||
+                credentials.password.length < 1
+              }
             >
               Log In
             </Button>

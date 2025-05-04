@@ -1,46 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState } from "react";
-import * as userClient from "../../clients/userClient";
 import { FormControl, InputGroup, ListGroup } from "react-bootstrap";
 import { FaSearch, FaUserCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Groups from "../Groups/Groups";
+import { formatReadableDate } from "../../utils";
+import useUsersPage from "../../hooks/useUsersPage";
+import "./Users.css";
 
+/**
+ * Displays a list of all users for the application along with groups that any user can create and join.
+ * Users can be searched by their username and clicked on to view their profile.
+ */
 export default function Users() {
   const navigate = useNavigate();
 
-  function formatReadableDate(isoDateString: string) {
-    const myDate = new Date(isoDateString);
-
-    const year = myDate.getFullYear();
-    const month = String(myDate.getMonth() + 1).padStart(2, "0");
-    const day = String(myDate.getDate()).padStart(2, "0");
-    return `${month}/${day}/${year}`;
-  }
-
-  const [allUsers, setAllUsers] = useState<any>([]);
-  const [filter, setFilter] = useState("");
-
-  useEffect(() => {
-    setAllUsers((prevUsers: any) =>
-      prevUsers.filter((user: any) =>
-        user.username.toLowerCase().includes(filter.toLowerCase())
-      )
-    );
-
-    if (filter === "") {
-      const fetchUsers = async () => {
-        try {
-          const users = await userClient.getAllUsers();
-          setAllUsers(users);
-        } catch (error) {
-          console.error("Error fetching users:", error);
-          setAllUsers([]);
-        }
-      };
-      fetchUsers();
-    }
-  }, [filter]);
+  const { allUsers, filter, setFilter } = useUsersPage();
 
   return (
     <div>
@@ -61,7 +35,7 @@ export default function Users() {
         </InputGroup>
       </div>
 
-      <ListGroup className="mt-4 me-4">
+      <ListGroup id="users-list" className="mt-4 me-4 border-bottom">
         {allUsers.map((user: any) => (
           <ListGroup.Item
             key={user._id}

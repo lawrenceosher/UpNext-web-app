@@ -10,7 +10,19 @@ import { IoGameControllerOutline } from "react-icons/io5";
 import "../../utils.css";
 import "./Navigation.css";
 
+/**
+ * Sidebar navigation for the application that is present on every page except for Signup and Login.
+ * Contains navigation links to the queue pages for the six different Media types:
+ * - Movies
+ * - TV Shows
+ * - Albums
+ * - Books
+ * - Podcasts
+ * - Video Games
+ * It is displayed on the left side of the screen.
+ */
 export default function UpNextNavigation() {
+  // Get the current pathname from the URL
   const { pathname } = useLocation();
 
   const links = [

@@ -3,7 +3,12 @@ import "../../utils.css";
 import { FaRegUser } from "react-icons/fa";
 import { BsPeople } from "react-icons/bs";
 
+/**
+ * Header for the application that is present on every page except Signup and Login.
+ * Contains the logo and navigation links to the Users page and Profile page.
+ */
 export default function UpNextHeader() {
+  // Get the current pathname from the URL
   const { pathname } = useLocation();
 
   return (
@@ -32,6 +37,7 @@ export default function UpNextHeader() {
           <FaRegUser
             id="icon-button"
             className={`display-6 mt-1 ${
+              // Only show the highlighted icon if the user is viewing their own profile
               pathname === "/UpNext/Account/Profile"
                 ? "text-dark"
                 : "text-white"
