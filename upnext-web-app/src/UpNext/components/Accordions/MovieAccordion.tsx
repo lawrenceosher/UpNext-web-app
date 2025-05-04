@@ -3,6 +3,12 @@ import QueueGroupToggle from "../QueueGroupToggle";
 import { Movie } from "../../types/movie";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Displays a list of movies in an accordion format.
+ * Each movie is clickable and navigates to the movie's details page.
+ *
+ * @param {Movie[]} movies - Array of movie objects to display.
+ */
 export default function MovieAccordion({ movies }: { movies: Movie[] }) {
   const navigate = useNavigate();
 

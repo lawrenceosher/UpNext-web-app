@@ -3,6 +3,12 @@ import QueueGroupToggle from "../QueueGroupToggle";
 import { Album } from "../../types/album";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Displays a list of albums in an accordion format.
+ * Each album is clickable and navigates to the album's details page.
+ *
+ * @param {Album[]} albums - Array of album objects to display.
+ */
 export default function AlbumAccordion({ albums }: { albums: Album[] }) {
   const navigate = useNavigate();
 

@@ -3,6 +3,12 @@ import QueueGroupToggle from "../QueueGroupToggle";
 import { Book } from "../../types/book";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Displays a list of books in an accordion format.
+ * Each book is clickable and navigates to the book's details page.
+ *
+ * @param {Book[]} books - Array of book objects to display.
+ */
 export default function BookAccordion({ books }: { books: Book[] }) {
   const navigate = useNavigate();
 

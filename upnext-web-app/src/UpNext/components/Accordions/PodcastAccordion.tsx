@@ -3,6 +3,12 @@ import QueueGroupToggle from "../QueueGroupToggle";
 import { Podcast } from "../../types/podcast";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Displays a list of podcasts in an accordion format.
+ * Each podcast is clickable and navigates to the podcast's details page.
+ *
+ * @param {Podcast[]} podcasts - Array of podcast objects to display.
+ */
 export default function PodcastAccordion({
   podcasts,
 }: {

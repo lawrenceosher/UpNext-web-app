@@ -3,6 +3,12 @@ import QueueGroupToggle from "../QueueGroupToggle";
 import { VideoGame } from "../../types/game";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Displays a list of video games in an accordion format.
+ * Each game is clickable and navigates to the game's details page.
+ *
+ * @param {VideoGame[]} games - Array of video game objects to display.
+ */
 export default function GameAccordion({ games }: { games: VideoGame[] }) {
   const navigate = useNavigate();
 

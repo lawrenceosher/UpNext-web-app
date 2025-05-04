@@ -3,6 +3,12 @@ import QueueGroupToggle from "../QueueGroupToggle";
 import { TVShow } from "../../types/tvShow";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Displays a list of TV shows in an accordion format.
+ * Each show is clickable and navigates to the show's details page.
+ *
+ * @param {TVShow[]} shows - Array of TV show objects to display.
+ */
 export default function TVAccordion({ shows }: { shows: TVShow[] }) {
   const navigate = useNavigate();
 
