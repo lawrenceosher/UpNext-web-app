@@ -1,78 +1,54 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormCheck, ListGroup } from "react-bootstrap";
 import { CiCircleRemove } from "react-icons/ci";
-import { useState } from "react";
 import DeleteQueueItemModal from "./DeleteQueueItemModal";
 import "../styles/QueueList.css";
 import { useSelector } from "react-redux";
-import * as queueClient from "../../clients/queueClient";
+import useQueueList from "../../hooks/useQueueList";
+import { Queue } from "../../types/queue";
 
+/**
+ * Displays a list of media items in the user's queue.
+ * Allows users to check off completed items and remove items from the queue.
+ * Encapsulates both current and history queues based on the `showHistory` prop.
+ * @param mediaType - The type of media (e.g., Movie, TV, etc.)
+ * @param queue - The entire queue object, containing metadata and media items in both current and history queues
+ * @param showHistory - Boolean indicating whether to show history or current queue
+ * @param setCompletedMediaIDs - Function to set completed media IDs
+ * @param setSelectedMedia - Function to set the selected media item
+ * @param setMediaQueue - Function to set the media queue
+ */
 export default function QueueList({
   mediaType,
-  queue,
-  currentQueue,
-  historyQueue,
+  mediaQueue,
   showHistory,
   setCompletedMediaIDs,
   setSelectedMedia,
   setMediaQueue,
 }: {
   mediaType: string;
-  queue: any;
-  currentQueue: any;
-  historyQueue: any;
+  mediaQueue: Queue | null | undefined;
   showHistory: boolean;
   setCompletedMediaIDs: (_ids: any) => void;
   setSelectedMedia: (media: any) => void;
   setMediaQueue: (queue: any) => void;
 }) {
-  const [showDeleteQueueItemModal, setShowDeleteQueueItemModal] =
-    useState(false);
-  const handleClose = () => setShowDeleteQueueItemModal(false);
-  const handleShow = () => setShowDeleteQueueItemModal(true);
-  const [queueItemForModal, setQueueItemForModal] = useState<any>({
-    _id: "",
-    title: "",
-  });
   const { currentUser } = useSelector((state: any) => state.accountReducer);
 
-  const removeMediaFromQueue = async (mediaId: string) => {
-    if (!currentUser) return;
-
-    if (
-      currentQueue &&
-      currentQueue.map((mediaItem: any) => mediaItem._id).includes(mediaId)
-    ) {
-      try {
-        const updatedQueue = await queueClient.deleteMediaFromCurrentQueue(
-          mediaType,
-          queue._id,
-          mediaId
-        );
-        setMediaQueue(updatedQueue);
-        setSelectedMedia(null);
-      } catch (error) {
-        console.error("Error deleting media from current queue:", error);
-      }
-    }
-
-    if (
-      historyQueue &&
-      historyQueue.map((mediaItem: any) => mediaItem._id).includes(mediaId)
-    ) {
-      try {
-        const updatedQueue = await queueClient.deleteMediaFromHistoryQueue(
-          mediaType,
-          queue._id,
-          mediaId
-        );
-        setMediaQueue(updatedQueue);
-        setSelectedMedia(null);
-      } catch (error) {
-        console.error("Error deleting media from history queue:", error);
-      }
-    }
-  };
+  const {
+    showDeleteQueueItemModal,
+    handleCloseDeleteQueueItemModal,
+    handleShowDeleteQueueItemModal,
+    queueItemForModal,
+    setQueueItemForModal,
+    removeMediaFromQueue,
+  } = useQueueList(
+    currentUser,
+    mediaQueue,
+    mediaType,
+    setMediaQueue,
+    setSelectedMedia
+  );
 
   if (!currentUser)
     return (
@@ -85,17 +61,20 @@ export default function QueueList({
     <>
       <DeleteQueueItemModal
         show={showDeleteQueueItemModal}
-        handleClose={handleClose}
+        handleClose={handleCloseDeleteQueueItemModal}
         queueItem={queueItemForModal}
         removeMediaFromQueue={removeMediaFromQueue}
       />
+
+      {/* Display the current queue or history queue based on the showHistory prop */}
       {!showHistory ? (
+        // Display the current queue
         <ListGroup className="mt-4 fs-4" id="queue">
-          {currentQueue && currentQueue.length === 0 && (
+          {mediaQueue?.current && mediaQueue?.current.length === 0 && (
             <p>No items in queue. Search for media and add to the queue!</p>
           )}
-          {currentQueue &&
-            currentQueue.map((mediaItem: any) => {
+          {mediaQueue?.current &&
+            mediaQueue?.current.map((mediaItem: any) => {
               return (
                 <ListGroup.Item
                   key={mediaItem._id}
@@ -125,7 +104,7 @@ export default function QueueList({
                     onClick={(e) => {
                       e.stopPropagation();
                       setQueueItemForModal(mediaItem);
-                      handleShow();
+                      handleShowDeleteQueueItemModal();
                     }}
                   />
                 </ListGroup.Item>
@@ -133,15 +112,16 @@ export default function QueueList({
             })}
         </ListGroup>
       ) : (
+        // Display the history queue
         <ListGroup className="mt-4 fs-4" id="queue">
-          {historyQueue && historyQueue.length === 0 && (
+          {mediaQueue?.history && mediaQueue?.history.length === 0 && (
             <p>
               No previously consumed media. Check off media in your current
               queue!
             </p>
           )}
-          {historyQueue &&
-            historyQueue.map((mediaItem: any) => {
+          {mediaQueue?.history &&
+            mediaQueue?.history.map((mediaItem: any) => {
               return (
                 <ListGroup.Item
                   key={mediaItem._id}
@@ -169,7 +149,7 @@ export default function QueueList({
                     onClick={(e) => {
                       e.stopPropagation();
                       setQueueItemForModal(mediaItem);
-                      handleShow();
+                      handleShowDeleteQueueItemModal();
                     }}
                   />
                 </ListGroup.Item>

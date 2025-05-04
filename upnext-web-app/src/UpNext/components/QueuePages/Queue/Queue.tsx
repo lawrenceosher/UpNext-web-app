@@ -63,9 +63,7 @@ export default function Queue({ mediaType }: { mediaType: string }) {
           )}
           <QueueList
             mediaType={mediaType}
-            queue={mediaQueue}
-            currentQueue={mediaQueue && mediaQueue.current}
-            historyQueue={mediaQueue && mediaQueue.history}
+            mediaQueue={mediaQueue}
             showHistory={queueHistorySelected}
             setCompletedMediaIDs={setConsumedMediaIDs}
             setSelectedMedia={setSelectedMedia}
