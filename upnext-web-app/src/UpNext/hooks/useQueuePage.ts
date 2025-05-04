@@ -63,6 +63,7 @@ const useQueuePage = (currentUser: User | undefined, mediaType: string) => {
     );
   };
 
+  // Fetch the queue items when the selected group, media type, or current user changes, and on mount
   useEffect(() => {
     const fetchQueueItems = async () => {
       if (!currentUser) return;
@@ -78,7 +79,7 @@ const useQueuePage = (currentUser: User | undefined, mediaType: string) => {
         console.error("Error fetching queue items:", error);
       }
     };
-    
+
     fetchQueueItems();
   }, [currentUser, mediaType, selectedGroup]);
 

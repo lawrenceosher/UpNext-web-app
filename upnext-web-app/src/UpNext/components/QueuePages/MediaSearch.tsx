@@ -1,10 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState } from "react";
 import { FormControl, InputGroup, ListGroup } from "react-bootstrap";
 import { FaSearch } from "react-icons/fa";
 import "../styles/MediaSearch.css";
-import * as queueClient from "../../clients/queueClient";
+import useMediaSearch from "../../hooks/useMediaSearch";
 
+/**
+ * Custom search component to retrieve matching media items from external APIs.
+ * @param mediaType - The type of media to search for (e.g., "Movie", "TV", etc.)
+ * @param setSelectedMedia - Function to set the selected media item
+ */
 export default function MediaSearch({
   mediaType,
   setSelectedMedia,
@@ -12,42 +16,8 @@ export default function MediaSearch({
   mediaType: string;
   setSelectedMedia: (media: any) => void;
 }) {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
-
-  // Debouncer: Update `debouncedSearchTerm` after a delay
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedSearchTerm(searchTerm);
-    }, 500); // Delay of 500ms
-
-    return () => {
-      clearTimeout(handler); // Clear timeout if searchTerm changes
-    };
-  }, [searchTerm]);
-
-  // Fetch search results when `debouncedSearchTerm` changes
-  useEffect(() => {
-    const fetchSearchResults = async () => {
-      if (debouncedSearchTerm === "") {
-        setSearchResults([]);
-        return;
-      }
-
-      try {
-        const response = await queueClient.searchMedia(
-          mediaType,
-          debouncedSearchTerm
-        );
-        setSearchResults(response);
-      } catch (error) {
-        console.error("Error fetching search results:", error);
-      }
-    };
-
-    fetchSearchResults();
-  }, [mediaType, debouncedSearchTerm]);
+  const { searchTerm, setSearchTerm, searchResults } =
+    useMediaSearch(mediaType);
 
   return (
     <div className="position-relative">
@@ -66,6 +36,8 @@ export default function MediaSearch({
           }}
         />
       </InputGroup>
+
+      {/* Show search results if there are any */}
       {searchResults.length > 0 && (
         <div id="search-results">
           <ListGroup>
