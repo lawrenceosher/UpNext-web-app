@@ -1,0 +1,11 @@
+.card-border {
+  border: 4px solid;
+  border-color: #732bce !important;
+}
+
+#poster-card {
+  width: 300px !important;
+  height: 400px !important;
+  object-fit: cover;
+  cursor: pointer;
+}
