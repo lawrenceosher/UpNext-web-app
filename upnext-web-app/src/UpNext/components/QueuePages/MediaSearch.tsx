@@ -30,7 +30,7 @@ export default function MediaSearch({
           id="search"
           placeholder="Search..."
           value={searchTerm}
-          className="ps-5"
+          className="ps-5 rounded-start"
           onChange={(e) => {
             setSearchTerm(e.target.value);
           }}
