@@ -59,7 +59,7 @@
 My idea for this project came about when my friends and I were sharing what media we wanted to watch/read/play/listen to, and everybody was texting lists from their notes app. Instead of maintaining a plain note, I wanted a way to organize and share my media consumption queues in a visually-appealing way. I also wanted a way to have a shared group queue that multiple people could add to instead of keeping a list that just one person could maintain. With this, UpNext was born.
 
 #### Note
-This is the repository for the client-side code. The node-server repository is located [here](https://github.com/lawrenceosher/upnext-node-server).
+This is the repository for the client-side code. The backend node-server repository is located [here](https://github.com/lawrenceosher/upnext-node-server).
 
 ### Home Page
 [![Product Name Screen Shot][product-screenshot1]]()
@@ -75,7 +75,10 @@ This is the repository for the client-side code. The node-server repository is l
 ### Built With
 
 - [![React][React.js]][React-url]
-- []
+- [![Bootstrap][Bootstrap]][Bootstrap-url]
+- [![Express][Express]][Express-url]
+- [![MongoDB][MongoDB]][MongoDB-url]
+- [![Node][Node]][Node-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -178,6 +181,14 @@ This project is for personal use and demonstration purposes only. All rights res
 [Next-url]: https://nextjs.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
+[Bootstrap]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
+[Bootstrap-url]: https://getbootstrap.com/ 
+[Express]: https://img.shields.io/badge/Express.js-000000?logo=express&logoColor=fff&style=flat
+[Express-url]: https://expressjs.com/
+[MongoDB]: https://img.shields.io/badge/-MongoDB-13aa52?style=for-the-badge&logo=mongodb&logoColor=white
+[MongoDB-url]: https://www.mongodb.com/
+[Node]: https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white
+[Node-url]: https://nodejs.org/en
 [Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
 [Vue-url]: https://vuejs.org/
 [Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
