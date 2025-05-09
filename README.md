@@ -1,20 +1,19 @@
 <a id="readme-top"></a>
 
 <!-- PROJECT SHIELDS -->
+
 [![Contributors][contributors-shield]][contributors-url]
 [![Issues][issues-shield]][issues-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
-
 
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <a href="https://upnextqueue.netlify.app/">
-    <img src="public/upnextExpanded.png" alt="UpNext Logo">
+    <img src="public/upnextExpanded.png" alt="UpNext Logo" width="50%">
   </a>
 
-<h3 align="center">UpNext</h3>
-
+<br/>
   <p align="center">
     UpNext is an all-inclusive media consumption app that allows users to create queues/watch lists for Movies, TV Shows, Albums, Books, Podcasts, and Video Games. Users can create groups and invite others to shared queues where separate people can contribute different pieces of media that they want to watch/listen/read/play together. Users can search for, view details, and add different media to their respective queues, along with viewing other profiles to see what they have "UpNext".
     <br />
@@ -24,8 +23,6 @@
     <a href="https://upnextqueue.netlify.app/">Deployed Site</a>
 
 </div>
-
-
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -52,34 +49,29 @@
 </details>
 
 <!-- ABOUT THE PROJECT -->
+
 ## About The Project
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 ### Built With
 
-* [![React][React.js]][React-url]
-* []
-
-
+- [![React][React.js]][React-url]
+- []
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
 <!-- GETTING STARTED -->
+
 ## Getting Started
 
 To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
-* npm
+- npm
   ```sh
   npm install npm@latest -g
   ```
@@ -95,32 +87,28 @@ To get a local copy up and running follow these simple steps.
    npm install
    ```
 
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- USAGE EXAMPLES -->
+
 ## Usage
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- FEATURES -->
+
 ## Features
 
 - [Querying Media Databases]
 - [ ] Feature 2
 - [ ] Feature 3
-    - [ ] Nested Feature
+  - [ ] Nested Feature
 
 See the [open issues](https://github.com/lawrenceosher/UpNext-web-app/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 ### Top contributors:
 
@@ -128,27 +116,30 @@ See the [open issues](https://github.com/lawrenceosher/UpNext-web-app/issues) fo
   <img src="https://contrib.rocks/image?repo=lawrenceosher/UpNext-web-app" alt="contrib.rocks image" />
 </a>
 
-
 <!-- CONTACT -->
+
 ## Contact
 
-Lawrence Osher  - osherlawrence@gmail.com
+Lawrence Osher - osherlawrence@gmail.com
 
 Project Link: [https://github.com/lawrenceosher/UpNext-web-app](https://github.com/lawrenceosher/UpNext-web-app)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Third-Party APIs
+
 - TMDB
 - Spotify
 - Google Books
 - IGDB
 
 ## License
+
 This project is for personal use and demonstration purposes only. All rights reserved.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
 [contributors-shield]: https://img.shields.io/github/contributors/lawrenceosher/UpNext-web-app.svg?style=for-the-badge
 [contributors-url]: https://github.com/lawrenceosher/UpNext-web-app/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/lawrenceosher/UpNext-web-app.svg?style=for-the-badge
@@ -177,4 +168,4 @@ This project is for personal use and demonstration purposes only. All rights res
 [Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
 [Bootstrap-url]: https://getbootstrap.com
 [JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
-[JQuery-url]: https://jquery.com 
+[JQuery-url]: https://jquery.com
