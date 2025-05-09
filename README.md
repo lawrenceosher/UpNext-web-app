@@ -52,7 +52,16 @@
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+My idea for this project came about when my friends and I were sharing what media we wanted to watch/read/play/listen to, and everybody was texting lists from their notes app. Instead of maintaining a plain note, I wanted a way to organize and share my media consumption queues in a visually-appealing way. I also wanted a way to have a shared group queue that multiple people could add to instead of keeping a list that just one person could maintain. With this, UpNext was born.
+
+### Home Page
+[![Product Name Screen Shot][product-screenshot1]]()
+
+### TV Queue Page
+[![Product Name Screen Shot][product-screenshot2]]()
+
+### Profile Page
+[![Product Name Screen Shot][product-screenshot3]]()
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -152,7 +161,9 @@ This project is for personal use and demonstration purposes only. All rights res
 [license-url]: https://github.com/lawrenceosher/UpNext-web-app/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/losher/
-[product-screenshot]: images/screenshot.png
+[product-screenshot1]: public/homePage.png
+[product-screenshot2]: public/queuePage.png
+[product-screenshot3]: public/profilePage.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
