@@ -62,6 +62,14 @@ My idea for this project came about when my friends and I were sharing what medi
 
 This is the repository for the client-side code. The backend node-server repository is located [here](https://github.com/lawrenceosher/upnext-node-server).
 
+This repository consists of, but is not limited to:
+- Client-side routes - ```/src/UpNext/index.tsx```
+- Custom hooks - ```/src/UpNext/hooks```
+- Reducers and Redux - ```/src/UpNext/redux```
+- Components - ```/src/UpNext/components```
+- Rendered pages - ```/src/UpNext/pages```
+- Calls to backend API-  ```/src/UpNext/clients```
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Built With
@@ -139,12 +147,16 @@ You can use the site as an anonymous user to view profiles and search for media,
 
 ## Features
 
-- [Querying Media Databases]
-- [ ] Feature 2
-- [ ] Feature 3
-  - [ ] Nested Feature
+- [Querying Media Databases] For each of the six media types (Movies, TV Shows, Albums, Books, Podcasts, Video Games), users can search for the media they want and click the summary card for more details. These results come from remote databases
+- [Queues (Personal)] 
+  - [Current] After searching for media, users can add it to the current queue by hitting the 'Add' button. Users can then see a list in the order of time added (oldest to newest) for what is up next to consume.
+  - [History] After consuming the piece of media, you can check it off in your current queue and click the 'Submit' button to move it from your current queue to your history. You can then see the media in your history to keep track of what you have previously consumed. 
+- [Groups] Feature 3
+- [Trending] See the top two most-added pieces of media for each the six categories. Each media item is clickable for more details.
+- [Quick View] Collapsible lists are available in both the home page to view your personal current queues and profile pages (viewing personal history queues for your own profile and the top 3 in personal current queues for other users).
 
-See the [open issues](https://github.com/lawrenceosher/UpNext-web-app/issues) for a full list of proposed features (and known issues).
+
+See the [open issues](https://github.com/lawrenceosher/UpNext-web-app/issues) for a full list of future features and improvements.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
