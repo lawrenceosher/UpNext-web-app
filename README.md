@@ -21,6 +21,8 @@
     <a href="https://github.com/lawrenceosher/UpNext-web-app">View Demo</a>
     &middot;
     <a href="https://upnextqueue.netlify.app/">Deployed Site</a>
+    &middot;
+    <a href="https://github.com/lawrenceosher/upnext-node-server">Server Repo</a>
 
 </div>
 
@@ -45,6 +47,8 @@
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#contact">Contact</a></li>
+    <li><a href="#third-party-apis">Third Party APIs</a></li>
+    <li><a href="#license">License</a></li>
   </ol>
 </details>
 
@@ -53,6 +57,9 @@
 ## About The Project
 
 My idea for this project came about when my friends and I were sharing what media we wanted to watch/read/play/listen to, and everybody was texting lists from their notes app. Instead of maintaining a plain note, I wanted a way to organize and share my media consumption queues in a visually-appealing way. I also wanted a way to have a shared group queue that multiple people could add to instead of keeping a list that just one person could maintain. With this, UpNext was born.
+
+#### Note
+This is the repository for the client-side code. The node-server repository is located [here](https://github.com/lawrenceosher/upnext-node-server).
 
 ### Home Page
 [![Product Name Screen Shot][product-screenshot1]]()
@@ -137,17 +144,20 @@ Project Link: [https://github.com/lawrenceosher/UpNext-web-app](https://github.c
 
 ## Third-Party APIs
 
-- TMDB
-- Spotify
-- Google Books
-- IGDB
+- [TMDB](https://developer.themoviedb.org/docs/getting-started)
+- [Spotify](https://developer.spotify.com/)
+- [Google Books](https://developers.google.com/books)
+- [IGDB](https://api-docs.igdb.com/#getting-started)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## License
 
 This project is for personal use and demonstration purposes only. All rights reserved.
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 <!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
 [contributors-shield]: https://img.shields.io/github/contributors/lawrenceosher/UpNext-web-app.svg?style=for-the-badge
 [contributors-url]: https://github.com/lawrenceosher/UpNext-web-app/graphs/contributors
