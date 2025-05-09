@@ -59,16 +59,8 @@
 My idea for this project came about when my friends and I were sharing what media we wanted to watch/read/play/listen to, and everybody was texting lists from their notes app. Instead of maintaining a plain note, I wanted a way to organize and share my media consumption queues in a visually-appealing way. I also wanted a way to have a shared group queue that multiple people could add to instead of keeping a list that just one person could maintain. With this, UpNext was born.
 
 #### Note
+
 This is the repository for the client-side code. The backend node-server repository is located [here](https://github.com/lawrenceosher/upnext-node-server).
-
-### Home Page
-[![Product Name Screen Shot][product-screenshot1]]()
-
-### TV Queue Page
-[![Product Name Screen Shot][product-screenshot2]]()
-
-### Profile Page
-[![Product Name Screen Shot][product-screenshot3]]()
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -94,6 +86,8 @@ To get a local copy up and running follow these simple steps.
   ```sh
   npm install npm@latest -g
   ```
+- Local backend server must be running - follow the steps in the [backend repository](https://github.com/lawrenceosher/upnext-node-server)
+- Node.js and MongoDB must be installed on your machine
 
 ### Installation
 
@@ -105,6 +99,14 @@ To get a local copy up and running follow these simple steps.
    ```sh
    npm install
    ```
+3. Create /.env file with the following env variable.
+   ```
+   VITE_REMOTE_SERVER=http://localhost:4000
+   ```
+4. Run the project locally
+   ```sh
+   npm run dev
+   ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -112,7 +114,24 @@ To get a local copy up and running follow these simple steps.
 
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+You can use the site as an anonymous user to view profiles and search for media, but you cannot create groups or queues. You can sign up with only a username and password to get access to all features.
+
+### Home Page
+
+[![Home Page][product-screenshot1]]()
+
+### TV Queue Page
+
+[![TV Queue Page][product-screenshot2]]()
+
+### Profile Page
+
+[![Profile Page][product-screenshot3]]()
+
+### Users and Groups Page
+
+[![Users and Groups Page][product-screenshot4]]()
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -177,12 +196,13 @@ This project is for personal use and demonstration purposes only. All rights res
 [product-screenshot1]: public/homePage.png
 [product-screenshot2]: public/queuePage.png
 [product-screenshot3]: public/profilePageNew.png
+[product-screenshot4]: public/groupsPage.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
 [Bootstrap]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
-[Bootstrap-url]: https://getbootstrap.com/ 
+[Bootstrap-url]: https://getbootstrap.com/
 [Express]: https://img.shields.io/badge/Express.js-000000?logo=express&logoColor=fff&style=flat
 [Express-url]: https://expressjs.com/
 [MongoDB]: https://img.shields.io/badge/-MongoDB-13aa52?style=for-the-badge&logo=mongodb&logoColor=white
