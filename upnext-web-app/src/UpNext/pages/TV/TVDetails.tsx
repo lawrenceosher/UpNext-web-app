@@ -54,48 +54,41 @@ export default function TVDetails() {
           </p>
         </Alert>
       )}
-      <div className="d-flex">
+      <div className="d-flex flex-column flex-md-row">
         <Image
           src={tvShow.posterPath}
           width={400}
-          className="border border-4 border-white mb-4"
+          className="border border-4 border-white mb-4 img-fluid"
         />
         <div className="ps-4 flex-grow-1">
-          <h1 className="fw-bold d-flex align-items-center display-4">
+          <h1 className="fw-bold d-flex align-items-center display-4 text-center text-md-start">
             <FiTv className="me-2" /> {tvShow.title}
           </h1>
-          <h4 className="mt-3 d-flex align-items-center">
-            <TbChairDirector className="me-2 fs-3" /> Created by{" "}
-            {tvShow.creator}
+          <h4 className="mt-3 d-flex align-items-center text-center text-md-start">
+            <TbChairDirector className="me-2 fs-3" /> Created by {tvShow.creator}
           </h4>
-          <h4 className="mt-3 d-flex align-items-center">
+          <h4 className="mt-3 d-flex align-items-center text-center text-md-start">
             <CiCalendar className="me-2 fs-3" />
-            {formatDateString(tvShow.firstAirDate)}{" "}
-            {tvShow.lastAirDate &&
-              tvShow.lastAirDate.length > 0 &&
-              `-
+            {formatDateString(tvShow.firstAirDate)}
+            {tvShow.lastAirDate && tvShow.lastAirDate.length > 0 && `-
             ${formatDateString(tvShow.lastAirDate)}`}
           </h4>
-
-          <h4 className="mt-3 d-flex align-items-center">
-            <LuTvMinimalPlay className="me-2 fs-3" /> {tvShow.totalEpisodes}{" "}
-            Episodes
+          <h4 className="mt-3 d-flex align-items-center text-center text-md-start">
+            <LuTvMinimalPlay className="me-2 fs-3" /> {tvShow.totalEpisodes} Episodes
           </h4>
-          <h4 className="mt-3 d-flex align-items-center">
+          <h4 className="mt-3 d-flex align-items-center text-center text-md-start">
             <LuListVideo className="me-2 fs-3" /> {tvShow.totalSeasons} Seasons
           </h4>
-          <h4 className="mt-3 d-flex align-items-center">
-            <FaMasksTheater className="me-2 fs-3" />{" "}
-            {tvShow && tvShow.genres.join(", ")}
+          <h4 className="mt-3 d-flex align-items-center text-center text-md-start">
+            <FaMasksTheater className="me-2 fs-3" /> {tvShow && tvShow.genres.join(", ")}
           </h4>
-          <h5 className="mt-3 d-flex align-items-center">
-            <IoIosPeople className="me-2 fs-2" />{" "}
-            {tvShow && tvShow.cast.join(", ")}
+          <h5 className="mt-3 d-flex align-items-center text-center text-md-start">
+            <IoIosPeople className="me-2 fs-2" /> {tvShow && tvShow.cast.join(", ")}
           </h5>
-          <h5 className="mt-5 fw-bold d-flex align-items-center">
+          <h5 className="mt-5 fw-bold d-flex align-items-center text-center text-md-start">
             <MdOutlineDescription className="me-2 fs-3" /> Description
           </h5>
-          <p className="mt-3 text-start pe-3">{tvShow.description}</p>
+          <p className="mt-3 text-start pe-3 text-center text-md-start">{tvShow.description}</p>
 
           <div>
             <Form className="d-flex align-items-center flex-fill justify-content-end me-4">
