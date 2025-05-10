@@ -124,19 +124,19 @@ You can use the site as an anonymous user (not logged-in) to view profiles and s
 
 ### Home Page
 
-[![Home Page][product-screenshot1]]()
+[![Home Page][home-page]]()
 
 ### TV Queue Page
 
-[![TV Queue Page][product-screenshot2]]()
+[![TV Queue Page][queue-page]]()
 
 ### Profile Page
 
-[![Profile Page][product-screenshot3]]()
+[![Profile Page][profile-page]]()
 
 ### Users and Groups Page
 
-[![Users and Groups Page][product-screenshot4]]()
+[![Users and Groups Page][groups-page]]()
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -203,10 +203,10 @@ This project is for personal use and demonstration purposes only. All rights res
 [license-url]: https://github.com/lawrenceosher/UpNext-web-app/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/losher/
-[product-screenshot1]: public/homePage.png
-[product-screenshot2]: public/queuePage.png
-[product-screenshot3]: public/profilePageNew.png
-[product-screenshot4]: public/groupsPage.png
+[home-page]: public/homePage.png
+[queue-page]: public/queuePage.png
+[profile-page]: public/profilePageNew.png
+[groups-page]: public/groupsPage.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
