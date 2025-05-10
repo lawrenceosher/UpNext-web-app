@@ -76,6 +76,7 @@ This repository consists of, but is not limited to:
 - [![Bootstrap][Bootstrap]][Bootstrap-url]
 - [![Express][Express]][Express-url]
 - [![MongoDB][MongoDB]][MongoDB-url]
+- [![Mongoose][Mongoose]][Mongoose-url]
 - [![Node][Node]][Node-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -219,3 +220,5 @@ This project is for personal use and demonstration purposes only. All rights res
 [MongoDB-url]: https://www.mongodb.com/
 [Node]: https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white
 [Node-url]: https://nodejs.org/en
+[Mongoose]: https://img.shields.io/badge/-Mongoose-000?&logo=MongoDB&logoColor=white&s
+[Mongoose-url]: https://mongoosejs.com/docs/
