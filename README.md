@@ -175,7 +175,9 @@ See the [open issues](https://github.com/lawrenceosher/UpNext-web-app/issues) fo
 
 Lawrence Osher - osherlawrence@gmail.com
 
-Project Link: [https://github.com/lawrenceosher/UpNext-web-app](https://github.com/lawrenceosher/UpNext-web-app)
+Project Link: 
+- [https://github.com/lawrenceosher/UpNext-node-server](https://github.com/lawrenceosher/UpNext-node-server)
+- [https://github.com/lawrenceosher/UpNext-web-app](https://github.com/lawrenceosher/UpNext-web-app)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
