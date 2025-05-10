@@ -197,10 +197,6 @@ This project is for personal use and demonstration purposes only. All rights res
 
 [contributors-shield]: https://img.shields.io/github/contributors/lawrenceosher/UpNext-web-app.svg?style=for-the-badge
 [contributors-url]: https://github.com/lawrenceosher/UpNext-web-app/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/lawrenceosher/UpNext-web-app.svg?style=for-the-badge
-[forks-url]: https://github.com/lawrenceosher/UpNext-web-app/network/members
-[stars-shield]: https://img.shields.io/github/stars/lawrenceosher/UpNext-web-app.svg?style=for-the-badge
-[stars-url]: https://github.com/lawrenceosher/UpNext-web-app/stargazers
 [issues-shield]: https://img.shields.io/github/issues/lawrenceosher/UpNext-web-app.svg?style=for-the-badge
 [issues-url]: https://github.com/lawrenceosher/UpNext-web-app/issues
 [license-shield]: https://img.shields.io/github/license/lawrenceosher/UpNext-web-app.svg?style=for-the-badge
@@ -223,15 +219,3 @@ This project is for personal use and demonstration purposes only. All rights res
 [MongoDB-url]: https://www.mongodb.com/
 [Node]: https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white
 [Node-url]: https://nodejs.org/en
-[Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
-[Vue-url]: https://vuejs.org/
-[Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
-[Angular-url]: https://angular.io/
-[Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
-[Svelte-url]: https://svelte.dev/
-[Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
-[Laravel-url]: https://laravel.com
-[Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
-[Bootstrap-url]: https://getbootstrap.com
-[JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
-[JQuery-url]: https://jquery.com
