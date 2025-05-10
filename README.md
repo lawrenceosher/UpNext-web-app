@@ -18,8 +18,6 @@
     UpNext is an all-inclusive media consumption app that allows users to create queues/watch lists for Movies, TV Shows, Albums, Books, Podcasts, and Video Games. Users can create groups and invite others to shared queues where separate people can contribute different pieces of media that they want to watch/listen/read/play together. Users can search for, view details, and add different media to their respective queues, along with viewing other profiles to see what they have "UpNext".
     <br />
     <br />
-    <a href="https://github.com/lawrenceosher/UpNext-web-app">View Demo</a>
-    &middot;
     <a href="https://upnextqueue.netlify.app/">Deployed Site</a>
     &middot;
     <a href="https://github.com/lawrenceosher/upnext-node-server">Server Repo</a>
@@ -44,7 +42,7 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#features">Features</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#third-party-apis">Third Party APIs</a></li>
@@ -122,7 +120,7 @@ To get a local copy up and running follow these simple steps.
 
 ## Usage
 
-You can use the site as an anonymous user to view profiles and search for media, but you cannot create groups or queues. You can sign up with only a username and password to get access to all features.
+You can use the site as an anonymous user (not logged-in) to view profiles and search for media, but you cannot create groups or queues. You can sign up with only a username and password to get access to all features.
 
 ### Home Page
 
@@ -147,16 +145,20 @@ You can use the site as an anonymous user to view profiles and search for media,
 
 ## Features
 
-- [Querying Media Databases] For each of the six media types (Movies, TV Shows, Albums, Books, Podcasts, Video Games), users can search for the media they want and click the summary card for more details. These results come from remote databases
-- [Queues (Personal)] 
+- [Querying Media Databases] For each of the six media types (Movies, TV Shows, Albums, Books, Podcasts, Video Games), users can search for the media they want and click the summary card for more details. These results come from remote databases.
+- [Queues (Personal) *] - Queue pages contain both the current and history queues, group queues, and the media search feature. The sidebar with different media icons takes you to the respective queue pages.
   - [Current] After searching for media, users can add it to the current queue by hitting the 'Add' button. Users can then see a list in the order of time added (oldest to newest) for what is up next to consume.
   - [History] After consuming the piece of media, you can check it off in your current queue and click the 'Submit' button to move it from your current queue to your history. You can then see the media in your history to keep track of what you have previously consumed. 
-- [Groups] Feature 3
+- [Group and Group Queues *] Users can create groups and invite other users. Users can then accept or decline the invitation by clicking on the 'Bell' icon in their profile page. With these groups, shared queues are created that have their own current and history queues, and users can each modify media that they want to consume together. A new queue is made for each of the six media types when a group is created.
 - [Trending] See the top two most-added pieces of media for each the six categories. Each media item is clickable for more details.
-- [Quick View] Collapsible lists are available in both the home page to view your personal current queues and profile pages (viewing personal history queues for your own profile and the top 3 in personal current queues for other users).
+- [Quick View] Collapsible lists are available in both the home page to view your personal current queues and profile pages (viewing personal history queues for your own profile and the top three in personal current queues for other users). When viewing your own profile, you also get a quick summary of your history that encapsulates all media you have already consumed.
+- [Users and Profiles] Users can view each other's profiles to see what are the top media items in each of their queues.
 
+'*' - Signifies that the user must be logged-in to access these features
 
 See the [open issues](https://github.com/lawrenceosher/UpNext-web-app/issues) for a full list of future features and improvements.
+
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
