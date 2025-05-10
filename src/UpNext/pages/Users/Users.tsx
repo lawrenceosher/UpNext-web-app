@@ -28,7 +28,7 @@ export default function Users() {
           <FormControl
             id="wd-search-assignment"
             placeholder="Search for Users..."
-            className="ps-5"
+            className="ps-5 rounded-start"
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
           />
