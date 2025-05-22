@@ -16,7 +16,7 @@ export default function MovieSummaryCard({ movie }: { movie: Movie }) {
       <Image
         src={movie.posterPath}
         id="poster-card"
-        className="p-3 align-self-center"
+        className="m-3 border border-4 border-white"
         onClick={() => navigate(`/UpNext/Movies/${movie._id}`)}
       />
       <div className="p-3 flex-grow-1">

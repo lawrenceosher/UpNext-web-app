@@ -16,7 +16,7 @@ export default function TVSummaryCard({ tv }: { tv: TVShow }) {
       <Image
         src={tv.posterPath}
         id="poster-card"
-        className="p-3 align-self-center"
+        className="m-3 border border-4 border-white"
         onClick={() => navigate(`/UpNext/TV/${tv._id}`)}
       />
       <div className="p-3">

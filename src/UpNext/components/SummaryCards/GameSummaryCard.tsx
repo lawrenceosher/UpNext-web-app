@@ -16,7 +16,7 @@ export default function GameSummaryCard({ game }: { game: VideoGame }) {
       <Image
         src={game.coverArt}
         id="poster-card"
-        className="p-3 align-self-center"
+        className="m-3 border border-4 border-white"
         onClick={() => navigate(`/UpNext/Games/${game._id}`)}
       />
       <div className="p-3 flex-grow-1">

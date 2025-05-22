@@ -16,7 +16,7 @@ export default function PodcastSummaryCard({ podcast }: { podcast: Podcast }) {
       <Image
         src={podcast.coverArt}
         id="poster-card"
-        className="p-3 align-self-center"
+        className="m-3 border border-4 border-white"
         onClick={() => navigate(`/UpNext/Podcasts/${podcast._id}`)}
       />
       <div className="p-3 flex-grow-1">
