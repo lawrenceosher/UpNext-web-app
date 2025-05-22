@@ -45,6 +45,7 @@ export default function TVDetails() {
       {showAlert && (
         <Alert
           variant="success"
+          className="me-3"
           onClose={() => setShowAlert(false)}
           dismissible
         >

@@ -47,6 +47,7 @@ export default function AlbumDetails() {
       {showAlert && (
         <Alert
           variant="success"
+          className="me-3"
           onClose={() => setShowAlert(false)}
           dismissible
         >
