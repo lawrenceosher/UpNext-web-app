@@ -12,11 +12,12 @@ export default function MovieSummaryCard({ movie }: { movie: Movie }) {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-transparent mt-4 card-border d-flex flex-row text-center mh-75">
+    <div className="bg-transparent mt-4 card-border d-flex flex-column flex-sm-row text-center mh-75">
       <Image
-        src={movie.posterPath}
         id="poster-card"
-        className="p-3 align-self-center"
+        role="button"
+        src={movie.posterPath}
+        className="m-3 border border-4 border-white object-fit-cover"
         onClick={() => navigate(`/UpNext/Movies/${movie._id}`)}
       />
       <div className="p-3 flex-grow-1">

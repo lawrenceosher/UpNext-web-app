@@ -44,6 +44,7 @@ export default function BookDetails() {
       {showAlert && (
         <Alert
           variant="success"
+          className="me-3"
           onClose={() => setShowAlert(false)}
           dismissible
         >
@@ -51,30 +52,35 @@ export default function BookDetails() {
           <p>Successfully added {book.title} to your current personal queue!</p>
         </Alert>
       )}
-      <div className="d-flex">
+      <div className="d-flex flex-column flex-sm-row">
         <Image
           src={book.coverArt}
-          height={550}
-          className="border border-4 border-white mb-4"
+          height={400}
+          className="border border-4 border-white mb-4 object-fit-cover"
         />
         <div className="ps-4 flex-grow-1">
           <h1 className="fw-bold d-flex align-items-center display-4">
             <IoBookOutline className="me-4" /> {book.title}
           </h1>
+
           <h4 className="mt-3 d-flex align-items-center">
             <TiPencil className="me-2 fs-3" /> Written by{" "}
             {book.authors.join(", ")}
           </h4>
+          
           <h4 className="mt-3 d-flex align-items-center">
             <CiCalendar className="me-2 fs-3" />{" "}
             {formatDateString(book.datePublished)}
           </h4>
+          
           <h4 className="mt-3 d-flex align-items-center">
             <LuBookText className="me-2 fs-3" /> {book.pages} Pages
           </h4>
+         
           <h5 className="mt-3 d-flex align-items-center">
             <BiLabel className="me-2 fs-2" /> {book.publisher}
           </h5>
+          
           <h5 className="mt-3 fw-bold d-flex align-items-center">
             <MdOutlineDescription className="me-2 fs-3" /> Description
           </h5>
@@ -85,7 +91,7 @@ export default function BookDetails() {
               <Button
                 size="lg"
                 id="action-button"
-                className="my-3 float-end purple-brand-bg border-0 w-25"
+                className="my-3 float-end purple-brand-bg border-0 py-3 px-4"
                 disabled={!currentUser || isMediaInQueue(bookId ?? "")}
                 onClick={() => {
                   addBookToCurrentQueue();

@@ -43,6 +43,7 @@ export default function PodcastDetails() {
       {showAlert && (
         <Alert
           variant="success"
+          className="me-3"
           onClose={() => setShowAlert(false)}
           dismissible
         >
@@ -52,27 +53,31 @@ export default function PodcastDetails() {
           </p>
         </Alert>
       )}
-      <div className="d-flex">
+      <div className="d-flex flex-column flex-sm-row">
         <Image
           src={podcast.coverArt}
-          height={550}
-          className="border border-4 border-white mb-4"
+          height={500}
+          className="border border-4 border-white mb-4 object-fit-cover"
         />
         <div className="ps-4 flex-grow-1">
           <h1 className="fw-bold d-flex align-items-center display-5">
             <SlMicrophone className="me-2" /> {podcast.title}
           </h1>
+          
           <h4 className="mt-3 d-flex align-items-center">
             <BiLabel className="me-2 fs-3" /> Published by {podcast.publisher}
           </h4>
+          
           <h4 className="mt-3 d-flex align-items-center">
             <CiCalendar className="me-2 fs-3" />{" "}
             {formatDateString(podcast.latestEpisodeDate)}
           </h4>
+          
           <h5 className="mt-3 fw-bold d-flex align-items-center">
             <MdOutlineDescription className="me-2 fs-3" /> Description
           </h5>
           <p className="mt-3 text-start pe-3">{podcast.description}</p>
+          
           <h5 className="mt-3 fw-bold d-flex align-items-center">
             <FaRegListAlt className="me-2 fs-3" /> Most Recent Episodes
           </h5>
@@ -89,7 +94,7 @@ export default function PodcastDetails() {
               <Button
                 size="lg"
                 id="action-button"
-                className="my-3 float-end purple-brand-bg border-0 w-25"
+                className="my-3 float-end purple-brand-bg border-0 py-3 px-4"
                 disabled={!currentUser || isMediaInQueue(podcastId ?? "")}
                 onClick={() => {
                   addPodcastToCurrentQueue();

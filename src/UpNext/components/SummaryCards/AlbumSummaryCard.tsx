@@ -12,11 +12,12 @@ export default function AlbumSummaryCard({ album }: { album: Album }) {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-transparent mt-4 card-border d-flex flex-row text-center mh-75">
+    <div className="bg-transparent mt-4 card-border d-flex flex-column flex-sm-row text-center mh-75">
       <Image
         src={album.coverArt}
         id="poster-card"
-        className="p-3 align-self-center"
+        role="button"
+        className="m-3 border border-4 border-white object-fit-cover"
         onClick={() => navigate(`/UpNext/Albums/${album._id}`)}
       />
       <div className="p-3 flex-grow-1">
@@ -27,13 +28,13 @@ export default function AlbumSummaryCard({ album }: { album: Album }) {
           {album.title}
         </Link>
         <h4 className="mt-3">Created by {album.artist}</h4>
-        <ul className="list-unstyled">
+        <ol className="text-start mt-3">
           {album.tracks.map((track, index) => (
             <li key={index} className="text-white">
               {track}
             </li>
           ))}
-        </ul>
+        </ol>
       </div>
     </div>
   );

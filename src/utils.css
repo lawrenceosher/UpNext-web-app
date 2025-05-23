@@ -7,6 +7,13 @@
   padding-left: 140px !important;
 }
 
+@media (max-width: 768px) {
+  .main-content-offset {
+    padding-top: 95px !important;
+    padding-left: 15px !important;
+  }
+}
+
 #icon-button:hover {
   filter: brightness(80%);
   transform: translateY(-2px);

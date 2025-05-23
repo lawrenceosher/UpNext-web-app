@@ -23,13 +23,13 @@ export default function QueueActionButtons({
   moveMediaFromCurrentToHistory: () => Promise<void>;
 }) {
   return (
-    <div className="d-flex justify-content-around">
+    <div className="d-flex flex-md-row flex-column justify-content-around mt-3 mb-5">
       <Button
         id="action-button"
         size="lg"
-        className={`mt-3 ${
+        className={`mt-3 py-3 px-4 ${
           !queueHistorySelected ? "bg-light text-dark" : "purple-brand-bg"
-        } border-0 w-25 align-items-center`}
+        } border-0 align-items-center`}
         onClick={() => setQueueHistorySelected(false)}
       >
         <IoTrendingUpSharp className="me-1 mb-1 fs-4" /> Current
@@ -37,9 +37,9 @@ export default function QueueActionButtons({
       <Button
         id="action-button"
         size="lg"
-        className={`mt-3 ${
+        className={`mt-3 py-3 px-4 ${
           queueHistorySelected ? "bg-light text-dark" : "purple-brand-bg"
-        }  border-0 w-25`}
+        }  border-0`}
         onClick={() => setQueueHistorySelected(true)}
       >
         <MdHistory className="me-1 mb-1 fs-4" /> History
@@ -47,7 +47,7 @@ export default function QueueActionButtons({
       <Button
         id="action-button"
         size="lg"
-        className="mt-3 purple-brand-bg border-0 w-25"
+        className="mt-3 py-3 px-4 purple-brand-bg border-0"
         disabled={
           (mediaQueue && mediaQueue.current.length === 0) ||
           consumedMediaIDs.length === 0

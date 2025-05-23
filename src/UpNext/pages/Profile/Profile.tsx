@@ -47,21 +47,26 @@ export default function Profile() {
     <Container>
       <Row>
         <Col>
-          <UserSummary userData={userData} />
+          <UserSummary
+            userData={userData}
+            handleShowAccountSettings={handleShowAccountSettings}
+            handleShowNotifcations={handleShowNotifcations}
+            isViewingOwnProfile={isViewingOwnProfile}
+          />
         </Col>
 
         {/* Only show the personal history, account settings, and invitations if you're viewing your own profile */}
         {isViewingOwnProfile && (
           <>
-            <Col>
-              <h4>Personal Queues - History</h4>
+            <Col className="mt-lg-4">
+              <h4 className="fw-bold">Personal Queues - History</h4>
               <MovieAccordion movies={userData.historyQueues.movies} />
               <TVAccordion shows={userData.historyQueues.tv} />
               <AlbumAccordion albums={userData.historyQueues.albums} />
             </Col>
 
-            <Col>
-              <h4>
+            <Col className="mt-lg-4">
+              <h4 className="d-none d-md-block">
                 <br />
               </h4>
               <BookAccordion books={userData.historyQueues.books} />
@@ -70,8 +75,8 @@ export default function Profile() {
             </Col>
 
             {/* Account settings and notifications */}
-            <Col className="col-auto">
-              <div>
+            <Col className="d-none d-sm-block col-auto">
+              <div className="">
                 <MdOutlineSettings
                   id="icon-button"
                   className="display-5 float-end"
@@ -84,7 +89,10 @@ export default function Profile() {
                 />
               </div>
 
-              <NotificationOffcanvas
+              
+            </Col>
+
+            <NotificationOffcanvas
                 pendingInvitations={userData.pendingInvitations}
                 showNotifications={showNotifications}
                 handleCloseNotifications={handleCloseNotifications}
@@ -97,22 +105,21 @@ export default function Profile() {
                 handleCloseAccountSettings={handleCloseAccountSettings}
                 signout={signout}
               />
-            </Col>
           </>
         )}
 
         {/* Only show the current personal queues if you're viewing another user's profile and you're logged in */}
         {!isViewingOwnProfile && currentUser !== null && (
           <>
-            <Col>
-              <h4>Personal Queues - Current</h4>
+            <Col className="mt-lg-4">
+              <h4 className="fw-bold">Personal Queues - Current</h4>
               <MovieAccordion movies={userData.currentQueues.movies} />
               <TVAccordion shows={userData.currentQueues.tv} />
               <AlbumAccordion albums={userData.currentQueues.albums} />
             </Col>
 
-            <Col>
-              <h4>
+            <Col className="mt-lg-4">
+              <h4 className="d-none d-md-block">
                 <br />
               </h4>
               <BookAccordion books={userData.currentQueues.books} />

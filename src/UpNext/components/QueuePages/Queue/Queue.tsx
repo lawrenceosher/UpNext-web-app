@@ -110,7 +110,7 @@ export default function Queue({ mediaType }: { mediaType: string }) {
           <Button
             size="lg"
             id="action-button"
-            className="my-3 float-end purple-brand-bg border-0 w-25"
+            className="my-3 float-end purple-brand-bg border-0 py-3 px-4"
             disabled={
               !selectedMedia ||
               !currentUser ||

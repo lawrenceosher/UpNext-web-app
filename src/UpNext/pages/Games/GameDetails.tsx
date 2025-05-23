@@ -44,6 +44,7 @@ export default function GameDetails() {
       {showAlert && (
         <Alert
           variant="success"
+          className="me-3"
           onClose={() => setShowAlert(false)}
           dismissible
         >
@@ -51,32 +52,41 @@ export default function GameDetails() {
           <p>Successfully added {game.title} to your current personal queue!</p>
         </Alert>
       )}
-      <div className="d-flex">
+      <div className="d-flex flex-column flex-sm-row">
         <Image
           src={game.coverArt}
           height={500}
-          width={500}
-          className="border border-4 border-white mb-4"
+          className="border border-4 border-white mb-4 object-fit-cover"
         />
         <div className="ps-4 flex-grow-1">
           <h1 className="fw-bold d-flex align-items-center display-4">
             <IoGameControllerOutline className="me-2" /> {game.title}
           </h1>
+          
           <h4 className="mt-3 d-flex align-items-center">
             <BiLabel className="me-2 fs-3" /> Created by{" "}
             {game.companies.join(", ")}
           </h4>
+         
           <h4 className="mt-3 d-flex align-items-center">
             <CiCalendar className="me-2 fs-3" />{" "}
             {formatDateString(game.releaseDate)}
           </h4>
-          <h4 className="mt-3 d-flex align-items-center">
-            <FaMasksTheater className="me-2 fs-3" />{" "}
+
+          <h4 className="mt-3 d-sm-none">
+            <FaMasksTheater className="me-2 fs-4" /> Genres:
+          </h4>
+          <h4 className="mt-0 mt-sm-3 d-flex align-items-center">
+            <FaMasksTheater className="me-2 fs-3 d-none d-sm-block" />{" "}
             {game && game.genres.join(", ")}
           </h4>
-          <h5 className="mt-3 d-flex align-items-center">
-            <GiPlatform className="me-2 fs-2" /> {game.platforms.join(", ")}
+
+          <h5 className="mt-3 d-sm-none"><GiPlatform className="me-2 fs-2" /> Platforms:</h5>
+          <h5 className="mt-0 mt-sm-3 d-flex align-items-center">
+            <GiPlatform className="me-2 fs-2 d-none d-sm-block" />{" "}
+            {game.platforms.join(", ")}
           </h5>
+          
           <h5 className="mt-5 fw-bold d-flex align-items-center">
             <MdOutlineDescription className="me-2 fs-3" /> Summary
           </h5>
@@ -87,7 +97,7 @@ export default function GameDetails() {
               <Button
                 size="lg"
                 id="action-button"
-                className="my-3 float-end purple-brand-bg border-0 w-25"
+                className="my-3 float-end purple-brand-bg border-0 py-3 px-4"
                 disabled={!currentUser || isMediaInQueue(gameId ?? "")}
                 onClick={() => {
                   addGameToCurrentQueue();
