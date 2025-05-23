@@ -52,24 +52,24 @@ export default function Home() {
 
           {/* Display the current personal queues for the user */}
           <Row className="mt-3">
-            <Col>
+            <Col xs={12} md={4}>
               <MovieAccordion movies={currentQueues.movies} />
             </Col>
-            <Col>
+            <Col xs={12} md={4}>
               <TVAccordion shows={currentQueues.tv} />
             </Col>
-            <Col>
+            <Col xs={12} md={4}>
               <AlbumAccordion albums={currentQueues.albums} />
             </Col>
           </Row>
           <Row>
-            <Col>
+            <Col xs={12} md={4}>
               <BookAccordion books={currentQueues.books} />
             </Col>
-            <Col>
+            <Col xs={12} md={4}>
               <PodcastAccordion podcasts={currentQueues.podcasts} />
             </Col>
-            <Col>
+            <Col xs={12} md={4}>
               <GameAccordion games={currentQueues.games} />
             </Col>
           </Row>
