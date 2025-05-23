@@ -3,10 +3,10 @@
 }
 
 .navbar-toggler {
-  border-color: #fefefe;
-  border-width: 2px;
+  border-color: #fefefe !important;
+  border-width: 2px !important;
 }
 
-.navbar-toggler:focus {
-  box-shadow: none;
+.navbar-toggler:focus, .navbar-toggler:active {
+  box-shadow: none !important;
 }

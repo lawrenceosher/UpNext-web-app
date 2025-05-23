@@ -85,7 +85,6 @@ export default function QueueList({
                   <FormCheck
                     type="checkbox"
                     label={mediaItem.title}
-                    className="flex-grow-1"
                     onChange={(e) => {
                       if (e.target.checked) {
                         setCompletedMediaIDs((prev: any) => {
@@ -100,7 +99,7 @@ export default function QueueList({
                   />
                   <CiCircleRemove
                     id="remove-button"
-                    className="fs-2"
+                    className="ms-auto fs-2"
                     onClick={(e) => {
                       e.stopPropagation();
                       setQueueItemForModal(mediaItem);
