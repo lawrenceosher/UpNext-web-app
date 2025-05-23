@@ -57,30 +57,35 @@ export default function AlbumDetails() {
           </p>
         </Alert>
       )}
-      <div className="d-flex">
+      <div className="d-flex flex-column flex-sm-row">
         <Image
           src={album.coverArt}
-          height={550}
-          className="border border-4 border-white mb-4"
+          height={500}
+          className="border border-4 border-white mb-4 object-fit-cover"
         />
         <div className="ps-4 flex-grow-1">
           <h1 className="fw-bold d-flex align-items-center display-4">
             <IoMusicalNotesOutline className="me-2" /> {album.title}
           </h1>
+
           <h4 className="mt-3 d-flex align-items-center">
             <MdOutlineHeadphones className="me-2 fs-3" /> Created by{" "}
             {album.artist}
           </h4>
+
           <h4 className="mt-3 d-flex align-items-center">
             <CiCalendar className="me-2 fs-3" />{" "}
             {formatDateString(album.releaseDate)}
           </h4>
+
           <h4 className="mt-3 d-flex align-items-center">
             <MdAccessTime className="me-2 fs-3" /> {album.tracks.length} Tracks
           </h4>
+
           <h5 className="mt-3 d-flex align-items-center">
             <BiLabel className="me-2 fs-2" /> {album.label}
           </h5>
+          
           <h5 className="mt-3 fw-bold d-flex align-items-center">
             <MdOutlineDescription className="me-2 fs-3" /> Tracks
           </h5>
@@ -97,7 +102,7 @@ export default function AlbumDetails() {
               <Button
                 size="lg"
                 id="action-button"
-                className="my-3 float-end purple-brand-bg border-0 w-25"
+                className="my-3 float-end purple-brand-bg border-0 py-3 px-4"
                 disabled={!currentUser || isMediaInQueue(albumId ?? "")}
                 onClick={() => {
                   addAlbumToCurrentQueue();

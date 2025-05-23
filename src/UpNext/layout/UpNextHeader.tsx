@@ -99,7 +99,7 @@ export default function UpNextHeader() {
                       onClick={handleClose}
                     >
                       <link.icon id="icon-nav" className="me-3" />
-                      <span className="fs-2">{link.path}</span>
+                      <span className="fs-2">{link.path === 'Account/Profile' ? 'Profile' : link.path}</span>
                     </ListGroup.Item>
                   ))}
                 </Nav>
