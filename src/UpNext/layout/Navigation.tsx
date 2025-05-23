@@ -37,7 +37,7 @@ export default function UpNextNavigation() {
   return (
     <ListGroup
       id="upnext-navigation"
-      className="rounded-0 position-fixed purple-brand-bg bottom-0 top-0 border-end border-white border-4 z-2"
+      className="rounded-0 position-fixed purple-brand-bg bottom-0 top-0 border-end border-white border-4 z-2 d-none d-md-block"
     >
       {links.map((link) => (
         <ListGroup.Item

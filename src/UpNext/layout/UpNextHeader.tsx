@@ -1,7 +1,6 @@
 import { Link, useLocation } from "react-router";
 import "../../utils.css";
-import { FaRegUser } from "react-icons/fa";
-import { BsPeople } from "react-icons/bs";
+import { RiUserLine, RiGroupLine } from "react-icons/ri";
 
 /**
  * Header for the application that is present on every page except Signup and Login.
@@ -26,7 +25,7 @@ export default function UpNextHeader() {
 
       <div className="d-flex my-auto">
         <Link to="/UpNext/Users">
-          <BsPeople
+          <RiGroupLine
             id="icon-button"
             className={`display-5 me-3 ${
               pathname.includes("Users") ? "text-dark" : "text-white"
@@ -34,9 +33,9 @@ export default function UpNextHeader() {
           />
         </Link>
         <Link to="/UpNext/Account/Profile">
-          <FaRegUser
+          <RiUserLine
             id="icon-button"
-            className={`display-6 mt-1 ${
+            className={`display-5 ${
               // Only show the highlighted icon if the user is viewing their own profile
               pathname === "/UpNext/Account/Profile"
                 ? "text-dark"
