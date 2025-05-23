@@ -25,11 +25,12 @@ export default function BookSummaryCard({ book }: { book: Book }) {
   const maxLength = 250;
 
   return (
-    <div className="bg-transparent mt-4 card-border d-flex flex-row text-center mh-75">
+    <div className="bg-transparent mt-4 card-border d-flex flex-column flex-sm-row text-center mh-75">
       <Image
         src={book.coverArt}
         id="poster-card"
-        className="m-3 border border-4 border-white"
+        role="button"
+        className="m-3 border border-4 border-white object-fit-cover"
         onClick={() => navigate(`/UpNext/Books/${book._id}`)}
       />
       <div className="p-3 flex-grow-1">
