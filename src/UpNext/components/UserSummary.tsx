@@ -28,7 +28,7 @@ export default function UserSummary({
         <h1 className="fw-bold display-2">
           {userData.username}{" "}
           {isViewingOwnProfile && (
-            <div className="d-inline-block d-sm-none">
+            <div className="d-inline-block d-md-none">
               <MdOutlineSettings
                 id="icon-button"
                 className="display-5 float-end"
