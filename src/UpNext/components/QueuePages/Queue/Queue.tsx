@@ -139,7 +139,7 @@ export default function Queue({ mediaType }: { mediaType: string }) {
               onClose={() => setShowToast(false)}
               show={showToast}
               bg="success"
-              delay={3000}
+              delay={4000}
               autohide
             >
               <Toast.Header>
