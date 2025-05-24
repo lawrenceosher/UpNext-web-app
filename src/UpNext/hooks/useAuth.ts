@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { setCurrentUser } from "../redux/accountReducer";
-import { setErrorMessage } from "../redux/errorReducer";
 import * as userClient from "../clients/userClient";
 
 /**
@@ -44,19 +43,19 @@ const useAuth = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { errorMessage } = useSelector((state: any) => state.errorReducer);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const logIn = async () => {
     // Disallow login if username or password is empty
     if (!credentials.username || !credentials.password) {
-      dispatch(setErrorMessage("Please enter a username and password"));
+      setErrorMessage("Please enter a username and password");
       return;
     }
 
     const user = await userClient.signin(credentials);
     // If the login fails, display an error message
     if (!user) {
-      dispatch(setErrorMessage("Invalid username or password"));
+      setErrorMessage("Invalid username or password");
       return;
     }
 
@@ -67,13 +66,13 @@ const useAuth = () => {
   const signUp = async () => {
     // Disallow signup if username or password is empty
     if (!user.username || !user.password) {
-      dispatch(setErrorMessage("Please enter a username and password"));
+      setErrorMessage("Please enter a username and password");
       return;
     }
 
     // Disallow signup if password and verifyPassword do not match
     if (user.password !== user.verifyPassword) {
-      dispatch(setErrorMessage("Passwords do not match"));
+      setErrorMessage("Passwords do not match");
       return;
     }
 
@@ -81,7 +80,7 @@ const useAuth = () => {
     try {
       currentUser = await userClient.signup(user);
     } catch (error) {
-      dispatch(setErrorMessage((error as Error).message));
+      setErrorMessage((error as Error).message);
       return;
     }
 
@@ -91,7 +90,7 @@ const useAuth = () => {
 
   const updateExistingUser = async () => {
     if (updatedUser.password !== updatedUser.verifyPassword) {
-      dispatch(setErrorMessage("Passwords do not match"));
+      setErrorMessage("Passwords do not match");
       setSuccessMessage(null);
       return;
     }
@@ -119,6 +118,7 @@ const useAuth = () => {
     setCredentials,
     logIn,
     errorMessage,
+    setErrorMessage,
     user,
     setUser,
     signUp,
