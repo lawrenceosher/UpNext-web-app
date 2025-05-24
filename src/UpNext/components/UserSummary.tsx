@@ -24,22 +24,22 @@ export default function UserSummary({
 }) {
   return (
     <>
-      <div className="d-flex align-items-center">
+      <div className="d-flex flex-row align-items-center">
         <h1 className="fw-bold display-2">
           {userData.username}{" "}
           {isViewingOwnProfile && (
-            <div className="d-inline-block">
+            <span>
               <MdOutlineSettings
                 id="icon-button"
-                className="display-5 float-end"
+                className="display-5"
                 onClick={handleShowAccountSettings}
               />
               <MdNotificationsNone
                 id="icon-button"
-                className="display-5 float-end me-2"
+                className="display-5 me-2"
                 onClick={handleShowNotifcations}
               />
-            </div>
+            </span>
           )}
         </h1>
       </div>

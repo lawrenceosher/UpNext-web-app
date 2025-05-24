@@ -57,14 +57,14 @@ export default function Profile() {
         {/* Only show the personal history, account settings, and invitations if you're viewing your own profile */}
         {isViewingOwnProfile && (
           <>
-            <Col className="mt-md-4" xs={12} md={3}>
+            <Col className="mt-md-4" xs={12} md={4}>
               <h4 className="fw-bold">Personal Queues - History</h4>
               <MovieAccordion movies={userData.historyQueues.movies} />
               <TVAccordion shows={userData.historyQueues.tv} />
               <AlbumAccordion albums={userData.historyQueues.albums} />
             </Col>
 
-            <Col className="mt-md-4" xs={12} md={3}>
+            <Col className="mt-md-4" xs={12} md={4}>
               <h4 className="d-none d-md-block">
                 <br />
               </h4>
