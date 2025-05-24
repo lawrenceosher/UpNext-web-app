@@ -38,7 +38,7 @@ const useTrending = () => {
   const [popularPodcasts, setPopularPodcasts] = useState<Podcast[]>([]);
   const [popularGames, setPopularGames] = useState<VideoGame[]>([]);
 
-  // State to manage the currently selected trending category
+  // State to manage the currently selected trending category and filter the data accordingly
   const [currentTrendingCategory, setCurrentTrendingCategory] =
     useState("Movies");
 
