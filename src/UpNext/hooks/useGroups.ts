@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { Group } from "../types/group";
 import { User } from "../types/user";
 import * as groupClient from "../clients/groupClient";
+import { useDispatch } from "react-redux";
+import { setErrorMessage } from "../redux/errorReducer";
 
 /**
  * Manages the state and actions related to groups such as fetching all groups, creating a new group,
@@ -49,6 +51,8 @@ const useGroups = (currentUser: User) => {
   const handleCloseLeaveGroupModal = () => setShowLeaveGroupModal(false);
   const handleShowLeaveGroupModal = () => setShowLeaveGroupModal(true);
 
+  const dispatch = useDispatch();
+
   const handleCreateGroup = async () => {
     try {
       const createdGroup = await groupClient.createGroup(
@@ -67,6 +71,7 @@ const useGroups = (currentUser: User) => {
       handleCloseCreateGroup();
     } catch (error) {
       console.error("Error creating group:", error);
+      dispatch(setErrorMessage("Failed to create group"));
     }
   };
 
@@ -79,6 +84,7 @@ const useGroups = (currentUser: User) => {
       );
     } catch (error) {
       console.error("Error deleting group:", error);
+      dispatch(setErrorMessage("Failed to delete group"));
     }
   };
 
@@ -96,6 +102,7 @@ const useGroups = (currentUser: User) => {
       );
     } catch (error) {
       console.error("Error updating group:", error);
+      dispatch(setErrorMessage("Failed to update group"));
     }
   };
 
@@ -109,6 +116,7 @@ const useGroups = (currentUser: User) => {
       );
     } catch (error) {
       console.error("Error leaving group:", error);
+      dispatch(setErrorMessage("Failed to leave group"));
     }
   };
 

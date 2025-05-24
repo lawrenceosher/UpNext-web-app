@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { MediaItem, Queue } from "../types/queue";
 import { User } from "../types/user";
 import * as queueClient from "../clients/queueClient";
+import { useDispatch } from "react-redux";
+import { setErrorMessage } from "../redux/errorReducer";
 
 /**
  * Custom hook to manage the queue page state and actions.
@@ -20,6 +22,7 @@ const useQueuePage = (currentUser: User | undefined, mediaType: string) => {
   const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const dispatch = useDispatch();
 
   const addMediaToCurrentQueue = async () => {
     if (selectedMedia === null || !currentUser || !mediaQueue) return;
@@ -36,6 +39,7 @@ const useQueuePage = (currentUser: User | undefined, mediaType: string) => {
       setShowToast(true);
     } catch (error) {
       console.error("Error adding media to queue:", error);
+      dispatch(setErrorMessage("Failed to add media to queue"));
     }
   };
 
@@ -52,6 +56,7 @@ const useQueuePage = (currentUser: User | undefined, mediaType: string) => {
       setMediaQueue(updatedQueue);
     } catch (error) {
       console.error("Error moving media to history:", error);
+      dispatch(setErrorMessage("Failed to move media to history"));
     }
   };
 

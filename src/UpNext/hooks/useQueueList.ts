@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { User } from "../types/user";
 import * as queueClient from "../clients/queueClient";
+import { useDispatch } from "react-redux";
+import { setErrorMessage } from "../redux/errorReducer";
 
 /**
  * Manages the state and actions for the queue list, including showing/hiding the delete modal,
@@ -34,6 +36,8 @@ const useQueueList = (
     title: "",
   });
 
+  const dispatch = useDispatch();
+
   const removeMediaFromQueue = async (mediaId: string) => {
     if (!currentUser) return;
 
@@ -58,6 +62,7 @@ const useQueueList = (
         setSelectedMedia(null);
       } catch (error) {
         console.error("Error deleting media from current queue:", error);
+        dispatch(setErrorMessage("Failed to delete media from current queue"));
       }
     }
 
@@ -82,6 +87,7 @@ const useQueueList = (
         setSelectedMedia(null);
       } catch (error) {
         console.error("Error deleting media from history queue:", error);
+        dispatch(setErrorMessage("Failed to delete media from history queue"));
       }
     }
   };

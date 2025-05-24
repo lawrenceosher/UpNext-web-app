@@ -4,6 +4,8 @@ import { User } from "../types/user";
 import * as groupClient from "../clients/groupClient";
 import * as userClient from "../clients/userClient";
 import * as invitationClient from "../clients/invitationClient";
+import { useDispatch } from "react-redux";
+import { setErrorMessage } from "../redux/errorReducer";
 
 /**
  * Manages group details and user invitations.
@@ -29,6 +31,8 @@ const useGroupDetails = (
   // and are waiting for their response
   const [invitedUsers, setInvitedUsers] = useState<any>([]);
 
+  const dispatch = useDispatch();
+
   const sendNewInvitationToGroup = async (
     groupId: string,
     invitedUser: string
@@ -46,6 +50,7 @@ const useGroupDetails = (
       ]);
     } catch (error) {
       console.error("Error sending invitation:", error);
+      dispatch(setErrorMessage("Failed to send invitation"));
     }
   };
 
@@ -58,6 +63,7 @@ const useGroupDetails = (
       );
     } catch (error) {
       console.error("Error canceling invitation:", error);
+      dispatch(setErrorMessage("Failed to cancel invitation"));
     }
   };
 
@@ -78,6 +84,7 @@ const useGroupDetails = (
       );
     } catch (error) {
       console.error("Error removing group member:", error);
+      dispatch(setErrorMessage("Failed to remove group member"));
     }
   };
 

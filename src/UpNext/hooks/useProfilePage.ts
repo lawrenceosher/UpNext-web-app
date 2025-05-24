@@ -14,6 +14,7 @@ import { SlMicrophone } from "react-icons/sl";
 import { IoGameControllerOutline } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../redux/accountReducer";
+import { setErrorMessage } from "../redux/errorReducer";
 
 /**
  * Fetches and manages user profile data, including invitations, notifications, and account settings.
@@ -53,6 +54,7 @@ const useProfilePage = (userId: any, currentUser: User) => {
       }));
     } catch (error) {
       console.error("Error accepting invitation:", error);
+      dispatch(setErrorMessage("Failed to accept invitation"));
     }
   };
 
@@ -68,6 +70,7 @@ const useProfilePage = (userId: any, currentUser: User) => {
       }));
     } catch (error) {
       console.error("Error rejecting invitation:", error);
+      dispatch(setErrorMessage("Failed to reject invitation"));
     }
   };
 
