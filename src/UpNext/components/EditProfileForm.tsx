@@ -1,6 +1,4 @@
 import { Alert, Button, Form } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { clearErrorMessage } from "../redux/errorReducer";
 import useAuth from "../hooks/useAuth";
 
 /**
@@ -9,10 +7,9 @@ import useAuth from "../hooks/useAuth";
  * It also includes a checkbox to show/hide the password.
  */
 export default function EditProfileForm() {
-  const dispatch = useDispatch();
-
   const {
     errorMessage,
+    setErrorMessage,
     showPassword,
     updatedUser,
     setUpdatedUser,
@@ -28,7 +25,7 @@ export default function EditProfileForm() {
         {errorMessage && (
           <Alert
             variant="danger"
-            onClose={() => dispatch(clearErrorMessage())}
+            onClose={() => setErrorMessage(null)}
             dismissible
           >
             <Alert.Heading>Failed to Reset Passwords</Alert.Heading>

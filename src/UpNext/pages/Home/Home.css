@@ -1,6 +1,6 @@
 .movie-poster {
-  width: 250px;
-  height: 350px;
+  width: 225px;
+  height: 300px;
   object-fit: cover;
   cursor: pointer;
   transition: transform 0.2s ease-in-out;

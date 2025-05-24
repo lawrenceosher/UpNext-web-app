@@ -134,12 +134,12 @@ export default function Queue({ mediaType }: { mediaType: string }) {
             <MdAdd className="me-1 mb-1 fs-4" /> Add
           </Button>
 
-          <ToastContainer className="p-3" position="bottom-end">
+          <ToastContainer className="p-3" position="top-center">
             <Toast
               onClose={() => setShowToast(false)}
               show={showToast}
               bg="success"
-              delay={3000}
+              delay={4000}
               autohide
             >
               <Toast.Header>

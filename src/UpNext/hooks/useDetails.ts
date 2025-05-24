@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { MediaItem, Queue } from "../types/queue";
 import * as queueClient from "../clients/queueClient";
 import { User } from "../types/user";
+import { useDispatch } from "react-redux";
+import { setErrorMessage } from "../redux/errorReducer";
 
 /**
  * Custom hook to manage media details and queue actions.
@@ -23,6 +25,8 @@ const useDetails = (
   // State to manage the visibility of the alert
   // when a media item is added to the queue
   const [showAlert, setShowAlert] = useState(false);
+
+  const dispatch = useDispatch();
 
   // Function to check if a media item is in the current or history queue
   const isMediaInQueue = (mediaId: string | undefined) => {
@@ -47,6 +51,7 @@ const useDetails = (
       setMediaQueue(updatedQueue);
     } catch (error) {
       console.error("Error adding media to queue:", error);
+      dispatch(setErrorMessage("Failed to add media to queue"));
     }
   };
 
