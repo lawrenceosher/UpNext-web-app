@@ -5,6 +5,7 @@ import {
   MdOutlineSettings,
 } from "react-icons/md";
 import { readableDateJoined } from "../utils";
+import "../components/styles/UserSummary.css";
 
 /**
  * Display the user's username, date joined, groups, and history summary with
@@ -29,15 +30,23 @@ export default function UserSummary({
           {userData.username}{" "}
           {isViewingOwnProfile && (
             <span>
+              <span className="d-inline-block position-relative">
+                <MdNotificationsNone
+                  id="icon-button"
+                  className="display-5 me-2"
+                  onClick={handleShowNotifcations}
+                />
+                {userData.pendingInvitations &&
+                  userData.pendingInvitations.length > 0 && (
+                    <span className="badge fs-6">
+                      {userData.pendingInvitations.length}
+                    </span>
+                  )}
+              </span>
               <MdOutlineSettings
                 id="icon-button"
                 className="display-5"
                 onClick={handleShowAccountSettings}
-              />
-              <MdNotificationsNone
-                id="icon-button"
-                className="display-5 me-2"
-                onClick={handleShowNotifcations}
               />
             </span>
           )}
