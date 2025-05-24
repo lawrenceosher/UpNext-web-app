@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Col, Container, Row } from "react-bootstrap";
-import { MdNotificationsNone, MdOutlineSettings } from "react-icons/md";
 
 import "./Profile.css";
 import { useParams } from "react-router";
@@ -75,23 +74,6 @@ export default function Profile() {
             </Col>
 
             {/* Account settings and notifications */}
-            <Col className="d-none d-md-block col-auto">
-              <div className="">
-                <MdOutlineSettings
-                  id="icon-button"
-                  className="display-5 float-end"
-                  onClick={handleShowAccountSettings}
-                />
-                <MdNotificationsNone
-                  id="icon-button"
-                  className="display-5 float-end me-2"
-                  onClick={handleShowNotifcations}
-                />
-              </div>
-
-              
-            </Col>
-
             <NotificationOffcanvas
                 pendingInvitations={userData.pendingInvitations}
                 showNotifications={showNotifications}
