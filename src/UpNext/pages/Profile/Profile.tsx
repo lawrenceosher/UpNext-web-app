@@ -111,14 +111,14 @@ export default function Profile() {
         {/* Only show the current personal queues if you're viewing another user's profile and you're logged in */}
         {!isViewingOwnProfile && currentUser !== null && (
           <>
-            <Col className="mt-md-4">
+            <Col className="mt-md-4" xs={12} md={3}>
               <h4 className="fw-bold">Personal Queues - Current</h4>
               <MovieAccordion movies={userData.currentQueues.movies} />
               <TVAccordion shows={userData.currentQueues.tv} />
               <AlbumAccordion albums={userData.currentQueues.albums} />
             </Col>
 
-            <Col className="mt-md-4">
+            <Col className="mt-md-4" xs={12} md={3}>
               <h4 className="d-none d-md-block">
                 <br />
               </h4>
