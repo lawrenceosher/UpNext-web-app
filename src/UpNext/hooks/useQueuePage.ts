@@ -18,6 +18,8 @@ const useQueuePage = (currentUser: User | undefined, mediaType: string) => {
   const [selectedGroup, setSelectedGroup] = useState("");
   const [queueHistorySelected, setQueueHistorySelected] = useState(false);
   const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
   const addMediaToCurrentQueue = async () => {
     if (selectedMedia === null || !currentUser || !mediaQueue) return;
@@ -30,6 +32,8 @@ const useQueuePage = (currentUser: User | undefined, mediaType: string) => {
       );
 
       setMediaQueue(updatedQueue);
+      setToastMessage(`Added ${selectedMedia.title} to your queue!`);
+      setShowToast(true);
     } catch (error) {
       console.error("Error adding media to queue:", error);
     }
@@ -97,6 +101,9 @@ const useQueuePage = (currentUser: User | undefined, mediaType: string) => {
     addMediaToCurrentQueue,
     moveMediaFromCurrentToHistory,
     isMediaInQueue,
+    showToast,
+    setShowToast,
+    toastMessage,
   };
 };
 
