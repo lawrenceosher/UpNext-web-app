@@ -1,5 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Col, Container, Row } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Container,
+  Row,
+  Toast,
+  ToastContainer,
+} from "react-bootstrap";
 import { MdAdd } from "react-icons/md";
 
 import MediaSearch from "../MediaSearch";
@@ -47,6 +54,9 @@ export default function Queue({ mediaType }: { mediaType: string }) {
     addMediaToCurrentQueue,
     moveMediaFromCurrentToHistory,
     isMediaInQueue,
+    showToast,
+    setShowToast,
+    toastMessage,
   } = useQueuePage(currentUser, mediaType);
 
   if (!mediaQueue && currentUser) return <p>Loading...</p>;
@@ -123,6 +133,21 @@ export default function Queue({ mediaType }: { mediaType: string }) {
           >
             <MdAdd className="me-1 mb-1 fs-4" /> Add
           </Button>
+
+          <ToastContainer className="p-3" position="bottom-end">
+            <Toast
+              onClose={() => setShowToast(false)}
+              show={showToast}
+              bg="success"
+              delay={3000}
+              autohide
+            >
+              <Toast.Header>
+                <strong className="me-auto">Success!</strong>
+              </Toast.Header>
+              <Toast.Body>{toastMessage}</Toast.Body>
+            </Toast>
+          </ToastContainer>
         </Col>
       </Row>
     </Container>
