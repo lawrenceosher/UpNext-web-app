@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Routes, Route, Navigate } from "react-router";
 import UpNextHeader from "./layout/UpNextHeader";
 import "../utils.css";
@@ -19,14 +20,35 @@ import Albums from "./pages/Albums/Albums";
 import Books from "./pages/Books/Books";
 import Podcasts from "./pages/Podcasts/Podcasts";
 import Games from "./pages/Games/Games";
+import { Toast } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { clearErrorMessage } from "./redux/errorReducer";
 
 export default function UpNext() {
+  const { errorMessage } = useSelector((state: any) => state.errorReducer);
+  const dispatch = useDispatch();
+
   return (
     <Session>
       <div>
         <UpNextHeader />
         <UpNextNavigation />
         <div className="main-content-offset">
+          {errorMessage && (
+            <div className="d-block z-3 vw-25 mx-auto position-absolute top-5 start-50 translate-middle">
+              <Toast
+                bg="danger"
+                className="mt-5 mb-3 z-3"
+                onClose={() => dispatch(clearErrorMessage())}
+                show={!!errorMessage}
+              >
+                <Toast.Header>
+                  <strong className="me-auto">Error</strong>
+                </Toast.Header>
+                <Toast.Body className="text-center">{errorMessage}</Toast.Body>
+              </Toast>
+            </div>
+          )}
           <Routes>
             <Route path="/" element={<Navigate to="/UpNext/Home" />} />
             <Route

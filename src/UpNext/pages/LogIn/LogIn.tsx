@@ -30,7 +30,7 @@ export default function LogIn() {
           <div className="d-block">
             <Alert
               variant="danger"
-              className="text-center mt-5 mb-3 text-center"
+              className="text-center mt-5 mb-3"
               onClose={() => dispatch(clearErrorMessage())}
               dismissible
             >
