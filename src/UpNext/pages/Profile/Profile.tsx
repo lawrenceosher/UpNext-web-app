@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Col, Container, Row } from "react-bootstrap";
-import { MdNotificationsNone, MdOutlineSettings } from "react-icons/md";
 
 import "./Profile.css";
 import { useParams } from "react-router";
@@ -46,7 +45,7 @@ export default function Profile() {
   return (
     <Container>
       <Row>
-        <Col>
+        <Col xs={12} md={4}>
           <UserSummary
             userData={userData}
             handleShowAccountSettings={handleShowAccountSettings}
@@ -58,14 +57,14 @@ export default function Profile() {
         {/* Only show the personal history, account settings, and invitations if you're viewing your own profile */}
         {isViewingOwnProfile && (
           <>
-            <Col className="mt-lg-4">
+            <Col className="mt-md-4" xs={12} md={4}>
               <h4 className="fw-bold">Personal Queues - History</h4>
               <MovieAccordion movies={userData.historyQueues.movies} />
               <TVAccordion shows={userData.historyQueues.tv} />
               <AlbumAccordion albums={userData.historyQueues.albums} />
             </Col>
 
-            <Col className="mt-lg-4">
+            <Col className="mt-md-4" xs={12} md={4}>
               <h4 className="d-none d-md-block">
                 <br />
               </h4>
@@ -75,23 +74,6 @@ export default function Profile() {
             </Col>
 
             {/* Account settings and notifications */}
-            <Col className="d-none d-sm-block col-auto">
-              <div className="">
-                <MdOutlineSettings
-                  id="icon-button"
-                  className="display-5 float-end"
-                  onClick={handleShowAccountSettings}
-                />
-                <MdNotificationsNone
-                  id="icon-button"
-                  className="display-5 float-end me-2"
-                  onClick={handleShowNotifcations}
-                />
-              </div>
-
-              
-            </Col>
-
             <NotificationOffcanvas
                 pendingInvitations={userData.pendingInvitations}
                 showNotifications={showNotifications}
@@ -111,14 +93,14 @@ export default function Profile() {
         {/* Only show the current personal queues if you're viewing another user's profile and you're logged in */}
         {!isViewingOwnProfile && currentUser !== null && (
           <>
-            <Col className="mt-lg-4">
+            <Col className="mt-md-4" xs={12} md={3}>
               <h4 className="fw-bold">Personal Queues - Current</h4>
               <MovieAccordion movies={userData.currentQueues.movies} />
               <TVAccordion shows={userData.currentQueues.tv} />
               <AlbumAccordion albums={userData.currentQueues.albums} />
             </Col>
 
-            <Col className="mt-lg-4">
+            <Col className="mt-md-4" xs={12} md={3}>
               <h4 className="d-none d-md-block">
                 <br />
               </h4>

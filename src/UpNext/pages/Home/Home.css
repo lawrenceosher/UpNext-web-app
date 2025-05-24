@@ -1,11 +1,22 @@
 .movie-poster {
-  width: 175px;
-  height: 250px;
+  width: 225px;
+  height: 325px;
   object-fit: cover;
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
 }
 
+@media (max-width: 768px) {
+  .movie-poster {
+    width: 150px;
+    height: 225px;
+  }
+}
+
 .movie-poster:hover {
   transform: scale(1.05);
+}
+
+#category-select {
+  width: fit-content !important;
 }

@@ -82,11 +82,11 @@ export default function Groups() {
       />
 
       <div className="d-flex me-4">
-        <h1 className="flex-grow-1">Joined Groups ({groups.length})</h1>
+        <h1>Joined Groups ({groups.length})</h1>
         <Button
           size="lg"
           id="action-button"
-          className="purple-brand-bg border-0"
+          className="purple-brand-bg border-0 ms-auto"
           onClick={handleShowCreateGroup}
         >
           <MdAdd className="me-1 mb-1 fs-4" /> Create Group

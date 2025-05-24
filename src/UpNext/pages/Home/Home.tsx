@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Form, Row } from "react-bootstrap";
 import "./Home.css";
 import { useSelector } from "react-redux";
 import TrendingMedia from "../../components/TrendingMedia";
@@ -28,12 +28,30 @@ export default function Home() {
     popularBooks,
     popularPodcasts,
     popularGames,
+    currentTrendingCategory,
+    handleSelectTrendingCategory,
+    categories,
   } = useTrending();
 
   return (
     <Container fluid>
       {/* Show what's trending for both anonymous user and logged in users */}
-      <h1>Trending</h1>
+      <div className="d-flex align-items-center">
+        <h1>Trending</h1>
+        <Form.Select
+          id="category-select"
+          className="ms-3"
+          value={currentTrendingCategory}
+          onChange={handleSelectTrendingCategory}
+        >
+          {categories.map((category: string) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
+        </Form.Select>
+      </div>
+
       <TrendingMedia
         popularMovies={popularMovies}
         popularTV={popularTV}
@@ -41,6 +59,7 @@ export default function Home() {
         popularBooks={popularBooks}
         popularPodcasts={popularPodcasts}
         popularGames={popularGames}
+        currentTrendingCategory={currentTrendingCategory}
       />
 
       {/* Only show Current Personal Queues if logged in and not anonymous user*/}
@@ -52,24 +71,24 @@ export default function Home() {
 
           {/* Display the current personal queues for the user */}
           <Row className="mt-3">
-            <Col>
+            <Col xs={12} md={4}>
               <MovieAccordion movies={currentQueues.movies} />
             </Col>
-            <Col>
+            <Col xs={12} md={4}>
               <TVAccordion shows={currentQueues.tv} />
             </Col>
-            <Col>
+            <Col xs={12} md={4}>
               <AlbumAccordion albums={currentQueues.albums} />
             </Col>
           </Row>
           <Row>
-            <Col>
+            <Col xs={12} md={4}>
               <BookAccordion books={currentQueues.books} />
             </Col>
-            <Col>
+            <Col xs={12} md={4}>
               <PodcastAccordion podcasts={currentQueues.podcasts} />
             </Col>
-            <Col>
+            <Col xs={12} md={4}>
               <GameAccordion games={currentQueues.games} />
             </Col>
           </Row>

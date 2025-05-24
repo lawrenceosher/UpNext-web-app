@@ -23,7 +23,7 @@ export default function QueueActionButtons({
   moveMediaFromCurrentToHistory: () => Promise<void>;
 }) {
   return (
-    <div className="d-flex flex-md-row flex-column justify-content-around mt-3 mb-5">
+    <div className="d-flex flex-md-row flex-column justify-content-around mt-3">
       <Button
         id="action-button"
         size="lg"

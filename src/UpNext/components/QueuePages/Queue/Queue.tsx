@@ -54,7 +54,7 @@ export default function Queue({ mediaType }: { mediaType: string }) {
   return (
     <Container>
       <Row>
-        <Col>
+        <Col md={6} className="mb-5">
           {currentUser && (
             <ListGroupSelect
               selectedGroup={selectedGroup}

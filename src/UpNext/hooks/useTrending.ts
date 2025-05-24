@@ -23,15 +23,40 @@ import * as gameClient from "../clients/gameClient";
  *  popularBooks: Book[];
  *  popularPodcasts: Podcast[];
  *  popularGames: VideoGame[];
+ *  currentTrendingCategory: string;
+ *  handleSelectTrendingCategory: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+ *  categories: string[];
  * }
  */
 const useTrending = () => {
+  // State to manage the trending media data
+  // Each state variable corresponds to a different type of media
   const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
   const [popularTV, setPopularTV] = useState<TVShow[]>([]);
   const [popularAlbums, setPopularAlbums] = useState<Album[]>([]);
   const [popularBooks, setPopularBooks] = useState<Book[]>([]);
   const [popularPodcasts, setPopularPodcasts] = useState<Podcast[]>([]);
   const [popularGames, setPopularGames] = useState<VideoGame[]>([]);
+
+  // State to manage the currently selected trending category and filter the data accordingly
+  const [currentTrendingCategory, setCurrentTrendingCategory] =
+    useState("Movies");
+
+  // Function to handle the change in selected group from the dropdown
+  const handleSelectTrendingCategory = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setCurrentTrendingCategory(event.target.value);
+  };
+
+  const categories = [
+    "Movies",
+    "TV Shows",
+    "Albums",
+    "Books",
+    "Podcasts",
+    "Games",
+  ];
 
   useEffect(() => {
     const fetchPopularMovies = async () => {
@@ -100,6 +125,9 @@ const useTrending = () => {
     popularBooks,
     popularPodcasts,
     popularGames,
+    currentTrendingCategory,
+    handleSelectTrendingCategory,
+    categories,
   };
 };
 
