@@ -54,7 +54,7 @@ export default function TrendingMedia({
         popularGames &&
         popularGames.length > 0 && (
           <Row className="mt-3">
-            {currentTrendingCategory === 'Movies' && popularMovies.map((movie: Movie) => (
+            {currentTrendingCategory === 'Movies' && popularMovies.slice(0, 4).map((movie: Movie) => (
               <Col key={movie._id} className="mb-4">
                 <ListGroupItem className="rounded-0 bg-transparent text-white">
                   <Image
@@ -66,7 +66,7 @@ export default function TrendingMedia({
               </Col>
             ))}
 
-            {currentTrendingCategory === 'TV Shows' && popularTV.map((tv: TVShow) => (
+            {currentTrendingCategory === 'TV Shows' && popularTV.slice(0, 4).map((tv: TVShow) => (
               <Col key={tv._id} className="mb-4">
                 <ListGroupItem className="rounded-0 bg-transparent text-white">
                   <Image
@@ -78,7 +78,7 @@ export default function TrendingMedia({
               </Col>
             ))}
 
-            {currentTrendingCategory === 'Albums' && popularAlbums.map((album: Album) => (
+            {currentTrendingCategory === 'Albums' && popularAlbums.slice(0, 4).map((album: Album) => (
               <Col key={album._id} className="mb-4">
                 <ListGroupItem className="rounded-0 bg-transparent text-white">
                   <Image
@@ -90,7 +90,7 @@ export default function TrendingMedia({
               </Col>
             ))}
 
-            {currentTrendingCategory === 'Books' && popularBooks.map((book: Book) => (
+            {currentTrendingCategory === 'Books' && popularBooks.slice(0, 4).map((book: Book) => (
               <Col key={book._id} className="mb-4">
                 <ListGroupItem className="rounded-0 bg-transparent text-white">
                   <Image
@@ -102,7 +102,7 @@ export default function TrendingMedia({
               </Col>
             ))}
 
-            {currentTrendingCategory === 'Podcasts' && popularPodcasts.map((podcast: Podcast) => (
+            {currentTrendingCategory === 'Podcasts' && popularPodcasts.slice(0, 4).map((podcast: Podcast) => (
               <Col key={podcast._id} className="mb-4">
                 <ListGroupItem className="rounded-0 bg-transparent text-white">
                   <Image
@@ -114,7 +114,7 @@ export default function TrendingMedia({
               </Col>
             ))}
 
-            {currentTrendingCategory === 'Games' && popularGames.map((game: VideoGame) => (
+            {currentTrendingCategory === 'Games' && popularGames.slice(0, 4).map((game: VideoGame) => (
               <Col key={game._id} className="mb-4">
                 <ListGroupItem className="rounded-0 bg-transparent text-white">
                   <Image
