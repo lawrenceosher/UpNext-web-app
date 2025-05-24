@@ -38,7 +38,7 @@ export default function UserSummary({
                 />
                 {userData.pendingInvitations &&
                   userData.pendingInvitations.length > 0 && (
-                    <span className="badge fs-6">
+                    <span className="badge">
                       {userData.pendingInvitations.length}
                     </span>
                   )}
