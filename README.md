@@ -21,6 +21,8 @@
     <a href="https://upnextqueue.netlify.app/">Deployed Site</a>
     &middot;
     <a href="https://github.com/lawrenceosher/upnext-node-server">Server Repo</a>
+     &middot;
+    <a href="https://www.loom.com/share/5d7480b1ff4c43d4bbbb6f38514c01ad?sid=4634e17e-8978-4a1b-b2dc-cc03292f39a6">Video Demo</a>
 
 </div>
 
@@ -61,12 +63,13 @@ My idea for this project came about when my friends and I were sharing what medi
 This is the repository for the client-side code. The backend node-server repository is located [here](https://github.com/lawrenceosher/upnext-node-server).
 
 This repository consists of, but is not limited to:
-- Client-side routes - ```/src/UpNext/index.tsx```
-- Custom hooks - ```/src/UpNext/hooks```
-- Reducers and Redux - ```/src/UpNext/redux```
-- Components - ```/src/UpNext/components```
-- Rendered pages - ```/src/UpNext/pages```
-- Calls to backend API-  ```/src/UpNext/clients```
+
+- Client-side routes - `/src/UpNext/index.tsx`
+- Custom hooks - `/src/UpNext/hooks`
+- Reducers and Redux - `/src/UpNext/redux`
+- Components - `/src/UpNext/components`
+- Rendered pages - `/src/UpNext/pages`
+- Calls to backend API- `/src/UpNext/clients`
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -139,7 +142,6 @@ You can use the site as an anonymous user (not logged-in) to view profiles and s
 
 [![Users and Groups Page][groups-page]]()
 
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- FEATURES -->
@@ -149,17 +151,15 @@ You can use the site as an anonymous user (not logged-in) to view profiles and s
 - [Querying Media Databases] For each of the six media types (Movies, TV Shows, Albums, Books, Podcasts, Video Games), users can search for the media they want and click the summary card for more details. These results come from remote databases.
 - [Queues (Personal) *] - Queue pages contain both the current and history queues, group queues, and the media search feature. The sidebar with different media icons takes you to the respective queue pages.
   - [Current] After searching for media, users can add it to the current queue by hitting the 'Add' button. Users can then see a list in the order of time added (oldest to newest) for what is up next to consume.
-  - [History] After consuming the piece of media, you can check it off in your current queue and click the 'Submit' button to move it from your current queue to your history. You can then see the media in your history to keep track of what you have previously consumed. 
+  - [History] After consuming the piece of media, you can check it off in your current queue and click the 'Submit' button to move it from your current queue to your history. You can then see the media in your history to keep track of what you have previously consumed.
 - [Groups and Group Queues *] Users can create groups and invite other users. Users can then accept or decline the invitation by clicking on the 'Bell' icon in their profile page. With these groups, shared queues are created that have their own current and history queues, and users can each modify media that they want to consume together. A new queue is made for each of the six media types when a group is created.
 - [Trending] See the top two most-added pieces of media for each the six categories. Each media item is clickable for more details.
 - [Quick View] Collapsible lists are available in both the home page to view your personal current queues and profile pages (viewing personal history queues for your own profile and the top three in personal current queues for other users). When viewing your own profile, you also get a quick summary of your history that encapsulates all media you have already consumed.
 - [Users and Profiles] Users can view each other's profiles to see what are the top media items in each of their queues.
 
-'*' - Signifies that the user must be logged-in to access these features
+'\*' - Signifies that the user must be logged-in to access these features
 
 See the [open issues](https://github.com/lawrenceosher/UpNext-web-app/issues) for a full list of future features and improvements.
-
-
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -175,7 +175,8 @@ See the [open issues](https://github.com/lawrenceosher/UpNext-web-app/issues) fo
 
 Lawrence Osher - osherlawrence@gmail.com
 
-Project Link: 
+Project Link:
+
 - [https://github.com/lawrenceosher/UpNext-node-server](https://github.com/lawrenceosher/UpNext-node-server)
 - [https://github.com/lawrenceosher/UpNext-web-app](https://github.com/lawrenceosher/UpNext-web-app)
 
